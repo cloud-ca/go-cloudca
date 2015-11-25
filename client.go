@@ -12,6 +12,7 @@ func NewCCAClient(apiURL string, apiKey string) CCAClient {
 	return ccaClient
 }
 
+//Get the ResourceAPI for a specific serviceCode and environmentName
 func (c CCAClient) GetResourceApi(serviceCode string, environmentName string) {
 
 }

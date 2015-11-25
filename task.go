@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 )
 
+//A Task object. This object can be used to poll asynchronous operations.
 type Task struct {
 	Id string
 	Status string
@@ -11,10 +12,12 @@ type Task struct {
 	Result interface{}
 }
 
+//Implements Task api
 type TaskApi struct {
  	request CCARequest
 }
 
+//Retrieve a Task with sepecified id
 func (taskApi TaskApi) Find(id string) (*Task, error) {
 	response, err := taskApi.request.Get("tasks/" + id, map[string]string{})
 	if err != nil {

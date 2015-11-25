@@ -26,6 +26,7 @@ type CCAResponse struct {
 	MetaData map[string]interface{}
 }
 
+//Build CCAError objects from an error field in api response
 func buildErrors(errorResponse []interface{}) []CCAError {
 	errors := []CCAError{}
 	for _, val := range errorResponse {
@@ -38,6 +39,7 @@ func buildErrors(errorResponse []interface{}) []CCAError {
 	return errors
 }
 
+//Build a CCAResponse from an api response
 func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
 	respBody, err := ioutil.ReadAll(response.Body)
     if err != nil {
