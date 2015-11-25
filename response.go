@@ -1,0 +1,56 @@
+package main
+
+import (
+	"net/http"
+	"io/ioutil"
+	"encoding/json"
+)
+
+type CCAError struct {
+	Code int
+	Message string
+	Context map[string]interface{}
+}
+
+type CCAResponse struct {
+	StatusCode int
+	Data interface{}
+	Errors []CCAError
+	MetaData map[string]interface{}
+}
+
+func buildErrors(errorResponse []interface{}) []CCAError {
+	errors := []CCAError{}
+	for _, val := range errorResponse {
+		errorMap := val.(map[string]interface{})
+		code, _ := errorMap["code"].(int)
+		message, _ := errorMap["message"].(string)
+		context, _ := errorMap["context"].(map[string]interface{})
+		errors = append(errors, CCAError{code, message, context})
+	}
+	return errors
+}
+
+func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
+	respBody, err := ioutil.ReadAll(response.Body)
+    if err != nil {
+		return nil, err
+	}
+	ccaResponse := CCAResponse{}
+	ccaResponse.StatusCode = response.StatusCode
+	responseMap := map[string]interface{}{}
+	json.Unmarshal(respBody, &responseMap)
+
+	if val, ok := responseMap["data"]; ok {
+		ccaResponse.Data = val
+	}
+
+	if val, ok := responseMap["metadata"]; ok {
+		ccaResponse.MetaData = val.(map[string]interface{})
+	}
+
+	if val, ok := responseMap["errors"]; ok {
+		ccaResponse.Errors = buildErrors(val.([]interface{}))
+	}
+	return &ccaResponse, nil
+}
