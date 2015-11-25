@@ -4,12 +4,19 @@ import (
 	"net/http"
 	"io/ioutil"
 	"encoding/json"
+	"strconv"
 )
 
 type CCAError struct {
 	Code int
 	Message string
 	Context map[string]interface{}
+}
+
+type CCAErrors []CCAError
+
+func (ccaErrors CCAErrors) Error() string {
+	return "Number of api errors: " + strconv.Itoa(len(ccaErrors))
 }
 
 type CCAResponse struct {
@@ -51,6 +58,9 @@ func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
 
 	if val, ok := responseMap["errors"]; ok {
 		ccaResponse.Errors = buildErrors(val.([]interface{}))
+	} else if(response.StatusCode != 200) {
+		//should always have errors in response body if not 200 OK
+		panic("Unexpected. Received status " + response.Status + " but no errors in response body")
 	}
 	return &ccaResponse, nil
 }

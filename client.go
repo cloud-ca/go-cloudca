@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type CCAClient struct {
 	ccaRequest CCARequest
 	Tasks TaskApi
