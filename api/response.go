@@ -7,34 +7,34 @@ import (
 	"strconv"
 )
 
-type CCAError struct {
+type CcaError struct {
 	Code int `json:"code"`
 	Message string `json:"message"`
 	Context map[string]interface{} `json:"context"`
 }
 
-type CCAErrors []CCAError
+type CcaErrors []CcaError
 
 //TODO: change better error message
-func (ccaErrors CCAErrors) Error() string {
+func (ccaErrors CcaErrors) Error() string {
 	return "Number of api errors: " + strconv.Itoa(len(ccaErrors))
 }
 
-type CCAResponse struct {
+type CcaResponse struct {
 	TaskId string
 	TaskStatus string
 	StatusCode int
 	Data []byte
-	Errors []CCAError
+	Errors []CcaError
 	MetaData map[string]interface{}
 }
 
-func NewCCAResponse(response *http.Response) (CCAResponse, error) {
+func NewCcaResponse(response *http.Response) (CcaResponse, error) {
 	respBody, err := ioutil.ReadAll(response.Body)
     if err != nil {
-		return CCAResponse{}, err
+		return CcaResponse{}, err
 	}
-	ccaResponse := CCAResponse{}
+	ccaResponse := CcaResponse{}
 	ccaResponse.StatusCode = response.StatusCode
 	responseMap := map[string]*json.RawMessage{}
 	json.Unmarshal(respBody, &responseMap)
@@ -58,7 +58,7 @@ func NewCCAResponse(response *http.Response) (CCAResponse, error) {
 	}
 
 	if val, ok := responseMap["errors"]; ok {
-		errors := []CCAError{}
+		errors := []CcaError{}
 		json.Unmarshal(*val, &errors)
 		ccaResponse.Errors = errors
 	} else if(response.StatusCode != 200) {

@@ -7,7 +7,7 @@ const (
 	PUT = "PUT"
 )
 
-type CCARequest struct {
+type CcaRequest struct {
 	Method string
 	Endpoint string
 	Body []byte

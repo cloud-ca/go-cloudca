@@ -10,20 +10,20 @@ const (
 	DEFAULT_API_URL = "https://api.cloud.ca/v1/"
 )
 
-type CCAClient struct {
+type CcaClient struct {
 	apiURL string
 	apiKey string
-	apiClient api.CCAApiClient
+	apiClient api.CcaApiClient
 	Tasks services.TaskService
 }
 
-func NewCCAClient(apiKey string) CCAClient {
+func NewCCAClient(apiKey string) CcaClient {
 	return NewCCAClientWithCustomURL(DEFAULT_API_URL, apiKey)
 }
 
-func NewCCAClientWithCustomURL(apiURL string, apiKey string) CCAClient {
+func NewCCAClientWithCustomURL(apiURL string, apiKey string) CcaClient {
 	apiClient := api.NewApiClient(apiURL, apiKey)
-	ccaClient := CCAClient{
+	ccaClient := CcaClient{
 		apiURL: apiURL,
 		apiKey: apiKey,
 		apiClient: apiClient,
@@ -34,20 +34,20 @@ func NewCCAClientWithCustomURL(apiURL string, apiKey string) CCAClient {
 
 //Get the Resources for a specific serviceCode and environmentName
 //For now it assumes that the serviceCode belongs to a cloud.ca service
-func (c CCAClient) GetResources(serviceCode string, environmentName string) interface{} {
+func (c CcaClient) GetResources(serviceCode string, environmentName string) interface{} {
 	//TODO: change to check service type of service code
 	return cloudca.NewResources(c.apiClient, serviceCode, environmentName)
 }
 
-func (c CCAClient) GetApiURL() string {
+func (c CcaClient) GetApiURL() string {
 	return c.apiURL
 }
 
-func (c CCAClient) GetApiKey() string {
+func (c CcaClient) GetApiKey() string {
 	return c.apiKey
 }
 
 
-func (c CCAClient) GetApiClient() api.CCAApiClient {
+func (c CcaClient) GetApiClient() api.CcaApiClient {
 	return c.apiClient
 }

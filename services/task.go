@@ -28,10 +28,10 @@ type TaskService interface {
 }
 
 type TaskApi struct {
- 	apiClient api.CCAApiClient
+ 	apiClient api.CcaApiClient
 }
 
-func NewTaskService(apiClient api.CCAApiClient) TaskService {
+func NewTaskService(apiClient api.CcaApiClient) TaskService {
 	return TaskApi{
 		apiClient: apiClient,
 	}
@@ -39,7 +39,7 @@ func NewTaskService(apiClient api.CCAApiClient) TaskService {
 
 //Retrieve a Task with sepecified id
 func (taskApi TaskApi) Find(id string) (Task, error) {
-	request := api.CCARequest{
+	request := api.CcaRequest{
 		Method: api.GET,
 		Endpoint: "tasks/" + id,
 	}
@@ -47,7 +47,7 @@ func (taskApi TaskApi) Find(id string) (Task, error) {
 	if err != nil {
 		return Task{}, err
 	} else if len(response.Errors) > 0 {
-		return Task{}, api.CCAErrors(response.Errors)
+		return Task{}, api.CcaErrors(response.Errors)
 	}
 	data := response.Data
 	taskMap := map[string]*json.RawMessage{}

@@ -8,22 +8,22 @@ import (
 	"io"
 	)
 
-type CCAApiClient struct {
+type CcaApiClient struct {
 	apiURL string
 	apiKey string
 }
 
 const API_KEY_HEADER = "MC-Api-Key"
 
-func NewApiClient(apiURL, apiKey string) CCAApiClient {
-	return CCAApiClient{
+func NewApiClient(apiURL, apiKey string) CcaApiClient {
+	return CcaApiClient{
 		apiURL: apiURL,
 		apiKey: apiKey,
 	}
 }
 
 //Build a URL by using endpoint and options. Options will be set as query parameters.
-func (ccaClient CCAApiClient) buildUrl(endpoint string, options map[string]string) string  {
+func (ccaClient CcaApiClient) buildUrl(endpoint string, options map[string]string) string  {
 	query := url.Values{}
 	if options != nil {
 		for k, v := range options {
@@ -36,7 +36,7 @@ func (ccaClient CCAApiClient) buildUrl(endpoint string, options map[string]strin
 
 //Does the API call to server and returns a CCAResponse. Cloud.ca errors will be returned in the
 //CCAResponse body, not in the error return value. The error return value is reserved for unexpected errors.
-func (ccaClient CCAApiClient) Do(request CCARequest) (CCAResponse, error) {
+func (ccaClient CcaApiClient) Do(request CcaRequest) (CcaResponse, error) {
 	client := &http.Client{}
 	var bodyBuffer io.Reader
 	if request.Body != nil {
@@ -48,13 +48,13 @@ func (ccaClient CCAApiClient) Do(request CCARequest) (CCAResponse, error) {
 	}
 	req, err := http.NewRequest(request.Method, ccaClient.buildUrl(request.Endpoint, request.Options), bodyBuffer)
 	if err != nil {
-		return CCAResponse{}, err
+		return CcaResponse{}, err
 	}
 	req.Header.Add(API_KEY_HEADER, ccaClient.apiKey)
 	resp, err := client.Do(req)
 	if err != nil {
-		return CCAResponse{}, err
+		return CcaResponse{}, err
 	}
 	defer resp.Body.Close()
-	return NewCCAResponse(resp)
+	return NewCcaResponse(resp)
 }
