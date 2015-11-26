@@ -29,10 +29,10 @@ type CCAResponse struct {
 	MetaData map[string]interface{}
 }
 
-func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
+func NewCCAResponse(response *http.Response) (CCAResponse, error) {
 	respBody, err := ioutil.ReadAll(response.Body)
     if err != nil {
-		return nil, err
+		return CCAResponse{}, err
 	}
 	ccaResponse := CCAResponse{}
 	ccaResponse.StatusCode = response.StatusCode
@@ -65,5 +65,5 @@ func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
 		//should always have errors in response body if not 200 OK
 		panic("Unexpected. Received status " + response.Status + " but no errors in response body")
 	}
-	return &ccaResponse, nil
+	return ccaResponse, nil
 }

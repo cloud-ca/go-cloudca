@@ -5,6 +5,10 @@ type Instance struct {
 }
 
 type InstanceService interface {
+	Get(id string) (Instance, error)
+	GetByName(name string) (Instance, error)
+	List() ([]Instance, error)
+	Create(Instance)
 }
 
 type InstanceApi struct {
@@ -15,4 +19,22 @@ func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentN
 	return &InstanceApi{
 		"entityService": NewEntityService(apiClient, serviceCode, environmentName, INSTANCE_ENTITY_TYPE)
 	}
+}
+
+func (instanceApi InstanceApi) Get(id string) (Instance, error) {
+	return Instance{}, nil
+}
+
+func (instanceApi InstanceApi) GetByName(name string) (Instance, error) {
+	return Instance{}, nil
+}
+
+
+func (instanceApi InstanceApi) GetByName(name string) (Instance, error) {
+	return Instance{}, nil
+}
+
+
+func (instanceApi InstanceApi) List() ([]Instance, error) {
+	return []Instance{}, nil
 }

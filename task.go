@@ -22,7 +22,7 @@ type Task struct {
 }
 
 type TaskService interface {
-	Find(id string) (*Task, error)
+	Find(id string) (Task, error)
 	Poll(id string, milliseconds time.Duration) ([]byte, error)
 }
 
@@ -31,16 +31,16 @@ type TaskApi struct {
 }
 
 //Retrieve a Task with sepecified id
-func (taskApi TaskApi) Find(id string) (*Task, error) {
+func (taskApi TaskApi) Find(id string) (Task, error) {
 	request := CCARequest{
 		Method: GET,
 		Endpoint: "tasks/" + id,
 	}
 	response, err := taskApi.apiClient.Do(request)
 	if err != nil {
-		return nil, err
+		return Task{}, err
 	} else if len(response.Errors) > 0 {
-		return nil, CCAErrors(response.Errors)
+		return Task{}, CCAErrors(response.Errors)
 	}
 	data := response.Data
 	taskMap := map[string]*json.RawMessage{}
@@ -53,7 +53,7 @@ func (taskApi TaskApi) Find(id string) (*Task, error) {
 	if val, ok := taskMap["result"]; ok {
 		task.Result = []byte(*val)
 	}
-	return &task, nil
+	return task, nil
 }
 
 //Poll an the Task API. Blocks until success or failure
