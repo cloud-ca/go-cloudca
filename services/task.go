@@ -47,7 +47,7 @@ func (taskApi TaskApi) Find(id string) (Task, error) {
 	if err != nil {
 		return Task{}, err
 	} else if len(response.Errors) > 0 {
-		return Task{}, api.CcaErrors(response.Errors)
+		return Task{}, api.CcaErrorResponse(response)
 	}
 	data := response.Data
 	taskMap := map[string]*json.RawMessage{}

@@ -32,15 +32,37 @@ func NewEntityService(apiClient api.CcaApiClient, serviceCode string, environmen
 }
 
 func (entityApi EntityApi) buildEndpoint() string {
-	return "/" + entityApi.serviceCode + "/" + entityApi.environmentName + "/" + entityApi.entityType
+	return "/services/" + entityApi.serviceCode + "/" + entityApi.environmentName + "/" + entityApi.entityType
 }
 
 func (entityApi EntityApi) Get(id string, options map[string]string) ([]byte, error) {
-	return nil, nil
+	request := api.CcaRequest{
+		Method: api.GET,
+		Endpoint: entityApi.buildEndpoint() + "/" + id,
+		Options: options,
+	}
+	response, err := entityApi.apiClient.Do(request)
+	if err != nil {
+		return nil, err
+	} else if response.IsError() {
+		return nil, api.CcaErrorResponse(response)
+	}
+	return response.Data, nil
 }
 
 func (entityApi EntityApi) List(options map[string]string) ([]byte, error) {
-	return nil, nil
+	request := api.CcaRequest{
+		Method: api.GET,
+		Endpoint: entityApi.buildEndpoint(),
+		Options: options,
+	}
+	response, err := entityApi.apiClient.Do(request)
+	if err != nil {
+		return nil, err
+	} else if response.IsError() {
+		return nil, api.CcaErrorResponse(response)
+	}
+	return response.Data, nil
 }
 
 func (entityApi EntityApi) Execute(operation string, body []byte, options map[string]string) ([]byte, error) {

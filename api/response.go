@@ -5,19 +5,16 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"strconv"
+) 
+
+const (
+	OK = 200
 )
 
 type CcaError struct {
 	Code int `json:"code"`
 	Message string `json:"message"`
 	Context map[string]interface{} `json:"context"`
-}
-
-type CcaErrors []CcaError
-
-//TODO: change better error message
-func (ccaErrors CcaErrors) Error() string {
-	return "Number of api errors: " + strconv.Itoa(len(ccaErrors))
 }
 
 type CcaResponse struct {
@@ -27,6 +24,21 @@ type CcaResponse struct {
 	Data []byte
 	Errors []CcaError
 	MetaData map[string]interface{}
+}
+
+type CcaErrorResponse CcaResponse
+
+func (errorResponse CcaErrorResponse) Error() string {
+	var errorStr string = "[ERROR] Received HTTP status code " + strconv.Itoa(errorResponse.StatusCode) + "\n"
+	for _, e := range errorResponse.Errors {
+		context, _ := json.Marshal(e.Context)
+		errorStr += "[ERROR] Error Code: " + strconv.Itoa(e.Code) + ", Message: " + e.Message + ", Context: " + string(context)
+	}
+	return errorStr
+}
+
+func (ccaResponse CcaResponse) IsError() bool {
+	return ccaResponse.StatusCode != OK
 }
 
 func NewCcaResponse(response *http.Response) (CcaResponse, error) {
@@ -61,7 +73,7 @@ func NewCcaResponse(response *http.Response) (CcaResponse, error) {
 		errors := []CcaError{}
 		json.Unmarshal(*val, &errors)
 		ccaResponse.Errors = errors
-	} else if(response.StatusCode != 200) {
+	} else if(response.StatusCode != OK) {
 		//should always have errors in response body if not 200 OK
 		panic("Unexpected. Received status " + response.Status + " but no errors in response body")
 	}

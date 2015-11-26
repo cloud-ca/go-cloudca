@@ -3,6 +3,7 @@ package cloudca
 import (
 	"github.com/cloud-ca/go-cloudca/services"
 	"github.com/cloud-ca/go-cloudca/api"
+	"encoding/json"
 )
 
 type Instance struct {
@@ -50,7 +51,13 @@ func NewInstanceService(apiClient api.CcaApiClient, serviceCode string, environm
 }
 
 func (instanceApi InstanceApi) Get(id string) (Instance, error) {
-	return Instance{}, nil
+	data, err := instanceApi.entityService.Get(id, map[string]string{})
+	instance := Instance{}
+	if err != nil {
+		return instance, err
+	}
+	json.Unmarshal(data, &instance)
+	return instance, nil
 }
 
 func (instanceApi InstanceApi) GetByName(name string) (Instance, error) {
@@ -58,7 +65,13 @@ func (instanceApi InstanceApi) GetByName(name string) (Instance, error) {
 }
 
 func (instanceApi InstanceApi) List() ([]Instance, error) {
-	return []Instance{}, nil
+	data, err := instanceApi.entityService.List(map[string]string{})
+	instances := []Instance{}
+	if err != nil {
+		return instances, err
+	}
+	json.Unmarshal(data, &instances)
+	return instances, nil
 }
 
 func (instanceApi InstanceApi) Create(instance Instance) (Instance, error) {
