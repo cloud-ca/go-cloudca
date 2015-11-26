@@ -5,4 +5,5 @@ const (
 	TIER_ENTITY_TYPE = "tiers"
 	COMPUTE_OFFERING_ENTITY_TYPE = "computeofferings"
 	DISK_OFFERING_ENTITY_TYPE = "diskofferings"
+	SSH_KEY_ENTITY_TYPE = "sshkeys"
 )
