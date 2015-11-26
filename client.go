@@ -1,18 +1,18 @@
 package main
 
 type CCAClient struct {
-	ccaRequest CCARequest
-	Tasks TaskApi
+	apiClient CCAApiClient
+	Tasks TaskService
 }
 
 func NewCCAClient(apiURL string, apiKey string) CCAClient {
 	ccaClient := CCAClient{}
-	ccaClient.ccaRequest = CCARequest{apiURL, apiKey}
-	ccaClient.Tasks = TaskApi{ccaClient.ccaRequest}
+	ccaClient.apiClient = CCAApiClient{apiURL, apiKey}
+	ccaClient.Tasks = TaskApi{ccaClient.apiClient}
 	return ccaClient
 }
 
-//Get the ResourceAPI for a specific serviceCode and environmentName
-func (c CCAClient) GetResourceApi(serviceCode string, environmentName string) {
+//Get the Resources for a specific serviceCode and environmentName
+func (c CCAClient) GetResources(serviceCode string, environmentName string) {
 
 }

@@ -2,6 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"time"
+	"strings"
+)
+
+const (
+   PENDING = "PENDING"
 )
 
 //A Task object. This object can be used to poll asynchronous operations.
@@ -9,28 +15,63 @@ type Task struct {
 	Id string
 	Status string
 	Created string
-	Result interface{}
+	Result []byte
 }
 
-//Implements Task api
+type TaskService interface {
+	Find(id string) (*Task, error)
+	Poll(id string, milliseconds time.Duration) ([]byte, error)
+}
+
 type TaskApi struct {
- 	request CCARequest
+ 	apiClient CCAApiClient
 }
 
 //Retrieve a Task with sepecified id
 func (taskApi TaskApi) Find(id string) (*Task, error) {
-	response, err := taskApi.request.Get("tasks/" + id, map[string]string{})
+	request := CCARequest{
+		Method: GET,
+		Endpoint: "tasks/" + id,
+	}
+	response, err := taskApi.apiClient.Do(request)
 	if err != nil {
 		return nil, err
 	} else if len(response.Errors) > 0 {
-		return nil, CCAErrors(response.Errors)
+		return nil, CCAErrors(response.Errors) //should do this better
 	}
-	data := response.Data.(map[string]interface{})
-	dataJson, err := json.Marshal(&data)
+	data := response.Data
+	taskMap := map[string]*json.RawMessage{}
+	json.Unmarshal(data, &taskMap)
+	
+	task := Task{}
+	json.Unmarshal(*taskMap["id"], &task.Id)
+	json.Unmarshal(*taskMap["status"], &task.Status)
+	json.Unmarshal(*taskMap["created"], &task.Created)
+	if taskMap["result"] != nil {
+		task.Result = []byte(*taskMap["result"])
+	}
+	return &task, nil
+}
+
+//Poll an the Task API. Blocks until success or failure
+func (taskApi TaskApi) Poll(id string, milliseconds time.Duration) ([]byte, error) {
+	ticker := time.NewTicker(time.Millisecond * milliseconds)
+	task, err := taskApi.Find(id)
 	if err != nil {
 		return nil, err
 	}
-	task := Task{}
-	json.Unmarshal(dataJson, &task)
-	return &task, nil
+	done := task.Completed()
+	for !done {
+		<-ticker.C
+		task, err = taskApi.Find(id)
+		if err != nil {
+			return nil, err
+		}
+		done = task.Completed()
+	}
+	return task.Result, nil
+}
+
+func (task Task) Completed() bool {
+   return !strings.EqualFold(task.Status, PENDING)
 }

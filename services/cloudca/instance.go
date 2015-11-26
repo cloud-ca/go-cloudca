@@ -1,9 +1,12 @@
 package services/cloudca
 
-type CCAInstance struct {
+type Instance struct {
 	Id string
 }
 
-type CCAInstanceApi struct {
-	request CCARequest
+type InstanceService interface {
+}
+
+type InstanceApi struct {
+	apiClient CCAApiClient
 }
