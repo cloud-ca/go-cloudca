@@ -1,4 +1,5 @@
-package main
+package gocca
+
 
 const (
 	DEFAULT_API_URL = "https://api.cloud.ca/v1/"

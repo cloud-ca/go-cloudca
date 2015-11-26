@@ -1,4 +1,4 @@
-package main
+package gocca
 
 import (
 	"net/http"
