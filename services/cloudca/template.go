@@ -28,6 +28,6 @@ func (templateApi TemplateApi) GetByName(name string) (Template, error) {
 	return Template{}, nil
 }
 
-func (templateApi] TemplateApi) List() ([]Template, error) {
+func (templateApi TemplateApi) List() ([]Template, error) {
 	return []Template{}, nil
 }
