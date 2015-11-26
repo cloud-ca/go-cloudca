@@ -5,8 +5,7 @@ type SSHKey struct {
 }
 
 type SSHKeyService interface {
-	Get(id string) (SSHKey, error)
-	GetByName(name string) (SSHKey, error)
+	Get(name string) (SSHKey, error)
 	List() ([]SSHKey, error)
 }
 
@@ -20,11 +19,7 @@ func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentN
 	}
 }
 
-func (sshKeyApi SSHKeyApi) Get(id string) (SSHKey, error) {
-	return SSHKey{}, nil
-}
-
-func (sshKeyApi SSHKeyApi) GetByName(name string) (SSHKey, error) {
+func (sshKeyApi SSHKeyApi) Get(name string) (SSHKey, error) {
 	return SSHKey{}, nil
 }
 
