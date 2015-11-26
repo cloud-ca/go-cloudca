@@ -17,11 +17,11 @@ type CcaClient struct {
 	Tasks services.TaskService
 }
 
-func NewCCAClient(apiKey string) CcaClient {
-	return NewCCAClientWithCustomURL(DEFAULT_API_URL, apiKey)
+func NewCcaClient(apiKey string) CcaClient {
+	return NewCcaClientWithURL(DEFAULT_API_URL, apiKey)
 }
 
-func NewCCAClientWithCustomURL(apiURL string, apiKey string) CcaClient {
+func NewCcaClientWithURL(apiURL string, apiKey string) CcaClient {
 	apiClient := api.NewApiClient(apiURL, apiKey)
 	ccaClient := CcaClient{
 		apiURL: apiURL,
