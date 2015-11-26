@@ -25,7 +25,6 @@ func (entityApi EntityApi) Get(id string, options map[string]string) ([]byte, er
 }
 
 func (entityApi EntityApi) List(options map[string]string) ([]byte, error) {
-
 	return nil, nil
 }
 

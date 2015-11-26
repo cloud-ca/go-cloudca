@@ -8,34 +8,25 @@ import (
 )
 
 type CCAError struct {
-	Code int
-	Message string
-	Context map[string]interface{}
+	Code int `json:"code"`
+	Message string `json:"message"`
+	Context map[string]interface{} `json:"context"`
 }
 
 type CCAErrors []CCAError
 
+//TODO: change better error message
 func (ccaErrors CCAErrors) Error() string {
 	return "Number of api errors: " + strconv.Itoa(len(ccaErrors))
 }
 
 type CCAResponse struct {
+	TaskId string
+	TaskStatus string
 	StatusCode int
 	Data []byte
 	Errors []CCAError
 	MetaData map[string]interface{}
-}
-
-func buildErrors(errorResponse []interface{}) []CCAError {
-	errors := []CCAError{}
-	for _, val := range errorResponse {
-		errorMap := val.(map[string]interface{})
-		code, _ := errorMap["code"].(int)
-		message, _ := errorMap["message"].(string)
-		context, _ := errorMap["context"].(map[string]interface{})
-		errors = append(errors, CCAError{code, message, context})
-	}
-	return errors
 }
 
 func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
@@ -48,6 +39,14 @@ func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
 	responseMap := map[string]*json.RawMessage{}
 	json.Unmarshal(respBody, &responseMap)
 
+	if val, ok := responseMap["taskId"]; ok {
+		ccaResponse.TaskId = string(*val)
+	}
+
+	if val, ok := responseMap["taskStatus"]; ok {
+		ccaResponse.TaskStatus = string(*val)
+	}
+
 	if val, ok := responseMap["data"]; ok {
 		ccaResponse.Data = []byte(*val)
 	}
@@ -59,9 +58,9 @@ func NewCCAResponse(response *http.Response) (*CCAResponse, error) {
 	}
 
 	if val, ok := responseMap["errors"]; ok {
-		errors := []interface{}{}
+		errors := []CCAError{}
 		json.Unmarshal(*val, &errors)
-		ccaResponse.Errors = buildErrors(errors)
+		ccaResponse.Errors = errors
 	} else if(response.StatusCode != 200) {
 		//should always have errors in response body if not 200 OK
 		panic("Unexpected. Received status " + response.Status + " but no errors in response body")

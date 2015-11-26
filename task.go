@@ -37,7 +37,7 @@ func (taskApi TaskApi) Find(id string) (*Task, error) {
 	if err != nil {
 		return nil, err
 	} else if len(response.Errors) > 0 {
-		return nil, CCAErrors(response.Errors) //should do this better
+		return nil, CCAErrors(response.Errors)
 	}
 	data := response.Data
 	taskMap := map[string]*json.RawMessage{}
@@ -47,8 +47,8 @@ func (taskApi TaskApi) Find(id string) (*Task, error) {
 	json.Unmarshal(*taskMap["id"], &task.Id)
 	json.Unmarshal(*taskMap["status"], &task.Status)
 	json.Unmarshal(*taskMap["created"], &task.Created)
-	if taskMap["result"] != nil {
-		task.Result = []byte(*taskMap["result"])
+	if val, ok := taskMap["result"]; ok {
+		task.Result = []byte(*val)
 	}
 	return &task, nil
 }
