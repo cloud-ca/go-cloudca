@@ -8,7 +8,11 @@ type InstanceService interface {
 }
 
 type InstanceApi struct {
-	apiClient CCAApiClient
-	serviceCode string
-	environmentName string
+	entityService EntityService
+}
+
+func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) *InstanceService {
+	return &InstanceApi{
+		"entityService": NewEntityService(apiClient, serviceCode, environmentName, INSTANCE_ENTITY_TYPE)
+	}
 }

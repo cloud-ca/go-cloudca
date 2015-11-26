@@ -16,6 +16,15 @@ type EntityApi struct {
 	entityType string
 }
 
+func NewEntityService(apiClient apiClient, serviceCode string, environmentName string, entityType string) *EntityService {
+	return &EntityService{
+		"apiClient": apiClient,
+		"serviceCode": serviceCode,
+		"environmentName": environmentName,
+		"entityType": entityType
+	}
+}
+
 func (entityApi EntityApi) buildEndpoint() string {
 	return "/" + entityApi.serviceCode + "/" + entityApi.environmentName + "/" + entityApi.entityType
 }
