@@ -8,6 +8,7 @@ type TierService interface {
 	Get(id string) (Tier, error)
 	GetByName(name string) (Tier, error)
 	List() ([]Tier, error)
+	List(vpcId string) ([]Tier, error)
 }
 
 type TierApi struct {
@@ -29,5 +30,9 @@ func (tierApi TierApi) GetByName(name string) (Tier, error) {
 }
 
 func (tierApi TierApi) List() ([]Tier, error) {
+	return []Tier{}, nil
+}
+
+func (tierApi TierApi) List(vpcId string) ([]Tier, error) {
 	return []Tier{}, nil
 }
