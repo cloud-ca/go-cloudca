@@ -9,6 +9,8 @@ type Instance struct {
 	IsPasswordEnabled bool `json:"isPasswordEnabled,omitempty"`
 	IsSshKeyEnabled bool `json:"isSshKeyEnabled,omitempty"`
 	Username string `json:"username,omitempty"`
+	Password string `json:"password,omitempty"`
+	SSHKeyName string `json:"sshKeyName,omitempty"`
 	ComputeOfferingId string `json:"computeOfferingId,omitempty"`
 	ComputeOfferingName string `json:"computeOfferingName,omitempty"`
 	CpuCount int `json:"cpuCount,omitempty"`
