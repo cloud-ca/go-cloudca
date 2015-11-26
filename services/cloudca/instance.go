@@ -1,14 +1,33 @@
 package services/cloudca
 
 type Instance struct {
-	Id string
+	Id string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+	State string `json:"state,omitempty"`
+	TemplateId string `json:"templateId,omitempty"`
+	TemplateName string `json:"templateName,omitempty"`
+	IsPasswordEnabled bool `json:"isPasswordEnabled,omitempty"`
+	IsSshKeyEnabled bool `json:"isSshKeyEnabled,omitempty"`
+	Username string `json:"username,omitempty"`
+	ComputeOfferingId string `json:"computeOfferingId,omitempty"`
+	ComputeOfferingName string `json:"computeOfferingName,omitempty"`
+	CpuCount int `json:"cpuCount,omitempty"`
+	MemoryInMB int `json:"memoryInMB,omitempty"`
+	ZoneId string `json:"zoneId,omitempty"`
+	ZoneName string `json:"zoneName,omitempty"`
+	ProjectId string `json:"projectId,omitempty"`
+	NetworkId string `json:"networkId,omitempty"`
+	NetworkName string `json:"networkName,omitempty"`
+	MacAddress string `json:"macAddress,omitempty"`
+	UserData string `json:"userData,omitempty"`
+	PublicIps []PublicIp `json:"publicIPs,omitempty"`
 }
 
 type InstanceService interface {
 	Get(id string) (Instance, error)
 	GetByName(name string) (Instance, error)
 	List() ([]Instance, error)
-	Create(Instance) (bool, error)
+	Create(Instance) (Instance, error)
 	Delete(id string, purge bool) (bool, error)
 	Exists(id string) (bool, error)
 }
@@ -17,8 +36,8 @@ type InstanceApi struct {
 	entityService EntityService
 }
 
-func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) *InstanceService {
-	return &InstanceApi{
+func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) InstanceService {
+	return InstanceApi{
 		"entityService": NewEntityService(apiClient, serviceCode, environmentName, INSTANCE_ENTITY_TYPE)
 	}
 }
@@ -39,8 +58,8 @@ func (instanceApi InstanceApi) List() ([]Instance, error) {
 	return []Instance{}, nil
 }
 
-func (instanceApi InstanceApi) Create(instance Instance) (bool, error) {
-	return false, nil
+func (instanceApi InstanceApi) Create(instance Instance) (Instance, error) {
+	return Instance{}, nil
 }
 
 func (instanceApi InstanceApi) Delete(id string, purge bool) (bool, error) {
