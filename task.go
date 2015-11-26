@@ -6,8 +6,11 @@ import (
 	"strings"
 )
 
+//Task status
 const (
    PENDING = "PENDING"
+   SUCCESS = "SUCCESS"
+   FAILED = "FAILED"
 )
 
 //A Task object. This object can be used to poll asynchronous operations.
