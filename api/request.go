@@ -1,4 +1,4 @@
-package gocca
+package api
 
 const (
 	GET = "GET"

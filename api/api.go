@@ -1,4 +1,4 @@
-package gocca
+package api
 
 import (
 	"net/url"
@@ -14,6 +14,13 @@ type CCAApiClient struct {
 }
 
 const API_KEY_HEADER = "MC-Api-Key"
+
+func NewApiClient(apiURL, apiKey string) CCAApiClient {
+	return CCAApiClient{
+		apiURL: apiURL,
+		apiKey: apiKey,
+	}
+}
 
 //Build a URL by using endpoint and options. Options will be set as query parameters.
 func (ccaClient CCAApiClient) buildUrl(endpoint string, options map[string]string) string  {

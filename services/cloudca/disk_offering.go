@@ -1,4 +1,9 @@
-package services/cloudca
+package cloudca
+
+import (
+	"github.com/cloud-ca/go-cloudca/services"
+	"github.com/cloud-ca/go-cloudca/api"
+)
 
 type DiskOffering struct {
 
@@ -11,12 +16,12 @@ type DiskOfferingService interface {
 }
 
 type DiskOfferingApi struct {
-	entityService EntityService
+	entityService services.EntityService
 }
 
-func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) DiskOfferingService {
+func NewDiskOfferingService(apiClient api.CCAApiClient, serviceCode string, environmentName string) DiskOfferingService {
 	return DiskOfferingApi{
-		"entityService": NewEntityService(apiClient, serviceCode, environmentName, DISK_OFFERING_ENTITY_TYPE)
+		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, DISK_OFFERING_ENTITY_TYPE),
 	}
 }
 

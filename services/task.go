@@ -1,9 +1,10 @@
-package gocca
+package services
 
 import (
 	"encoding/json"
 	"time"
 	"strings"
+	"github.com/cloud-ca/go-cloudca/api"
 )
 
 //Task status
@@ -27,20 +28,26 @@ type TaskService interface {
 }
 
 type TaskApi struct {
- 	apiClient CCAApiClient
+ 	apiClient api.CCAApiClient
+}
+
+func NewTaskService(apiClient api.CCAApiClient) TaskService {
+	return TaskApi{
+		apiClient: apiClient,
+	}
 }
 
 //Retrieve a Task with sepecified id
 func (taskApi TaskApi) Find(id string) (Task, error) {
-	request := CCARequest{
-		Method: GET,
+	request := api.CCARequest{
+		Method: api.GET,
 		Endpoint: "tasks/" + id,
 	}
 	response, err := taskApi.apiClient.Do(request)
 	if err != nil {
 		return Task{}, err
 	} else if len(response.Errors) > 0 {
-		return Task{}, CCAErrors(response.Errors)
+		return Task{}, api.CCAErrors(response.Errors)
 	}
 	data := response.Data
 	taskMap := map[string]*json.RawMessage{}

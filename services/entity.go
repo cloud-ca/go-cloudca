@@ -1,7 +1,11 @@
-package main
+package services
+
+import (
+	"github.com/cloud-ca/go-cloudca/api"
+)
 
 type EntityService interface {
-	Find(id string, options map[string]string) ([]byte, error)
+	Get(id string, options map[string]string) ([]byte, error)
 	List(options map[string]string) ([]byte, error)
 	Execute(operation string, body []byte, options map[string]string) ([]byte, error)
 	Create(body []byte, options map[string]string) ([]byte, error)
@@ -10,18 +14,20 @@ type EntityService interface {
 }
 
 type EntityApi struct {
-	apiClient CCAApiClient
+	apiClient api.CCAApiClient
+	taskService TaskService
 	serviceCode string
 	environmentName string
 	entityType string
 }
 
-func NewEntityService(apiClient apiClient, serviceCode string, environmentName string, entityType string) *EntityService {
-	return &EntityService{
-		"apiClient": apiClient,
-		"serviceCode": serviceCode,
-		"environmentName": environmentName,
-		"entityType": entityType
+func NewEntityService(apiClient api.CCAApiClient, serviceCode string, environmentName string, entityType string) EntityService {
+	return EntityApi{
+		apiClient: apiClient,
+		taskService: NewTaskService(apiClient),
+		serviceCode: serviceCode,
+		environmentName: environmentName,
+		entityType: entityType,
 	}
 }
 

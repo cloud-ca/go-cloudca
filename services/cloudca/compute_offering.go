@@ -1,4 +1,9 @@
-package services/cloudca
+package cloudca
+
+import (
+	"github.com/cloud-ca/go-cloudca/services"
+	"github.com/cloud-ca/go-cloudca/api"
+)
 
 type ComputeOffering struct {
 
@@ -11,12 +16,12 @@ type ComputeOfferingService interface {
 }
 
 type ComputeOfferingApi struct {
-	entityService EntityService
+	entityService services.EntityService
 }
 
-func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) ComputeOfferingService {
+func NewComputeOfferingService(apiClient api.CCAApiClient, serviceCode string, environmentName string) ComputeOfferingService {
 	return ComputeOfferingApi{
-		"entityService": NewEntityService(apiClient, serviceCode, environmentName, COMPUTE_OFFERING_ENTITY_TYPE)
+		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, COMPUTE_OFFERING_ENTITY_TYPE),
 	}
 }
 

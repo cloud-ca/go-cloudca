@@ -1,4 +1,9 @@
-package services/cloudca
+package cloudca
+
+import (
+	"github.com/cloud-ca/go-cloudca/services"
+	"github.com/cloud-ca/go-cloudca/api"
+)
 
 type Instance struct {
 	Id string `json:"id,omitempty"`
@@ -35,20 +40,16 @@ type InstanceService interface {
 }
 
 type InstanceApi struct {
-	entityService EntityService
+	entityService services.EntityService
 }
 
-func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) InstanceService {
+func NewInstanceService(apiClient api.CCAApiClient, serviceCode string, environmentName string) InstanceService {
 	return InstanceApi{
-		"entityService": NewEntityService(apiClient, serviceCode, environmentName, INSTANCE_ENTITY_TYPE)
+		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, INSTANCE_ENTITY_TYPE),
 	}
 }
 
 func (instanceApi InstanceApi) Get(id string) (Instance, error) {
-	return Instance{}, nil
-}
-
-func (instanceApi InstanceApi) GetByName(name string) (Instance, error) {
 	return Instance{}, nil
 }
 

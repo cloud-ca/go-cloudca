@@ -1,4 +1,9 @@
-package services/cloudca
+package cloudca
+
+import (
+	"github.com/cloud-ca/go-cloudca/services"
+	"github.com/cloud-ca/go-cloudca/api"
+)
 
 type Template struct {
 
@@ -11,12 +16,12 @@ type TemplateService interface {
 }
 
 type TemplateApi struct {
-	entityService EntityService
+	entityService services.EntityService
 }
 
-func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) TemplateService {
+func NewTemplateService(apiClient api.CCAApiClient, serviceCode string, environmentName string) TemplateService {
 	return TemplateApi{
-		"entityService": NewEntityService(apiClient, serviceCode, environmentName, TEMPLATE_ENTITY_TYPE)
+		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, TEMPLATE_ENTITY_TYPE),
 	}
 }
 

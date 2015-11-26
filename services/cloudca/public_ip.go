@@ -1,4 +1,4 @@
-package services/cloudca
+package cloudca
 
 type PublicIp struct {
 	Id string `json:"id,omitempty"`

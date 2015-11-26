@@ -1,4 +1,4 @@
-package services/cloudca
+package cloudca
 
 const (
 	INSTANCE_ENTITY_TYPE = "instances"

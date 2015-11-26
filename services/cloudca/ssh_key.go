@@ -1,4 +1,9 @@
-package services/cloudca
+package cloudca
+
+import (
+	"github.com/cloud-ca/go-cloudca/services"
+	"github.com/cloud-ca/go-cloudca/api"
+)
 
 type SSHKey struct {
 
@@ -10,12 +15,12 @@ type SSHKeyService interface {
 }
 
 type SSHKeyApi struct {
-	entityService EntityService
+	entityService services.EntityService
 }
 
-func NewInstanceService(apiClient CCAApiClient, serviceCode string, environmentName string) SSHKeyService {
+func NewSSHKeyService(apiClient api.CCAApiClient, serviceCode string, environmentName string) SSHKeyService {
 	return SSHKeyApi{
-		"entityService": NewEntityService(apiClient, serviceCode, environmentName, SSH_KEY_ENTITY_TYPE)
+		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, SSH_KEY_ENTITY_TYPE),
 	}
 }
 
