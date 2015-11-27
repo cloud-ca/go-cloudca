@@ -13,6 +13,7 @@ type Resources struct {
 	serviceCode string
 	environmentName string
 	Instances InstanceService
+	Volumes VolumeService
 	Templates TemplateService
 	ComputeOfferings ComputeOfferingService
 	DiskOfferings DiskOfferingService
@@ -26,6 +27,7 @@ func NewResources(apiClient api.CcaApiClient, serviceCode string, environmentNam
 		serviceCode: serviceCode,
 		environmentName: environmentName,
 		Instances: NewInstanceService(apiClient, serviceCode, environmentName),
+		Volumes: NewVolumeService(apiClient, serviceCode, environmentName),
 		Templates: NewTemplateService(apiClient, serviceCode, environmentName),
 		ComputeOfferings: NewComputeOfferingService(apiClient, serviceCode, environmentName),
 		Tiers: NewTierService(apiClient, serviceCode, environmentName),

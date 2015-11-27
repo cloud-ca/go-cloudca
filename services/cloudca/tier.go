@@ -34,7 +34,7 @@ type Tier struct {
 type TierService interface {
 	Get(id string) (*Tier, error)
 	List() ([]Tier, error)
-	ListForVpc(vpcId string) ([]Tier, error)
+	ListOfVpc(vpcId string) ([]Tier, error)
 	ListWithOptions(options map[string]string) ([]Tier, error)
 }
 
@@ -65,7 +65,7 @@ func (tierApi *TierApi) List() ([]Tier, error) {
 }
 
 //List all tiers of a vpc for the current environment
-func (tierApi *TierApi) ListForVpc(vpcId string) ([]Tier, error) {
+func (tierApi *TierApi) ListOfVpc(vpcId string) ([]Tier, error) {
 	return tierApi.ListWithOptions(map[string]string{
 			vpcId: vpcId,
 		})

@@ -143,11 +143,15 @@ func (instanceApi *InstanceApi) Delete(id string, purge bool) (bool, error) {
 	return err == nil, err
 }
 
+//Purge an instance with the specified id in the current environment
+//The instance must be in the Destroyed state. To destroy and purge an instance, see the Delete method
 func (instanceApi *InstanceApi) Purge(id string) (bool, error) {
 	_, err := instanceApi.entityService.Execute(id, INSTANCE_PURGE_OPERATION, []byte{}, map[string]string{})
 	return err == nil, err
 }
 
+//Recover a destroyed instance with the specified id in the current environment
+//Note: Cannot recover instances that have been purged
 func (instanceApi *InstanceApi) Recover(id string) (bool, error) {
 	_, err := instanceApi.entityService.Execute(id, INSTANCE_RECOVER_OPERATION, []byte{}, map[string]string{})
 	return err == nil, err
@@ -165,16 +169,20 @@ func (instanceApi *InstanceApi) Exists(id string) (bool, error) {
 	return true, nil
 }
 
+//Start a stopped instance with specified id exists in the current environment
 func (instanceApi *InstanceApi) Start(id string) (bool, error) {
 	_, err := instanceApi.entityService.Execute(id, INSTANCE_START_OPERATION, []byte{}, map[string]string{})
 	return err == nil, err
 }
 
+//Stop a running instance with specified id exists in the current environment
 func (instanceApi *InstanceApi) Stop(id string) (bool, error) {
 	_, err := instanceApi.entityService.Execute(id, INSTANCE_STOP_OPERATION, []byte{}, map[string]string{})
 	return err == nil, err
 }
 
+//Associate an SSH key to the instance with the specified id exists in the current environment
+//Note: This will reboot your instance if running
 func (instanceApi *InstanceApi) AssociateSSHKey(id string, sshKeyName string) (bool, error) {
 	send, merr := json.Marshal(Instance{
 			SSHKeyName: sshKeyName,
@@ -186,11 +194,14 @@ func (instanceApi *InstanceApi) AssociateSSHKey(id string, sshKeyName string) (b
 	return err == nil, err
 }
 
+//Reboot a running instance with specified id exists in the current environment
 func (instanceApi *InstanceApi) Reboot(id string) (bool, error) {
 	_, err := instanceApi.entityService.Execute(id, INSTANCE_REBOOT_OPERATION, []byte{}, map[string]string{})
 	return err == nil, err
 }
 
+//Change the compute offering of the instance with the specified id exists in the current environment
+//Note: This will reboot your instance if running
 func (instanceApi *InstanceApi) ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) {
 	send, merr := json.Marshal(Instance{
 			NewComputeOfferingId: newComputeOfferingId,
@@ -202,6 +213,7 @@ func (instanceApi *InstanceApi) ChangeComputeOffering(id string, newComputeOffer
 	return err == nil, err
 }
 
+//Reset the password of the instance with the specified id exists in the current environment
 func (instanceApi *InstanceApi) ResetPassword(id string) (string, error) {
 	body, err := instanceApi.entityService.Execute(id, INSTANCE_RESET_PASSWORD_OPERATION, []byte{}, map[string]string{})
 	if err != nil {
@@ -212,6 +224,7 @@ func (instanceApi *InstanceApi) ResetPassword(id string) (string, error) {
 	return instance.Password, nil
 }
 
+//Create a recovery point of the instance with the specified id exists in the current environment
 func (instanceApi *InstanceApi) CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error) {
 	send, merr := json.Marshal(Instance{
 			RecoveryPoint: recoveryPoint,
