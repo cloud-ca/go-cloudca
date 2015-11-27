@@ -7,7 +7,10 @@ import (
 )
 
 type ComputeOffering struct {
-
+	Id string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+	Memory int `json:"memory,omitempty"`
+	CpuNumber int `json:"cpuNumber,omitempty"`
 }
 
 type ComputeOfferingService interface {
