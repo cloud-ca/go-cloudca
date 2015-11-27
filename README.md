@@ -39,6 +39,45 @@ func main() {
 }
 ```
 
+#Handling Errors
+```
+package main
+
+import (
+	"github.com/cloud-ca/go-cloudca"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services/cloudca"
+	"fmt"
+	)
+
+func main() {
+	//Create a CcaClient
+	ccaClient := gocca.NewCcaClient("[your-api-key]")
+	
+	//Get the available resources for a specific service and environment
+	ccaResources := ccaClient.GetResources("[service-code]", "[environment-name]").(cloudca.Resources)
+
+	//Get a volume with a bogus id
+	_, err := ccaResources.Volumes.Get("[some-volume-id]")
+	
+	//Handle the error. Try to cast to a CcaError for more details
+	//Might not work if connectivity error or some other unexpected error
+	if err != nil {
+		if errorResponse, ok := err.(api.CcaErrorResponse); ok {
+			if errorResponse.StatusCode == api.NOT_FOUND {
+				fmt.Println("Volume was not found")
+			} else {
+				//Can get more details from the CcaErrors
+				fmt.Println(errorResponse.Errors)
+			}
+		} else {
+			//handle unexpected error
+		}
+	}
+}
+```
+
+
 #License
 
 This project is licensed under the terms of the MIT license.
