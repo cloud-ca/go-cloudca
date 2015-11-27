@@ -7,8 +7,12 @@ import (
 )
 
 type DiskOffering struct {
-
+	Id string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+	GbSize int `json:"gbSize,omitempty"`
+	StorageTier string `json:"storageTier,omitempty"`
 }
+
 
 type DiskOfferingService interface {
 	Get(id string) (*DiskOffering, error)
