@@ -33,8 +33,8 @@ type Instance struct {
 
 type InstanceService interface {
 	Get(id string) (*Instance, error)
-	GetByName(name string) (*Instance, error)
 	List() ([]Instance, error)
+	ListWithOptions(options map[string]string) ([]Instance, error)
 	Create(Instance) (*Instance, error)
 	Delete(id string, purge bool) (bool, error)
 	Exists(id string) (bool, error)
@@ -60,12 +60,12 @@ func (instanceApi *InstanceApi) Get(id string) (*Instance, error) {
 	return &instance, nil
 }
 
-func (instanceApi InstanceApi) GetByName(name string) (Instance, error) {
-	return Instance{}, nil
+func (instanceApi *InstanceApi) List() ([]Instance, error) {
+	return instanceApi.ListWithOptions(map[string]string{})
 }
 
-func (instanceApi *InstanceApi) List() ([]Instance, error) {
-	data, err := instanceApi.entityService.List(map[string]string{})
+func (instanceApi *InstanceApi) ListWithOptions(options map[string]string) ([]Instance, error) {
+	data, err := instanceApi.entityService.List(options)
 	if err != nil {
 		return nil, err
 	}

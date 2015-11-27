@@ -3,6 +3,7 @@ package cloudca
 import (
 	"github.com/cloud-ca/go-cloudca/services"
 	"github.com/cloud-ca/go-cloudca/api"
+	"encoding/json"
 )
 
 type SSHKey struct {
@@ -12,6 +13,7 @@ type SSHKey struct {
 type SSHKeyService interface {
 	Get(name string) (*SSHKey, error)
 	List() ([]SSHKey, error)
+	ListWithOptions(options map[string]string) ([]SSHKey, error)
 }
 
 type SSHKeyApi struct {
@@ -29,5 +31,15 @@ func (sshKeyApi *SSHKeyApi) Get(name string) (*SSHKey, error) {
 }
 
 func (sshKeyApi *SSHKeyApi) List() ([]SSHKey, error) {
-	return nil, nil
+	return sshKeyApi.ListWithOptions(map[string]string{})
+}
+
+func (sshKeyApi *SSHKeyApi) ListWithOptions(options map[string]string) ([]SSHKey, error) {
+	data, err := sshKeyApi.entityService.List(options)
+	if err != nil {
+		return nil, err
+	}
+	sshKeys := []SSHKey{}
+	json.Unmarshal(data, &sshKeys)
+	return sshKeys, nil
 }

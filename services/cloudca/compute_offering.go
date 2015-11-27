@@ -3,6 +3,7 @@ package cloudca
 import (
 	"github.com/cloud-ca/go-cloudca/services"
 	"github.com/cloud-ca/go-cloudca/api"
+	"encoding/json"
 )
 
 type ComputeOffering struct {
@@ -11,8 +12,8 @@ type ComputeOffering struct {
 
 type ComputeOfferingService interface {
 	Get(id string) (*ComputeOffering, error)
-	GetByName(name string) (*ComputeOffering, error)
 	List() ([]ComputeOffering, error)
+	ListWithOptions(options map[string]string) ([]ComputeOffering, error)
 }
 
 type ComputeOfferingApi struct {
@@ -25,14 +26,26 @@ func NewComputeOfferingService(apiClient api.CcaApiClient, serviceCode string, e
 	}
 }
 
-func (computeOfferingAPi *ComputeOfferingApi) Get(id string) (*ComputeOffering, error) {
-	return nil, nil
+func (computeOfferingApi *ComputeOfferingApi) Get(id string) (*ComputeOffering, error) {
+	data, err := computeOfferingApi.entityService.Get(id, map[string]string{})
+	if err != nil {
+		return nil, err
+	}
+	computeOffering := ComputeOffering{}
+	json.Unmarshal(data, &computeOffering)
+	return &computeOffering, nil
 }
 
-func (computeOfferingAPi *ComputeOfferingApi) GetByName(name string) (*ComputeOffering, error) {
-	return nil, nil
+func (computeOfferingApi *ComputeOfferingApi) List() ([]ComputeOffering, error) {
+	return computeOfferingApi.ListWithOptions(map[string]string{})
 }
 
-func (computeOfferingAPi *ComputeOfferingApi) List() ([]ComputeOffering, error) {
-	return nil, nil
+func (computeOfferingApi *ComputeOfferingApi) ListWithOptions(options map[string]string) ([]ComputeOffering, error) {
+	data, err := computeOfferingApi.entityService.List(options)
+	if err != nil {
+		return nil, err
+	}
+	computeOfferings := []ComputeOffering{}
+	json.Unmarshal(data, &computeOfferings)
+	return computeOfferings, nil
 }
