@@ -132,7 +132,7 @@ func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
 
 //Delete an instance with specified id in the current environment
 //Set the purge flag to true if you want to purge immediately
-func (instanceApi *InstanceApi) Delete(id string, purge bool) (bool, error) {
+func (instanceApi *InstanceApi) Destroy(id string, purge bool) (bool, error) {
 	send, merr := json.Marshal(Instance{
 		PurgeImmediately: purge,
 	});
