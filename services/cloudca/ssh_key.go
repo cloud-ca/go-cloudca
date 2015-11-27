@@ -27,9 +27,25 @@ func NewSSHKeyService(apiClient api.CcaApiClient, serviceCode string, environmen
 	}
 }
 
+func parseSSHKey(data []byte) *SSHKey {
+	sshKey := SSHKey{}
+	json.Unmarshal(data, &sshKey)
+	return &sshKey
+}
+
+func parseSSHKeyList(data []byte) []SSHKey {
+	sshKeys := []SSHKey{}
+	json.Unmarshal(data, &sshKeys)
+	return sshKeys
+}
+
 //Get SSH key with the specified id for the current environment
 func (sshKeyApi *SSHKeyApi) Get(name string) (*SSHKey, error) {
-	return nil, nil
+	data, err := sshKeyApi.entityService.Get(name, map[string]string{})
+	if err != nil {
+		return nil, err
+	}
+	return parseSSHKey(data), nil
 }
 
 //List all SSH keys for the current environment
@@ -43,7 +59,5 @@ func (sshKeyApi *SSHKeyApi) ListWithOptions(options map[string]string) ([]SSHKey
 	if err != nil {
 		return nil, err
 	}
-	sshKeys := []SSHKey{}
-	json.Unmarshal(data, &sshKeys)
-	return sshKeys, nil
+	return parseSSHKeyList(data), nil
 }

@@ -44,15 +44,25 @@ func NewVolumeService(apiClient api.CcaApiClient, serviceCode string, environmen
 	}
 }
 
+func parseVolume(data []byte) *Volume {
+	volume := Volume{}
+	json.Unmarshal(data, &volume)
+	return &volume
+}
+
+func parseVolumeList(data []byte) []Volume {
+	volumes := []Volume{}
+	json.Unmarshal(data, &volumes)
+	return volumes
+}
+
 //Get volume with the specified id for the current environment
 func (volumeApi *VolumeApi) Get(id string) (*Volume, error) {
 	data, err := volumeApi.entityService.Get(id, map[string]string{})
 	if err != nil {
 		return nil, err
 	}
-	volume := Volume{}
-	json.Unmarshal(data, &volume)
-	return &volume, nil
+	return parseVolume(data), nil
 }
 
 //List all volumes for the current environment
@@ -73,7 +83,5 @@ func (volumeApi *VolumeApi) ListWithOptions(options map[string]string) ([]Volume
 	if err != nil {
 		return nil, err
 	}
-	volumes := []Volume{}
-	json.Unmarshal(data, &volumes)
-	return volumes, nil
+	return parseVolumeList(data), nil
 }

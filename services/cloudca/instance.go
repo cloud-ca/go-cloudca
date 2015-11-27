@@ -88,15 +88,25 @@ func NewInstanceService(apiClient api.CcaApiClient, serviceCode string, environm
 	}
 }
 
+func parseInstance(data []byte) *Instance {
+	instance := Instance{}
+	json.Unmarshal(data, &instance)
+	return &instance
+}
+
+func parseInstanceList(data []byte) []Instance {
+	instances := []Instance{}
+	json.Unmarshal(data, &instances)
+	return instances
+}
+
 //Get instance with the specified id for the current environment
 func (instanceApi *InstanceApi) Get(id string) (*Instance, error) {
 	data, err := instanceApi.entityService.Get(id, map[string]string{})
 	if err != nil {
 		return nil, err
 	}
-	instance := Instance{}
-	json.Unmarshal(data, &instance)
-	return &instance, nil
+	return parseInstance(data), nil
 }
 
 //List all instances for the current environment
@@ -110,9 +120,7 @@ func (instanceApi *InstanceApi) ListWithOptions(options map[string]string) ([]In
 	if err != nil {
 		return nil, err
 	}
-	instances := []Instance{}
-	json.Unmarshal(data, &instances)
-	return instances, nil
+	return parseInstanceList(data), nil
 }
 
 //Create an instance in the current environment
@@ -125,9 +133,7 @@ func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
 	if err != nil {
 		return nil, err
 	}
-	createdInstance := Instance{}
-	json.Unmarshal(body, &createdInstance)
-	return &createdInstance, nil
+	return parseInstance(body), nil
 }
 
 //Destroy an instance with specified id in the current environment
@@ -219,8 +225,7 @@ func (instanceApi *InstanceApi) ResetPassword(id string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	instance := Instance{}
-	json.Unmarshal(body, &instance)
+	instance := parseInstance(body)
 	return instance.Password, nil
 }
 

@@ -48,15 +48,25 @@ func NewTierService(apiClient api.CcaApiClient, serviceCode string, environmentN
 	}
 }
 
+func parseTier(data []byte) *Tier {
+	tier := Tier{}
+	json.Unmarshal(data, &tier)
+	return &tier
+}
+
+func parseTierList(data []byte) []Tier {
+	tiers := []Tier{}
+	json.Unmarshal(data, &tiers)
+	return tiers
+}
+
 //Get tier with the specified id for the current environment
 func (tierApi *TierApi) Get(id string) (*Tier, error) {
 	data, err := tierApi.entityService.Get(id, map[string]string{})
 	if err != nil {
 		return nil, err
 	}
-	tier := Tier{}
-	json.Unmarshal(data, &tier)
-	return &tier, nil
+	return parseTier(data), nil
 }
 
 //List all tiers for the current environment
@@ -77,7 +87,5 @@ func (tierApi *TierApi) ListWithOptions(options map[string]string) ([]Tier, erro
 	if err != nil {
 		return nil, err
 	}
-	tiers := []Tier{}
-	json.Unmarshal(data, &tiers)
-	return tiers, nil
+	return parseTierList(data), nil
 }

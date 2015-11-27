@@ -39,15 +39,25 @@ func NewTemplateService(apiClient api.CcaApiClient, serviceCode string, environm
 	}
 }
 
+func parseTemplate(data []byte) *Template {
+	template := Template{}
+	json.Unmarshal(data, &template)
+	return &template
+}
+
+func parseTemplateList(data []byte) []Template {
+	templates := []Template{}
+	json.Unmarshal(data, &templates)
+	return templates
+}
+
 //Get template with the specified id for the current environment
 func (templateApi *TemplateApi) Get(id string) (*Template, error) {
 	data, err := templateApi.entityService.Get(id, map[string]string{})
 	if err != nil {
 		return nil, err
 	}
-	template := Template{}
-	json.Unmarshal(data, &template)
-	return &template, nil
+	return parseTemplate(data), nil
 }
 
 //List all templates for the current environment
@@ -61,7 +71,5 @@ func (templateApi *TemplateApi) ListWithOptions(options map[string]string) ([]Te
 	if err != nil {
 		return nil, err
 	}
-	templates := []Template{}
-	json.Unmarshal(data, &templates)
-	return templates, nil
+	return parseTemplateList(data), nil
 }

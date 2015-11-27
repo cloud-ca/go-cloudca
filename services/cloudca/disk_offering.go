@@ -30,15 +30,25 @@ func NewDiskOfferingService(apiClient api.CcaApiClient, serviceCode string, envi
 	}
 }
 
+func parseDiskOffering(data []byte) *DiskOffering {
+	diskOffering := DiskOffering{}
+	json.Unmarshal(data, &diskOffering)
+	return &diskOffering
+}
+
+func parseDiskOfferingList(data []byte) []DiskOffering {
+	diskOfferings := []DiskOffering{}
+	json.Unmarshal(data, &diskOfferings)
+	return diskOfferings
+}
+
 //Get disk offering with the specified id for the current environment
 func (diskOfferingApi *DiskOfferingApi) Get(id string) (*DiskOffering, error) {
 	data, err := diskOfferingApi.entityService.Get(id, map[string]string{})
 	if err != nil {
 		return nil, err
 	}
-	diskOffering := DiskOffering{}
-	json.Unmarshal(data, &diskOffering)
-	return &diskOffering, nil
+	return parseDiskOffering(data), nil
 }
 
 //List all disk offerings for the current environment
@@ -52,7 +62,5 @@ func (diskOfferingApi *DiskOfferingApi) ListWithOptions(options map[string]strin
 	if err != nil {
 		return nil, err
 	}
-	diskOfferings := []DiskOffering{}
-	json.Unmarshal(data, &diskOfferings)
-	return diskOfferings, nil
+	return parseDiskOfferingList(data), nil
 }

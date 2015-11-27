@@ -29,15 +29,25 @@ func NewComputeOfferingService(apiClient api.CcaApiClient, serviceCode string, e
 	}
 }
 
+func parseComputeOffering(data []byte) *ComputeOffering {
+	computeOffering := ComputeOffering{}
+	json.Unmarshal(data, &computeOffering)
+	return &computeOffering
+}
+
+func parseComputeOfferingList(data []byte) []ComputeOffering {
+	computeOfferings := []ComputeOffering{}
+	json.Unmarshal(data, &computeOfferings)
+	return computeOfferings
+}
+
 //Get compute offering with the specified id for the current environment
 func (computeOfferingApi *ComputeOfferingApi) Get(id string) (*ComputeOffering, error) {
 	data, err := computeOfferingApi.entityService.Get(id, map[string]string{})
 	if err != nil {
 		return nil, err
 	}
-	computeOffering := ComputeOffering{}
-	json.Unmarshal(data, &computeOffering)
-	return &computeOffering, nil
+	return parseComputeOffering(data), nil
 }
 
 //List all compute offerings for the current environment
@@ -51,7 +61,5 @@ func (computeOfferingApi *ComputeOfferingApi) ListWithOptions(options map[string
 	if err != nil {
 		return nil, err
 	}
-	computeOfferings := []ComputeOffering{}
-	json.Unmarshal(data, &computeOfferings)
-	return computeOfferings, nil
+	return parseComputeOfferingList(data), nil
 }
