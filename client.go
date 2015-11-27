@@ -18,10 +18,10 @@ type CcaClient struct {
 }
 
 func NewCcaClient(apiKey string) *CcaClient {
-	return NewCCAClientWithCustomURL(DEFAULT_API_URL, apiKey)
+	return NewCcaClientWithURL(DEFAULT_API_URL, apiKey)
 }
 
-func NewCcaClientWithCustomURL(apiURL string, apiKey string) *CcaClient {
+func NewCcaClientWithURL(apiURL string, apiKey string) *CcaClient {
 	apiClient := api.NewApiClient(apiURL, apiKey)
 	ccaClient := CcaClient{
 		apiURL: apiURL,
