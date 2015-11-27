@@ -10,7 +10,7 @@ import "github.com/cloud-ca/go-cloudca/services/cloudca"
 import "fmt"
 
 func main() {
-  //Create a CcaClient
+	//Create a CcaClient
 	ccaClient := gocca.NewCcaClient("[your-api-key]")
 	
 	//Get the available resources for a specific service and environment
@@ -31,6 +31,6 @@ func main() {
 			ComputeOfferingId:"[some-compute-offering-id]",
 			NetworkId:"[some-network-id]",
 		})
-		fmt.Println(createdInstance)
+	fmt.Println(createdInstance)
 }
 ```
