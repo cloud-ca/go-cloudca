@@ -71,17 +71,66 @@ func (entityApi *EntityApi) Execute(operation string, body []byte, options map[s
 		optionsCopy[k] = v
 	}
 	optionsCopy["operation"] = operation
-	return nil, nil
+	request := api.CcaRequest{
+		Method: api.POST,
+		Body: body,
+		Endpoint: entityApi.buildEndpoint(),
+		Options: options,
+	}
+	response, err := entityApi.apiClient.Do(request)
+	if err != nil {
+		return nil, err
+	} else if response.IsError() {
+		return nil, api.CcaErrorResponse(*response)
+	}
+
+	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
 func (entityApi *EntityApi) Create(body []byte, options map[string]string) ([]byte, error) {
-	return nil, nil
+	request := api.CcaRequest{
+		Method: api.POST,
+		Body: body,
+		Endpoint: entityApi.buildEndpoint(),
+		Options: options,
+	}
+	response, err := entityApi.apiClient.Do(request)
+	if err != nil {
+		return nil, err
+	} else if response.IsError() {
+		return nil, api.CcaErrorResponse(*response)
+	}
+	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
 func (entityApi *EntityApi) Update(body []byte, options map[string]string) ([]byte, error) {
-	return nil, nil
+	request := api.CcaRequest{
+		Method: api.PUT,
+		Body: body,
+		Endpoint: entityApi.buildEndpoint(),
+		Options: options,
+	}
+	response, err := entityApi.apiClient.Do(request)
+	if err != nil {
+		return nil, err
+	} else if response.IsError() {
+		return nil, api.CcaErrorResponse(*response)
+	}
+	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
 func (entityApi EntityApi) Delete(body []byte, options map[string]string) ([]byte, error) {
-	return nil, nil
+	request := api.CcaRequest{
+		Method: api.DELETE,
+		Body: body,
+		Endpoint: entityApi.buildEndpoint(),
+		Options: options,
+	}
+	response, err := entityApi.apiClient.Do(request)
+	if err != nil {
+		return nil, err
+	} else if response.IsError() {
+		return nil, api.CcaErrorResponse(*response)
+	}
+	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }

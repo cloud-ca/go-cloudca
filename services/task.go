@@ -14,6 +14,8 @@ const (
    FAILED = "FAILED"
 )
 
+const DEFAULT_POLLING_INTERVAL = 500
+
 //A Task object. This object can be used to poll asynchronous operations.
 type Task struct {
 	Id string
@@ -22,9 +24,16 @@ type Task struct {
 	Result []byte
 }
 
+type FailedTask Task
+
+func (ft FailedTask) Error() string {
+	return "Task id=" + ft.Id + " failed" //should add reason
+}
+
 type TaskService interface {
 	Find(id string) (*Task, error)
 	Poll(id string, milliseconds time.Duration) ([]byte, error)
+	PollResponse(response *api.CcaResponse, milliseconds time.Duration) ([]byte, error)
 }
 
 type TaskApi struct {
@@ -79,9 +88,24 @@ func (taskApi *TaskApi) Poll(id string, milliseconds time.Duration) ([]byte, err
 		}
 		done = task.Completed()
 	}
+	if task.Failed() {
+		return nil, FailedTask(*task)
+	}
 	return task.Result, nil
+}
+
+//Poll an the Task API. Blocks until success or failure
+func (taskApi *TaskApi) PollResponse(response *api.CcaResponse, milliseconds time.Duration) ([]byte, error) {
+	if !strings.EqualFold(response.TaskStatus, PENDING) {
+		return response.Data, nil
+	}
+	return taskApi.Poll(response.TaskId, milliseconds)
 }
 
 func (task Task) Completed() bool {
    return !strings.EqualFold(task.Status, PENDING)
+}
+
+func (task Task) Failed() bool {
+   return !strings.EqualFold(task.Status, FAILED)
 }
