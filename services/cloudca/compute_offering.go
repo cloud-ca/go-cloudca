@@ -29,6 +29,7 @@ func NewComputeOfferingService(apiClient api.CcaApiClient, serviceCode string, e
 	}
 }
 
+//Get compute offering with the specified id for the current environment
 func (computeOfferingApi *ComputeOfferingApi) Get(id string) (*ComputeOffering, error) {
 	data, err := computeOfferingApi.entityService.Get(id, map[string]string{})
 	if err != nil {
@@ -39,10 +40,12 @@ func (computeOfferingApi *ComputeOfferingApi) Get(id string) (*ComputeOffering, 
 	return &computeOffering, nil
 }
 
+//List all compute offerings for the current environment
 func (computeOfferingApi *ComputeOfferingApi) List() ([]ComputeOffering, error) {
 	return computeOfferingApi.ListWithOptions(map[string]string{})
 }
 
+//List all compute offerings for the current environment. Can use options to do sorting and paging.
 func (computeOfferingApi *ComputeOfferingApi) ListWithOptions(options map[string]string) ([]ComputeOffering, error) {
 	data, err := computeOfferingApi.entityService.List(options)
 	if err != nil {

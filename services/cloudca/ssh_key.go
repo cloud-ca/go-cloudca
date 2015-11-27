@@ -27,14 +27,17 @@ func NewSSHKeyService(apiClient api.CcaApiClient, serviceCode string, environmen
 	}
 }
 
+//Get SSH key with the specified id for the current environment
 func (sshKeyApi *SSHKeyApi) Get(name string) (*SSHKey, error) {
 	return nil, nil
 }
 
+//List all SSH keys for the current environment
 func (sshKeyApi *SSHKeyApi) List() ([]SSHKey, error) {
 	return sshKeyApi.ListWithOptions(map[string]string{})
 }
 
+//List all SSH keys for the current environment. Can use options to do sorting and paging.
 func (sshKeyApi *SSHKeyApi) ListWithOptions(options map[string]string) ([]SSHKey, error) {
 	data, err := sshKeyApi.entityService.List(options)
 	if err != nil {

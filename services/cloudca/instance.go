@@ -50,6 +50,7 @@ func NewInstanceService(apiClient api.CcaApiClient, serviceCode string, environm
 	}
 }
 
+//Get instance with the specified id for the current environment
 func (instanceApi *InstanceApi) Get(id string) (*Instance, error) {
 	data, err := instanceApi.entityService.Get(id, map[string]string{})
 	if err != nil {
@@ -60,10 +61,12 @@ func (instanceApi *InstanceApi) Get(id string) (*Instance, error) {
 	return &instance, nil
 }
 
+//List all instances for the current environment
 func (instanceApi *InstanceApi) List() ([]Instance, error) {
 	return instanceApi.ListWithOptions(map[string]string{})
 }
 
+//List all instances for the current environment. Can use options to do sorting and paging.
 func (instanceApi *InstanceApi) ListWithOptions(options map[string]string) ([]Instance, error) {
 	data, err := instanceApi.entityService.List(options)
 	if err != nil {
@@ -74,14 +77,18 @@ func (instanceApi *InstanceApi) ListWithOptions(options map[string]string) ([]In
 	return instances, nil
 }
 
+//Create an instance in the current environment
 func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
 	return nil, nil
 }
 
+//Delete an instance with specified id in the current environment
+//Set the purge flag to true if you want to purge immediately
 func (instanceApi *InstanceApi) Delete(id string, purge bool) (bool, error) {
 	return false, nil
 }
 
+//Check if instance with specified id exists in the current environment
 func (instanceApi *InstanceApi) Exists(id string) (bool, error) {
 	return false, nil
 }

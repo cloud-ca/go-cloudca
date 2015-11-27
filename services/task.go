@@ -40,6 +40,7 @@ type TaskApi struct {
  	apiClient api.CcaApiClient
 }
 
+//Create a new TaskService
 func NewTaskService(apiClient api.CcaApiClient) TaskService {
 	return &TaskApi{
 		apiClient: apiClient,
@@ -72,7 +73,8 @@ func (taskApi *TaskApi) Find(id string) (*Task, error) {
 	return &task, nil
 }
 
-//Poll an the Task API. Blocks until success or failure
+//Poll an the Task API. Blocks until success or failure.
+//Returns result on success, an error otherwise
 func (taskApi *TaskApi) Poll(id string, milliseconds time.Duration) ([]byte, error) {
 	ticker := time.NewTicker(time.Millisecond * milliseconds)
 	task, err := taskApi.Find(id)
@@ -102,10 +104,22 @@ func (taskApi *TaskApi) PollResponse(response *api.CcaResponse, milliseconds tim
 	return taskApi.Poll(response.TaskId, milliseconds)
 }
 
-func (task Task) Completed() bool {
-   return !strings.EqualFold(task.Status, PENDING)
-}
-
+//Returns true if task has failed
 func (task Task) Failed() bool {
    return !strings.EqualFold(task.Status, FAILED)
+}
+
+//Returns true if task was successful
+func (task Task) Success() bool {
+   return !strings.EqualFold(task.Status, SUCCESS)
+}
+
+//Returns true if task is still executing
+func (task Task) Pending() bool {
+   return strings.EqualFold(task.Status, PENDING)
+}
+
+//Returns true if task has completed its execution
+func (task Task) Completed() bool {
+   return !task.Pending()
 }

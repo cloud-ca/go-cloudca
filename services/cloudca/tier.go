@@ -48,6 +48,7 @@ func NewTierService(apiClient api.CcaApiClient, serviceCode string, environmentN
 	}
 }
 
+//Get tier with the specified id for the current environment
 func (tierApi *TierApi) Get(id string) (*Tier, error) {
 	data, err := tierApi.entityService.Get(id, map[string]string{})
 	if err != nil {
@@ -58,17 +59,19 @@ func (tierApi *TierApi) Get(id string) (*Tier, error) {
 	return &tier, nil
 }
 
+//List all tiers for the current environment
 func (tierApi *TierApi) List() ([]Tier, error) {
 	return tierApi.ListWithOptions(map[string]string{})
 }
 
-
+//List all tiers of a vpc for the current environment
 func (tierApi *TierApi) ListForVpc(vpcId string) ([]Tier, error) {
 	return tierApi.ListWithOptions(map[string]string{
 			vpcId: vpcId,
 		})
 }
 
+//List all tiers for the current environment. Can use options to do sorting and paging.
 func (tierApi *TierApi) ListWithOptions(options map[string]string) ([]Tier, error) {
 	data, err := tierApi.entityService.List(options)
 	if err != nil {
