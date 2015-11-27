@@ -7,10 +7,10 @@ import (
 type EntityService interface {
 	Get(id string, options map[string]string) ([]byte, error)
 	List(options map[string]string) ([]byte, error)
-	Execute(operation string, body []byte, options map[string]string) ([]byte, error)
+	Execute(id string, operation string, body []byte, options map[string]string) ([]byte, error)
 	Create(body []byte, options map[string]string) ([]byte, error)
-	Update(body []byte, options map[string]string) ([]byte, error)
-	Delete(body []byte, options map[string]string) ([]byte, error)
+	Update(id string, body []byte, options map[string]string) ([]byte, error)
+	Delete(id string, body []byte, options map[string]string) ([]byte, error)
 }
 
 type EntityApi struct {
@@ -65,7 +65,7 @@ func (entityApi *EntityApi) List(options map[string]string) ([]byte, error) {
 	return response.Data, nil
 }
 
-func (entityApi *EntityApi) Execute(operation string, body []byte, options map[string]string) ([]byte, error) {
+func (entityApi *EntityApi) Execute(id string, operation string, body []byte, options map[string]string) ([]byte, error) {
 	optionsCopy := map[string]string{}
 	for k, v := range options {
 		optionsCopy[k] = v
@@ -74,8 +74,8 @@ func (entityApi *EntityApi) Execute(operation string, body []byte, options map[s
 	request := api.CcaRequest{
 		Method: api.POST,
 		Body: body,
-		Endpoint: entityApi.buildEndpoint(),
-		Options: options,
+		Endpoint: entityApi.buildEndpoint() + "/" + id,
+		Options: optionsCopy,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {
@@ -103,11 +103,11 @@ func (entityApi *EntityApi) Create(body []byte, options map[string]string) ([]by
 	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
-func (entityApi *EntityApi) Update(body []byte, options map[string]string) ([]byte, error) {
+func (entityApi *EntityApi) Update(id string, body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.PUT,
 		Body: body,
-		Endpoint: entityApi.buildEndpoint(),
+		Endpoint: entityApi.buildEndpoint() + "/" + id,
 		Options: options,
 	}
 	response, err := entityApi.apiClient.Do(request)
@@ -119,11 +119,11 @@ func (entityApi *EntityApi) Update(body []byte, options map[string]string) ([]by
 	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
-func (entityApi EntityApi) Delete(body []byte, options map[string]string) ([]byte, error) {
+func (entityApi EntityApi) Delete(id string, body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.DELETE,
 		Body: body,
-		Endpoint: entityApi.buildEndpoint(),
+		Endpoint: entityApi.buildEndpoint() + "/" + id,
 		Options: options,
 	}
 	response, err := entityApi.apiClient.Do(request)

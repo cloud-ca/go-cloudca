@@ -4,6 +4,24 @@ import (
 	"github.com/cloud-ca/go-cloudca/services"
 	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"strings"
+)
+
+const (
+	INSTANCE_STATE_RUNNING = "Running"
+	INSTANCE_STATE_STOPPED = "Stopped"
+)
+
+const (
+	INSTANCE_START_OPERATION = "start"
+	INSTANCE_STOP_OPERATION = "stop"
+	INSTANCE_REBOOT_OPERATION = "reboot"
+	INSTANCE_RECOVER_OPERATION = "recover"
+	INSTANCE_PURGE_OPERATION = "purge"
+	INSTANCE_RESET_PASSWORD_OPERATION = "resetPassword"
+	INSTANCE_CREATE_RECOVERY_POINT_OPERATION = "createRecoveryPoint"
+	INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION = "changeComputeOffering"
+	INSTANCE_ASSOCIATE_SSH_KEY_OPERATION = "associateSSHKey"
 )
 
 type Instance struct {
@@ -31,6 +49,15 @@ type Instance struct {
 	UserData string `json:"userData,omitempty"`
 	RecoveryPoint RecoveryPoint `json:"recoveryPoint,omitempty"`
 	PublicIps []PublicIp `json:"publicIPs,omitempty"`
+	PurgeImmediately bool `json:"purgeImmediately,omitempty"`
+}
+
+func (instance *Instance) IsRunning() bool {
+	return strings.EqualFold(instance.State, INSTANCE_STATE_RUNNING)
+}
+
+func (instance *Instance) IsStopped() bool {
+	return strings.EqualFold(instance.State, INSTANCE_STATE_STOPPED)
 }
 
 type InstanceService interface {
@@ -44,7 +71,7 @@ type InstanceService interface {
 	Exists(id string) (bool, error)
 	Start(id string) (bool, error)
 	Stop(id string) (bool, error)
-	AssociateSSHKey(id string, name string) (bool, error) 
+	AssociateSSHKey(id string, sshKeyName string) (bool, error) 
 	Reboot(id string) (bool, error) 
 	ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) 
 	ResetPassword(id string) (string, error) 
@@ -90,53 +117,109 @@ func (instanceApi *InstanceApi) ListWithOptions(options map[string]string) ([]In
 
 //Create an instance in the current environment
 func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
-	return nil, nil
+	send, merr := json.Marshal(instance)
+	if merr != nil {
+		return nil, merr
+	}
+	body, err := instanceApi.entityService.Create(send, map[string]string{})
+	if err != nil {
+		return nil, err
+	}
+	createdInstance := Instance{}
+	json.Unmarshal(body, &createdInstance)
+	return &createdInstance, nil
 }
 
 //Delete an instance with specified id in the current environment
 //Set the purge flag to true if you want to purge immediately
 func (instanceApi *InstanceApi) Delete(id string, purge bool) (bool, error) {
-	return false, nil
+	send, merr := json.Marshal(Instance{
+		PurgeImmediately: purge,
+	});
+	if merr != nil {
+		return false, merr
+	}
+	_, err := instanceApi.entityService.Delete(id, send, map[string]string{})
+	return err == nil, err
 }
 
 func (instanceApi *InstanceApi) Purge(id string) (bool, error) {
-	return false, nil
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_PURGE_OPERATION, []byte{}, map[string]string{})
+	return err == nil, err
 }
 
 func (instanceApi *InstanceApi) Recover(id string) (bool, error) {
-	return false, nil
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_RECOVER_OPERATION, []byte{}, map[string]string{})
+	return err == nil, err
 }
 
 //Check if instance with specified id exists in the current environment
 func (instanceApi *InstanceApi) Exists(id string) (bool, error) {
-	return false, nil
+	_, err := instanceApi.Get(id)
+	if err != nil {
+		if ccaError, ok := err.(api.CcaErrorResponse); ok && ccaError.StatusCode == 404 {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
 }
 
 func (instanceApi *InstanceApi) Start(id string) (bool, error) {
-	return false, nil
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_START_OPERATION, []byte{}, map[string]string{})
+	return err == nil, err
 }
 
 func (instanceApi *InstanceApi) Stop(id string) (bool, error) {
-	return false, nil
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_STOP_OPERATION, []byte{}, map[string]string{})
+	return err == nil, err
 }
 
-func (instanceApi *InstanceApi) AssociateSSHKey(id string, name string) (bool, error) {
-	return false, nil
+func (instanceApi *InstanceApi) AssociateSSHKey(id string, sshKeyName string) (bool, error) {
+	send, merr := json.Marshal(Instance{
+			SSHKeyName: sshKeyName,
+		});
+	if merr != nil {
+		return false, merr
+	}
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_ASSOCIATE_SSH_KEY_OPERATION, send, map[string]string{})
+	return err == nil, err
 }
 
 func (instanceApi *InstanceApi) Reboot(id string) (bool, error) {
-	return false, nil
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_REBOOT_OPERATION, []byte{}, map[string]string{})
+	return err == nil, err
 }
 
 func (instanceApi *InstanceApi) ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) {
-	return false, nil
+	send, merr := json.Marshal(Instance{
+			NewComputeOfferingId: newComputeOfferingId,
+		});
+	if merr != nil {
+		return false, merr
+	}
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION, send, map[string]string{})
+	return err == nil, err
 }
 
 func (instanceApi *InstanceApi) ResetPassword(id string) (string, error) {
-	return "", nil
+	body, err := instanceApi.entityService.Execute(id, INSTANCE_RESET_PASSWORD_OPERATION, []byte{}, map[string]string{})
+	if err != nil {
+		return "", err
+	}
+	instance := Instance{}
+	json.Unmarshal(body, &instance)
+	return instance.Password, nil
 }
 
 func (instanceApi *InstanceApi) CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error) {
-	return false, nil
+	send, merr := json.Marshal(Instance{
+			RecoveryPoint: recoveryPoint,
+		});
+	if merr != nil {
+		return false, merr
+	}
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_CREATE_RECOVERY_POINT_OPERATION, send, map[string]string{})
+	return err == nil, err
 }
 

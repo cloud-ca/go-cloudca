@@ -106,12 +106,12 @@ func (taskApi *TaskApi) PollResponse(response *api.CcaResponse, milliseconds tim
 
 //Returns true if task has failed
 func (task Task) Failed() bool {
-   return !strings.EqualFold(task.Status, FAILED)
+   return strings.EqualFold(task.Status, FAILED)
 }
 
 //Returns true if task was successful
 func (task Task) Success() bool {
-   return !strings.EqualFold(task.Status, SUCCESS)
+   return strings.EqualFold(task.Status, SUCCESS)
 }
 
 //Returns true if task is still executing

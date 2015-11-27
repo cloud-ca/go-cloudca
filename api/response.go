@@ -52,11 +52,11 @@ func NewCcaResponse(response *http.Response) (*CcaResponse, error) {
 	json.Unmarshal(respBody, &responseMap)
 
 	if val, ok := responseMap["taskId"]; ok {
-		ccaResponse.TaskId = string(*val)
+		json.Unmarshal(*val, &ccaResponse.TaskId)
 	}
 
 	if val, ok := responseMap["taskStatus"]; ok {
-		ccaResponse.TaskStatus = string(*val)
+		json.Unmarshal(*val, &ccaResponse.TaskStatus)
 	}
 
 	if val, ok := responseMap["data"]; ok {
