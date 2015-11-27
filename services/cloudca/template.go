@@ -7,7 +7,20 @@ import (
 )
 
 type Template struct {
-
+	Id string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Size int `json:"size,omitempty"`
+	IsPublic bool `json:"isPublic,omitempty"`
+	IsReady bool `json:"isReady,omitempty"`
+	SSHKeyEnabled bool `json:"sshKeyEnabled,omitempty"`
+	Extractable bool `json:"extractable,omitempty"`
+	OSType string `json:"osType,omitempty"`
+	OSTypeId string `json:"osTypeId,omitempty"`
+	Hypervisor string `json:"hypervisor,omitempty"`
+	Format string `json:"format,omitempty"`
+	ZoneName string `json:"zoneName,omitempty"`
+	ProjectId string `json:"projectId,omitempty"`
 }
 
 type TemplateService interface {
