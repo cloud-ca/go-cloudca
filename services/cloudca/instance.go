@@ -19,6 +19,7 @@ type Instance struct {
 	SSHKeyName string `json:"sshKeyName,omitempty"`
 	ComputeOfferingId string `json:"computeOfferingId,omitempty"`
 	ComputeOfferingName string `json:"computeOfferingName,omitempty"`
+	NewComputeOfferingId string `json:"newComputeOfferingId,omitempty"`
 	CpuCount int `json:"cpuCount,omitempty"`
 	MemoryInMB int `json:"memoryInMB,omitempty"`
 	ZoneId string `json:"zoneId,omitempty"`
@@ -28,6 +29,7 @@ type Instance struct {
 	NetworkName string `json:"networkName,omitempty"`
 	MacAddress string `json:"macAddress,omitempty"`
 	UserData string `json:"userData,omitempty"`
+	RecoveryPoint RecoveryPoint `json:"recoveryPoint,omitempty"`
 	PublicIps []PublicIp `json:"publicIPs,omitempty"`
 }
 
@@ -37,7 +39,16 @@ type InstanceService interface {
 	ListWithOptions(options map[string]string) ([]Instance, error)
 	Create(Instance) (*Instance, error)
 	Delete(id string, purge bool) (bool, error)
+	Purge(id string) (bool, error)
+	Recover(id string) (bool, error)
 	Exists(id string) (bool, error)
+	Start(id string) (bool, error)
+	Stop(id string) (bool, error)
+	AssociateSSHKey(id string, name string) (bool, error) 
+	Reboot(id string) (bool, error) 
+	ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) 
+	ResetPassword(id string) (string, error) 
+	CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error)
 }
 
 type InstanceApi struct {
@@ -88,7 +99,44 @@ func (instanceApi *InstanceApi) Delete(id string, purge bool) (bool, error) {
 	return false, nil
 }
 
+func (instanceApi *InstanceApi) Purge(id string) (bool, error) {
+	return false, nil
+}
+
+func (instanceApi *InstanceApi) Recover(id string) (bool, error) {
+	return false, nil
+}
+
 //Check if instance with specified id exists in the current environment
 func (instanceApi *InstanceApi) Exists(id string) (bool, error) {
 	return false, nil
 }
+
+func (instanceApi *InstanceApi) Start(id string) (bool, error) {
+	return false, nil
+}
+
+func (instanceApi *InstanceApi) Stop(id string) (bool, error) {
+	return false, nil
+}
+
+func (instanceApi *InstanceApi) AssociateSSHKey(id string, name string) (bool, error) {
+	return false, nil
+}
+
+func (instanceApi *InstanceApi) Reboot(id string) (bool, error) {
+	return false, nil
+}
+
+func (instanceApi *InstanceApi) ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) {
+	return false, nil
+}
+
+func (instanceApi *InstanceApi) ResetPassword(id string) (string, error) {
+	return "", nil
+}
+
+func (instanceApi *InstanceApi) CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error) {
+	return false, nil
+}
+
