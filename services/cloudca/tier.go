@@ -6,8 +6,29 @@ import (
 	"encoding/json"
 )
 
-type Tier struct {
+type Service struct {
+	Name string `json:"name,omitempty"`
+	Capabilities map[string]interface{} `json:"capabilities,omitempty"`
+}
 
+type Tier struct {
+	Id string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+	ZoneId string `json:"zoneid,omitempty"`
+	ZoneName string `json:"zonename,omitempty"`
+	Cidr string `json:"cidr,omitempty"`
+	Type string `json:"type,omitempty"`
+	State string `json:"state,omitempty"`
+	Gateway string `json:"gateway,omitempty"`
+	NetworkOfferingId string `json:"networkofferingid,omitempty"`
+	IsSystem bool `json:"issystem,omitempty"`
+	VpcId string `json:"vpcid,omitempty"`
+	Domain string `json:"domain,omitempty"`
+	DomainId string `json:"domainid,omitempty"`
+	Project string `json:"project,omitempty"`
+	ProjectId string `json:"projectid,omitempty"`
+	AclId string `json:"aclId,omitempty"`
+	Services []Service `json:"service,omitempty"`
 }
 
 type TierService interface {
