@@ -7,7 +7,8 @@ import (
 )
 
 type SSHKey struct {
-
+	Name string `json:"name,omitempty"`
+	Fingerprint string `json:"fingerprint,omitempty"`
 }
 
 type SSHKeyService interface {
