@@ -7,16 +7,19 @@ import (
 	"strconv"
 ) 
 
+//Status codes
 const (
 	OK = 200
 )
 
+//An API error
 type CcaError struct {
 	Code int `json:"code"`
 	Message string `json:"message"`
 	Context map[string]interface{} `json:"context"`
 }
 
+//An Api Response
 type CcaResponse struct {
 	TaskId string
 	TaskStatus string
@@ -26,6 +29,12 @@ type CcaResponse struct {
 	MetaData map[string]interface{}
 }
 
+//Returns true if API response has errors
+func (ccaResponse CcaResponse) IsError() bool {
+	return ccaResponse.StatusCode != OK
+}
+
+//An Api Response with errors
 type CcaErrorResponse CcaResponse
 
 func (errorResponse CcaErrorResponse) Error() string {
@@ -35,10 +44,6 @@ func (errorResponse CcaErrorResponse) Error() string {
 		errorStr += "[ERROR] Error Code: " + strconv.Itoa(e.Code) + ", Message: " + e.Message + ", Context: " + string(context)
 	}
 	return errorStr
-}
-
-func (ccaResponse CcaResponse) IsError() bool {
-	return ccaResponse.StatusCode != OK
 }
 
 func NewCcaResponse(response *http.Response) (*CcaResponse, error) {

@@ -4,6 +4,7 @@ import (
 	"github.com/cloud-ca/go-cloudca/api"
 )
 
+//A generic service to access any entity
 type EntityService interface {
 	Get(id string, options map[string]string) ([]byte, error)
 	List(options map[string]string) ([]byte, error)
@@ -13,6 +14,7 @@ type EntityService interface {
 	Delete(id string, body []byte, options map[string]string) ([]byte, error)
 }
 
+//Implementation of the EntityService
 type EntityApi struct {
 	apiClient api.CcaApiClient
 	taskService TaskService
@@ -35,6 +37,7 @@ func (entityApi *EntityApi) buildEndpoint() string {
 	return "/services/" + entityApi.serviceCode + "/" + entityApi.environmentName + "/" + entityApi.entityType
 }
 
+//Get an entity. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) Get(id string, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.GET,
@@ -50,6 +53,7 @@ func (entityApi *EntityApi) Get(id string, options map[string]string) ([]byte, e
 	return response.Data, nil
 }
 
+//Get an entity list. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) List(options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.GET,
@@ -65,6 +69,7 @@ func (entityApi *EntityApi) List(options map[string]string) ([]byte, error) {
 	return response.Data, nil
 }
 
+//Execute a specific operation on an entity. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) Execute(id string, operation string, body []byte, options map[string]string) ([]byte, error) {
 	optionsCopy := map[string]string{}
 	for k, v := range options {
@@ -87,6 +92,7 @@ func (entityApi *EntityApi) Execute(id string, operation string, body []byte, op
 	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
+//Create a new entity described in the body parameter (json object). Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) Create(body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.POST,
@@ -103,6 +109,7 @@ func (entityApi *EntityApi) Create(body []byte, options map[string]string) ([]by
 	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
+//Update entity with specified id described in the body parameter (json object). Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) Update(id string, body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.PUT,
@@ -119,6 +126,7 @@ func (entityApi *EntityApi) Update(id string, body []byte, options map[string]st
 	return entityApi.taskService.PollResponse(response, DEFAULT_POLLING_INTERVAL)
 }
 
+//Delete specified id described. A body (json object) can be provided if some fields must be sent to server. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi EntityApi) Delete(id string, body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.DELETE,

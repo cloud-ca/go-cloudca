@@ -14,7 +14,7 @@ const (
    FAILED = "FAILED"
 )
 
-const DEFAULT_POLLING_INTERVAL = 500
+const DEFAULT_POLLING_INTERVAL = 1000
 
 //A Task object. This object can be used to poll asynchronous operations.
 type Task struct {

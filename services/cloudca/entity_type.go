@@ -1,5 +1,6 @@
 package cloudca
 
+//All entity types for the cloudca service
 const (
 	INSTANCE_ENTITY_TYPE = "instances"
 	VOLUME_ENTITY_TYPE = "volumes"

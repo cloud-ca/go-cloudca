@@ -1,5 +1,6 @@
 package api
 
+//HTTP Methods
 const (
 	GET = "GET"
 	POST = "POST"
@@ -7,6 +8,7 @@ const (
 	PUT = "PUT"
 )
 
+//A request object
 type CcaRequest struct {
 	Method string
 	Endpoint string
