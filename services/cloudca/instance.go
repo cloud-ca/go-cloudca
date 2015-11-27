@@ -65,7 +65,7 @@ type InstanceService interface {
 	List() ([]Instance, error)
 	ListWithOptions(options map[string]string) ([]Instance, error)
 	Create(Instance) (*Instance, error)
-	Delete(id string, purge bool) (bool, error)
+	Destroy(id string, purge bool) (bool, error)
 	Purge(id string) (bool, error)
 	Recover(id string) (bool, error)
 	Exists(id string) (bool, error)
@@ -130,7 +130,7 @@ func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
 	return &createdInstance, nil
 }
 
-//Delete an instance with specified id in the current environment
+//Destroy an instance with specified id in the current environment
 //Set the purge flag to true if you want to purge immediately
 func (instanceApi *InstanceApi) Destroy(id string, purge bool) (bool, error) {
 	send, merr := json.Marshal(Instance{
@@ -144,7 +144,7 @@ func (instanceApi *InstanceApi) Destroy(id string, purge bool) (bool, error) {
 }
 
 //Purge an instance with the specified id in the current environment
-//The instance must be in the Destroyed state. To destroy and purge an instance, see the Delete method
+//The instance must be in the Destroyed state. To destroy and purge an instance, see the Destroy method
 func (instanceApi *InstanceApi) Purge(id string) (bool, error) {
 	_, err := instanceApi.entityService.Execute(id, INSTANCE_PURGE_OPERATION, []byte{}, map[string]string{})
 	return err == nil, err
