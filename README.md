@@ -1,13 +1,17 @@
 # go-cloudca
+
 Cloud.ca client for the Go programming language
 
 # Example
+
 ```
 package main
 
-import "github.com/cloud-ca/go-cloudca"
-import "github.com/cloud-ca/go-cloudca/services/cloudca"
-import "fmt"
+import (
+	"github.com/cloud-ca/go-cloudca"
+	"github.com/cloud-ca/go-cloudca/services/cloudca"
+	"fmt"
+	)
 
 func main() {
 	//Create a CcaClient
@@ -34,3 +38,7 @@ func main() {
 	fmt.Println(createdInstance)
 }
 ```
+
+#License
+
+This project is licensed under the terms of the MIT license.
