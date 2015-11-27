@@ -22,7 +22,7 @@ type EntityApi struct {
 }
 
 func NewEntityService(apiClient api.CcaApiClient, serviceCode string, environmentName string, entityType string) EntityService {
-	return EntityApi{
+	return &EntityApi{
 		apiClient: apiClient,
 		taskService: NewTaskService(apiClient),
 		serviceCode: serviceCode,
@@ -31,11 +31,11 @@ func NewEntityService(apiClient api.CcaApiClient, serviceCode string, environmen
 	}
 }
 
-func (entityApi EntityApi) buildEndpoint() string {
+func (entityApi *EntityApi) buildEndpoint() string {
 	return "/services/" + entityApi.serviceCode + "/" + entityApi.environmentName + "/" + entityApi.entityType
 }
 
-func (entityApi EntityApi) Get(id string, options map[string]string) ([]byte, error) {
+func (entityApi *EntityApi) Get(id string, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.GET,
 		Endpoint: entityApi.buildEndpoint() + "/" + id,
@@ -45,12 +45,12 @@ func (entityApi EntityApi) Get(id string, options map[string]string) ([]byte, er
 	if err != nil {
 		return nil, err
 	} else if response.IsError() {
-		return nil, api.CcaErrorResponse(response)
+		return nil, api.CcaErrorResponse(*response)
 	}
 	return response.Data, nil
 }
 
-func (entityApi EntityApi) List(options map[string]string) ([]byte, error) {
+func (entityApi *EntityApi) List(options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method: api.GET,
 		Endpoint: entityApi.buildEndpoint(),
@@ -60,12 +60,12 @@ func (entityApi EntityApi) List(options map[string]string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	} else if response.IsError() {
-		return nil, api.CcaErrorResponse(response)
+		return nil, api.CcaErrorResponse(*response)
 	}
 	return response.Data, nil
 }
 
-func (entityApi EntityApi) Execute(operation string, body []byte, options map[string]string) ([]byte, error) {
+func (entityApi *EntityApi) Execute(operation string, body []byte, options map[string]string) ([]byte, error) {
 	optionsCopy := map[string]string{}
 	for k, v := range options {
 		optionsCopy[k] = v
@@ -74,11 +74,11 @@ func (entityApi EntityApi) Execute(operation string, body []byte, options map[st
 	return nil, nil
 }
 
-func (entityApi EntityApi) Create(body []byte, options map[string]string) ([]byte, error) {
+func (entityApi *EntityApi) Create(body []byte, options map[string]string) ([]byte, error) {
 	return nil, nil
 }
 
-func (entityApi EntityApi) Update(body []byte, options map[string]string) ([]byte, error) {
+func (entityApi *EntityApi) Update(body []byte, options map[string]string) ([]byte, error) {
 	return nil, nil
 }
 

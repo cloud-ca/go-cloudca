@@ -4,6 +4,10 @@ import (
 	"github.com/cloud-ca/go-cloudca/api"
 )
 
+const (
+	CLOUD_CA_SERVICE = "cloudca"
+)
+
 type Resources struct {
 	apiClient api.CcaApiClient
 	serviceCode string
@@ -24,4 +28,8 @@ func NewResources(apiClient api.CcaApiClient, serviceCode string, environmentNam
 		Templates: NewTemplateService(apiClient, serviceCode, environmentName),
 		ComputeOfferings: NewComputeOfferingService(apiClient, serviceCode, environmentName),
 	}
+}
+
+func (resources Resources) GetServiceType() string {
+	return CLOUD_CA_SERVICE
 }

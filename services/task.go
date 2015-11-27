@@ -23,7 +23,7 @@ type Task struct {
 }
 
 type TaskService interface {
-	Find(id string) (Task, error)
+	Find(id string) (*Task, error)
 	Poll(id string, milliseconds time.Duration) ([]byte, error)
 }
 
@@ -32,22 +32,22 @@ type TaskApi struct {
 }
 
 func NewTaskService(apiClient api.CcaApiClient) TaskService {
-	return TaskApi{
+	return &TaskApi{
 		apiClient: apiClient,
 	}
 }
 
 //Retrieve a Task with sepecified id
-func (taskApi TaskApi) Find(id string) (Task, error) {
+func (taskApi *TaskApi) Find(id string) (*Task, error) {
 	request := api.CcaRequest{
 		Method: api.GET,
 		Endpoint: "tasks/" + id,
 	}
 	response, err := taskApi.apiClient.Do(request)
 	if err != nil {
-		return Task{}, err
+		return nil, err
 	} else if len(response.Errors) > 0 {
-		return Task{}, api.CcaErrorResponse(response)
+		return nil, api.CcaErrorResponse(*response)
 	}
 	data := response.Data
 	taskMap := map[string]*json.RawMessage{}
@@ -60,11 +60,11 @@ func (taskApi TaskApi) Find(id string) (Task, error) {
 	if val, ok := taskMap["result"]; ok {
 		task.Result = []byte(*val)
 	}
-	return task, nil
+	return &task, nil
 }
 
 //Poll an the Task API. Blocks until success or failure
-func (taskApi TaskApi) Poll(id string, milliseconds time.Duration) ([]byte, error) {
+func (taskApi *TaskApi) Poll(id string, milliseconds time.Duration) ([]byte, error) {
 	ticker := time.NewTicker(time.Millisecond * milliseconds)
 	task, err := taskApi.Find(id)
 	if err != nil {

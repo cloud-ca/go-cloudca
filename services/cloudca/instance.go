@@ -32,10 +32,10 @@ type Instance struct {
 }
 
 type InstanceService interface {
-	Get(id string) (Instance, error)
-	GetByName(name string) (Instance, error)
+	Get(id string) (*Instance, error)
+	GetByName(name string) (*Instance, error)
 	List() ([]Instance, error)
-	Create(Instance) (Instance, error)
+	Create(Instance) (*Instance, error)
 	Delete(id string, purge bool) (bool, error)
 	Exists(id string) (bool, error)
 }
@@ -45,43 +45,43 @@ type InstanceApi struct {
 }
 
 func NewInstanceService(apiClient api.CcaApiClient, serviceCode string, environmentName string) InstanceService {
-	return InstanceApi{
+	return &InstanceApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, INSTANCE_ENTITY_TYPE),
 	}
 }
 
-func (instanceApi InstanceApi) Get(id string) (Instance, error) {
+func (instanceApi *InstanceApi) Get(id string) (*Instance, error) {
 	data, err := instanceApi.entityService.Get(id, map[string]string{})
-	instance := Instance{}
 	if err != nil {
-		return instance, err
+		return nil, err
 	}
+	instance := Instance{}
 	json.Unmarshal(data, &instance)
-	return instance, nil
+	return &instance, nil
 }
 
 func (instanceApi InstanceApi) GetByName(name string) (Instance, error) {
 	return Instance{}, nil
 }
 
-func (instanceApi InstanceApi) List() ([]Instance, error) {
+func (instanceApi *InstanceApi) List() ([]Instance, error) {
 	data, err := instanceApi.entityService.List(map[string]string{})
-	instances := []Instance{}
 	if err != nil {
-		return instances, err
+		return nil, err
 	}
+	instances := []Instance{}
 	json.Unmarshal(data, &instances)
 	return instances, nil
 }
 
-func (instanceApi InstanceApi) Create(instance Instance) (Instance, error) {
-	return Instance{}, nil
+func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
+	return nil, nil
 }
 
-func (instanceApi InstanceApi) Delete(id string, purge bool) (bool, error) {
+func (instanceApi *InstanceApi) Delete(id string, purge bool) (bool, error) {
 	return false, nil
 }
 
-func (instanceApi InstanceApi) Exists(id string) (bool, error) {
+func (instanceApi *InstanceApi) Exists(id string) (bool, error) {
 	return false, nil
 }

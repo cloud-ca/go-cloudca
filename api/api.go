@@ -36,7 +36,7 @@ func (ccaClient CcaApiClient) buildUrl(endpoint string, options map[string]strin
 
 //Does the API call to server and returns a CCAResponse. Cloud.ca errors will be returned in the
 //CCAResponse body, not in the error return value. The error return value is reserved for unexpected errors.
-func (ccaClient CcaApiClient) Do(request CcaRequest) (CcaResponse, error) {
+func (ccaClient CcaApiClient) Do(request CcaRequest) (*CcaResponse, error) {
 	client := &http.Client{}
 	var bodyBuffer io.Reader
 	if request.Body != nil {
@@ -48,12 +48,12 @@ func (ccaClient CcaApiClient) Do(request CcaRequest) (CcaResponse, error) {
 	}
 	req, err := http.NewRequest(request.Method, ccaClient.buildUrl(request.Endpoint, request.Options), bodyBuffer)
 	if err != nil {
-		return CcaResponse{}, err
+		return nil, err
 	}
 	req.Header.Add(API_KEY_HEADER, ccaClient.apiKey)
 	resp, err := client.Do(req)
 	if err != nil {
-		return CcaResponse{}, err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	return NewCcaResponse(resp)

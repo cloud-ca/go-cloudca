@@ -10,7 +10,7 @@ type SSHKey struct {
 }
 
 type SSHKeyService interface {
-	Get(name string) (SSHKey, error)
+	Get(name string) (*SSHKey, error)
 	List() ([]SSHKey, error)
 }
 
@@ -19,15 +19,15 @@ type SSHKeyApi struct {
 }
 
 func NewSSHKeyService(apiClient api.CcaApiClient, serviceCode string, environmentName string) SSHKeyService {
-	return SSHKeyApi{
+	return &SSHKeyApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, SSH_KEY_ENTITY_TYPE),
 	}
 }
 
-func (sshKeyApi SSHKeyApi) Get(name string) (SSHKey, error) {
-	return SSHKey{}, nil
+func (sshKeyApi *SSHKeyApi) Get(name string) (*SSHKey, error) {
+	return nil, nil
 }
 
-func (sshKeyApi SSHKeyApi) List() ([]SSHKey, error) {
-	return []SSHKey{}, nil
+func (sshKeyApi *SSHKeyApi) List() ([]SSHKey, error) {
+	return nil, nil
 }

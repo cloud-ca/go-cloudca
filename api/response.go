@@ -41,10 +41,10 @@ func (ccaResponse CcaResponse) IsError() bool {
 	return ccaResponse.StatusCode != OK
 }
 
-func NewCcaResponse(response *http.Response) (CcaResponse, error) {
+func NewCcaResponse(response *http.Response) (*CcaResponse, error) {
 	respBody, err := ioutil.ReadAll(response.Body)
     if err != nil {
-		return CcaResponse{}, err
+		return nil, err
 	}
 	ccaResponse := CcaResponse{}
 	ccaResponse.StatusCode = response.StatusCode
@@ -77,5 +77,5 @@ func NewCcaResponse(response *http.Response) (CcaResponse, error) {
 		//should always have errors in response body if not 200 OK
 		panic("Unexpected. Received status " + response.Status + " but no errors in response body")
 	}
-	return ccaResponse, nil
+	return &ccaResponse, nil
 }

@@ -10,8 +10,8 @@ type ComputeOffering struct {
 }
 
 type ComputeOfferingService interface {
-	Get(id string) (ComputeOffering, error)
-	GetByName(name string) (ComputeOffering, error)
+	Get(id string) (*ComputeOffering, error)
+	GetByName(name string) (*ComputeOffering, error)
 	List() ([]ComputeOffering, error)
 }
 
@@ -20,19 +20,19 @@ type ComputeOfferingApi struct {
 }
 
 func NewComputeOfferingService(apiClient api.CcaApiClient, serviceCode string, environmentName string) ComputeOfferingService {
-	return ComputeOfferingApi{
+	return &ComputeOfferingApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, COMPUTE_OFFERING_ENTITY_TYPE),
 	}
 }
 
-func (computeOfferingAPi ComputeOfferingApi) Get(id string) (ComputeOffering, error) {
-	return ComputeOffering{}, nil
+func (computeOfferingAPi *ComputeOfferingApi) Get(id string) (*ComputeOffering, error) {
+	return nil, nil
 }
 
-func (computeOfferingAPi ComputeOfferingApi) GetByName(name string) (ComputeOffering, error) {
-	return ComputeOffering{}, nil
+func (computeOfferingAPi *ComputeOfferingApi) GetByName(name string) (*ComputeOffering, error) {
+	return nil, nil
 }
 
-func (computeOfferingAPi ComputeOfferingApi) List() ([]ComputeOffering, error) {
-	return []ComputeOffering{}, nil
+func (computeOfferingAPi *ComputeOfferingApi) List() ([]ComputeOffering, error) {
+	return nil, nil
 }
