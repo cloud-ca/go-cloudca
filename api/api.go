@@ -15,6 +15,7 @@ type CcaClient interface {
 type CcaApiClient struct {
 	apiURL string
 	apiKey string
+	httpClient *http.Client
 }
 
 const API_KEY_HEADER = "MC-Api-Key"
@@ -23,6 +24,7 @@ func NewApiClient(apiURL, apiKey string) CcaApiClient {
 	return CcaApiClient{
 		apiURL: apiURL,
 		apiKey: apiKey,
+		httpClient: &http.Client{},
 	}
 }
 
@@ -41,7 +43,6 @@ func (ccaClient CcaApiClient) buildUrl(endpoint string, options map[string]strin
 //Does the API call to server and returns a CCAResponse. Cloud.ca errors will be returned in the
 //CCAResponse body, not in the error return value. The error return value is reserved for unexpected errors.
 func (ccaClient CcaApiClient) Do(request CcaRequest) (*CcaResponse, error) {
-	client := &http.Client{}
 	var bodyBuffer io.Reader
 	if request.Body != nil {
 		bodyBuffer = bytes.NewBuffer(request.Body)
@@ -55,7 +56,7 @@ func (ccaClient CcaApiClient) Do(request CcaRequest) (*CcaResponse, error) {
 		return nil, err
 	}
 	req.Header.Add(API_KEY_HEADER, ccaClient.apiKey)
-	resp, err := client.Do(req)
+	resp, err := ccaClient.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
