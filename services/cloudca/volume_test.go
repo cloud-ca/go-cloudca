@@ -10,19 +10,19 @@ import (
 )
 
 const (
-	VOLUME_ID = "test_volume_id"
-	VOLUME_NAME = "test_volume"
-	VOLUME_TYPE = "test_volume_type"
-	VOLUME_CREATION_DATE = "test_volume_creation_date"
-	VOLUME_SIZE = 500
-	VOLUME_DISK_OFFERING_ID = "test_volume_disk_offering_id"
-	VOLUME_TEMPLATE_ID = "test_volume_template_id"
-	VOLUME_STORAGE_TIER = "test_volume_storage_tier"
-	VOLUME_ZONE_NAME = "test_volume_zone_name"
-	VOLUME_STATE = "test_volume_state"
-	VOLUME_INSTANCE_NAME = "test_volume_instance_name"
-	VOLUME_INSTANCE_ID = "test_volume_instance_id"
-	VOLUME_INSTANCE_STATE = "test_volume_instance_state"
+	TEST_VOLUME_ID = "test_volume_id"
+	TEST_VOLUME_NAME = "test_volume"
+	TEST_VOLUME_TYPE = "test_volume_type"
+	TEST_VOLUME_CREATION_DATE = "test_volume_creation_date"
+	TEST_VOLUME_SIZE = 500
+	TEST_VOLUME_DISK_OFFERING_ID = "test_volume_disk_offering_id"
+	TEST_VOLUME_TEMPLATE_ID = "test_volume_template_id"
+	TEST_VOLUME_STORAGE_TIER = "test_volume_storage_tier"
+	TEST_VOLUME_ZONE_NAME = "test_volume_zone_name"
+	TEST_VOLUME_STATE = "test_volume_state"
+	TEST_VOLUME_INSTANCE_NAME = "test_volume_instance_name"
+	TEST_VOLUME_INSTANCE_ID = "test_volume_instance_id"
+	TEST_VOLUME_INSTANCE_STATE = "test_volume_instance_state"
 )
 
 func buildVolumeJsonResponse(volume *Volume) []byte {
@@ -64,24 +64,24 @@ func TestGetVolumeReturnVolumeIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedVolume := Volume{Id: VOLUME_ID,
-						   	 Name: VOLUME_NAME,
-						   	 Type: VOLUME_TYPE,
-						   	 CreationDate: VOLUME_CREATION_DATE,
-						   	 Size: VOLUME_SIZE,
-						   	 DiskOfferingId: VOLUME_DISK_OFFERING_ID,
-						   	 TemplateId: VOLUME_TEMPLATE_ID,
-						   	 StorageTier: VOLUME_STORAGE_TIER,
-						   	 ZoneName: VOLUME_ZONE_NAME,
-						   	 State: VOLUME_STATE,
-						   	 InstanceName: VOLUME_INSTANCE_NAME,
-						   	 InstanceId: VOLUME_INSTANCE_ID,
-						   	 InstanceState: VOLUME_INSTANCE_STATE}
+	expectedVolume := Volume{Id: TEST_VOLUME_ID,
+						   	 Name: TEST_VOLUME_NAME,
+						   	 Type: TEST_VOLUME_TYPE,
+						   	 CreationDate: TEST_VOLUME_CREATION_DATE,
+						   	 Size: TEST_VOLUME_SIZE,
+						   	 DiskOfferingId: TEST_VOLUME_DISK_OFFERING_ID,
+						   	 TemplateId: TEST_VOLUME_TEMPLATE_ID,
+						   	 StorageTier: TEST_VOLUME_STORAGE_TIER,
+						   	 ZoneName: TEST_VOLUME_ZONE_NAME,
+						   	 State: TEST_VOLUME_STATE,
+						   	 InstanceName: TEST_VOLUME_INSTANCE_NAME,
+						   	 InstanceId: TEST_VOLUME_INSTANCE_ID,
+						   	 InstanceState: TEST_VOLUME_INSTANCE_STATE}
 
-	mockEntityService.EXPECT().Get(VOLUME_ID, gomock.Any()).Return(buildVolumeJsonResponse(&expectedVolume), nil)
+	mockEntityService.EXPECT().Get(TEST_VOLUME_ID, gomock.Any()).Return(buildVolumeJsonResponse(&expectedVolume), nil)
 
 	//when
-	volume, _ := volumeService.Get(VOLUME_ID)
+	volume, _ := volumeService.Get(TEST_VOLUME_ID)
 
 	//then
 	if assert.NotNil(t, volume) {
@@ -102,10 +102,10 @@ func TestGetVolumeReturnNilWithErrorIfError(t *testing.T) {
 
 	mockError := mocks.MockError{"some_get_error"}
 
-	mockEntityService.EXPECT().Get(VOLUME_ID, gomock.Any()).Return(nil, mockError)
+	mockEntityService.EXPECT().Get(TEST_VOLUME_ID, gomock.Any()).Return(nil, mockError)
 
 	//when
-	volume, err := volumeService.Get(VOLUME_ID)
+	volume, err := volumeService.Get(TEST_VOLUME_ID)
 
 	//then
 	assert.Nil(t, volume)

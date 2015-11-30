@@ -10,10 +10,10 @@ import (
 )
 
 const (
-	COMPUTE_OFFERING_ID = "some_id"
-	COMPUTE_OFFERING_NAME = "test_compute_offering"
-	COMPUTE_OFFERING_MEMORY = 4
-	COMPUTE_OFFERING_CPU_NUMBER = 2
+	TEST_COMPUTE_OFFERING_ID = "some_id"
+	TEST_COMPUTE_OFFERING_NAME = "test_compute_offering"
+	TEST_COMPUTE_OFFERING_MEMORY = 4
+	TEST_COMPUTE_OFFERING_CPU_NUMBER = 2
 )
 
 func buildComputeOfferingJsonResponse(computeOffering *ComputeOffering) []byte {
@@ -46,15 +46,15 @@ func TestGetComputeOfferingReturnComputeOfferingIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedComputeOffering := ComputeOffering{Id: COMPUTE_OFFERING_ID, 
-										Name: COMPUTE_OFFERING_NAME, 
-										Memory: COMPUTE_OFFERING_MEMORY,
-										CpuNumber: COMPUTE_OFFERING_CPU_NUMBER}
+	expectedComputeOffering := ComputeOffering{Id: TEST_COMPUTE_OFFERING_ID, 
+										Name: TEST_COMPUTE_OFFERING_NAME, 
+										Memory: TEST_COMPUTE_OFFERING_MEMORY,
+										CpuNumber: TEST_COMPUTE_OFFERING_CPU_NUMBER}
 
-	mockEntityService.EXPECT().Get(COMPUTE_OFFERING_ID, gomock.Any()).Return(buildComputeOfferingJsonResponse(&expectedComputeOffering), nil)
+	mockEntityService.EXPECT().Get(TEST_COMPUTE_OFFERING_ID, gomock.Any()).Return(buildComputeOfferingJsonResponse(&expectedComputeOffering), nil)
 
 	//when
-	computeOffering, _ := computeOfferingService.Get(COMPUTE_OFFERING_ID)
+	computeOffering, _ := computeOfferingService.Get(TEST_COMPUTE_OFFERING_ID)
 
 	//then
 	if assert.NotNil(t, computeOffering) {
@@ -75,10 +75,10 @@ func TestGetComputeOfferingReturnNilWithErrorIfError(t *testing.T) {
 
 	mockError := mocks.MockError{"some_get_error"}
 
-	mockEntityService.EXPECT().Get(COMPUTE_OFFERING_ID, gomock.Any()).Return(nil, mockError)
+	mockEntityService.EXPECT().Get(TEST_COMPUTE_OFFERING_ID, gomock.Any()).Return(nil, mockError)
 
 	//when
-	computeOffering, err := computeOfferingService.Get(COMPUTE_OFFERING_ID)
+	computeOffering, err := computeOfferingService.Get(TEST_COMPUTE_OFFERING_ID)
 
 	//then
 	assert.Nil(t, computeOffering)

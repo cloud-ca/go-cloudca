@@ -10,20 +10,20 @@ import (
 )
 
 const (
-	TEMPLATE_ID = "test_template_id"
-	TEMPLATE_NAME = "test_template"
-	TEMPLATE_DESCRIPTION = "test_template_description"
-	TEMPLATE_SIZE = 60
-	TEMPLATE_IS_PUBLIC = true
-	TEMPLATE_IS_READY = true
-	TEMPLATE_SSH_KEY_ENABLED = false
-	TEMPLATE_EXTRACTABLE = true
-	TEMPLATE_OS_TYPE = "test_template_os_type"
-	TEMPLATE_OS_TYPE_ID = "test_template_os_type_id"
-	TEMPLATE_HYPERVISOR = "test_template_hypervisor"
-	TEMPLATE_FORMAT = "test_template_format"
-	TEMPLATE_ZONE_NAME = "test_template_zone_name"
-	TEMPLATE_PROJECT_ID = "test_template_project_id"
+	TEST_TEMPLATE_ID = "test_template_id"
+	TEST_TEMPLATE_NAME = "test_template"
+	TEST_TEMPLATE_DESCRIPTION = "test_template_description"
+	TEST_TEMPLATE_SIZE = 60
+	TEST_TEMPLATE_IS_PUBLIC = true
+	TEST_TEMPLATE_IS_READY = true
+	TEST_TEMPLATE_SSH_KEY_ENABLED = false
+	TEST_TEMPLATE_EXTRACTABLE = true
+	TEST_TEMPLATE_OS_TYPE = "test_template_os_type"
+	TEST_TEMPLATE_OS_TYPE_ID = "test_template_os_type_id"
+	TEST_TEMPLATE_HYPERVISOR = "test_template_hypervisor"
+	TEST_TEMPLATE_FORMAT = "test_template_format"
+	TEST_TEMPLATE_ZONE_NAME = "test_template_zone_name"
+	TEST_TEMPLATE_PROJECT_ID = "test_template_project_id"
 )
 
 func buildTemplateJsonResponse(template *Template) []byte {
@@ -67,26 +67,26 @@ func TestGetTemplateReturnTemplateIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedTemplate := Template{Id: TEMPLATE_ID,
-								 Name: TEMPLATE_NAME,
-								 Description: TEMPLATE_DESCRIPTION,
-								 Size: TEMPLATE_SIZE,
-								 IsPublic: TEMPLATE_IS_PUBLIC,
-								 IsReady: TEMPLATE_IS_READY,
-								 SSHKeyEnabled: TEMPLATE_SSH_KEY_ENABLED,
-								 Extractable: TEMPLATE_EXTRACTABLE,
-								 OSType: TEMPLATE_OS_TYPE,
-								 OSTypeId: TEMPLATE_OS_TYPE_ID,
-								 Hypervisor: TEMPLATE_HYPERVISOR,
-								 Format: TEMPLATE_FORMAT,
-								 ZoneName: TEMPLATE_ZONE_NAME,
-								 ProjectId: TEMPLATE_PROJECT_ID,
+	expectedTemplate := Template{Id: TEST_TEMPLATE_ID,
+								 Name: TEST_TEMPLATE_NAME,
+								 Description: TEST_TEMPLATE_DESCRIPTION,
+								 Size: TEST_TEMPLATE_SIZE,
+								 IsPublic: TEST_TEMPLATE_IS_PUBLIC,
+								 IsReady: TEST_TEMPLATE_IS_READY,
+								 SSHKeyEnabled: TEST_TEMPLATE_SSH_KEY_ENABLED,
+								 Extractable: TEST_TEMPLATE_EXTRACTABLE,
+								 OSType: TEST_TEMPLATE_OS_TYPE,
+								 OSTypeId: TEST_TEMPLATE_OS_TYPE_ID,
+								 Hypervisor: TEST_TEMPLATE_HYPERVISOR,
+								 Format: TEST_TEMPLATE_FORMAT,
+								 ZoneName: TEST_TEMPLATE_ZONE_NAME,
+								 ProjectId: TEST_TEMPLATE_PROJECT_ID,
 								}
 
-	mockEntityService.EXPECT().Get(TEMPLATE_ID, gomock.Any()).Return(buildTemplateJsonResponse(&expectedTemplate), nil)
+	mockEntityService.EXPECT().Get(TEST_TEMPLATE_ID, gomock.Any()).Return(buildTemplateJsonResponse(&expectedTemplate), nil)
 
 	//when
-	template, _ := templateService.Get(TEMPLATE_ID)
+	template, _ := templateService.Get(TEST_TEMPLATE_ID)
 
 	//then
 	if assert.NotNil(t, template) {
@@ -107,10 +107,10 @@ func TestGetTemplateReturnNilWithErrorIfError(t *testing.T) {
 
 	mockError := mocks.MockError{"some_get_error"}
 
-	mockEntityService.EXPECT().Get(TEMPLATE_ID, gomock.Any()).Return(nil, mockError)
+	mockEntityService.EXPECT().Get(TEST_TEMPLATE_ID, gomock.Any()).Return(nil, mockError)
 
 	//when
-	template, err := templateService.Get(TEMPLATE_ID)
+	template, err := templateService.Get(TEST_TEMPLATE_ID)
 
 	//then
 	assert.Nil(t, template)

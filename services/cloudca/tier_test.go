@@ -6,22 +6,51 @@ import (
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"strconv"
 )
 
 const (
-	TIER_ID = "test_tier_id"
-	TIER_NAME = "test_tier"
+	TEST_TIER_ID = "test_tier_id"
+	TEST_TIER_NAME = "test_tier"
+	TEST_TIER_ZONE_ID = "test_tier_zone_id"
+	TEST_TIER_ZONE_NAME = "test_tier_zone_name"
+	TEST_TIER_CIDR = "test_tier_cidr"
+	TEST_TIER_TYPE = "test_tier_type"
+	TEST_TIER_STATE = "test_tier_state"
+	TEST_TIER_GATEWAY = "test_tier_gateway"
+	TEST_TIER_NETWORK_OFFERING_ID = "test_tier_network_offering_id"
+	TEST_TIER_IS_SYSTEM = false
+	TEST_TIER_VPC_ID = "test_tier_vpc_id"
+	TEST_TIER_DOMAIN = "test_tier_domain"
+	TEST_TIER_DOMAIN_ID = "test_tier_domain_id"
+	TEST_TIER_PROJECT = "test_tier_project"
+	TEST_TIER_PROJECT_ID = "test_tier_project_id"
+	TEST_TIER_ACL_ID = "test_tier_acl_id"
 )
 
-func buildTierJsonResponse(tier *Tier) []byte {
+func buildTestTierJsonResponse(tier *Tier) []byte {
 	return  []byte(`{"id":"` + tier.Id + `",` +
-				   ` "name": "` + tier.Name + `"}`)
+				   ` "name":"` + tier.Name + `",` +
+				   ` "zoneid":"` + tier.ZoneId + `",` +
+				   ` "zonename":"` + tier.ZoneName + `",` +
+				   ` "cidr":"` + tier.Cidr + `",` +
+				   ` "type":"` + tier.Type + `",` +
+				   ` "state":"` + tier.State + `",` +
+				   ` "gateway":"` + tier.Gateway + `",` +
+				   ` "networkofferingid":"` + tier.NetworkOfferingId + `",` +
+				   ` "issystem":` + strconv.FormatBool(tier.IsSystem) + `,` +
+				   ` "vpcid":"` + tier.VpcId + `",` +
+				   ` "domain":"` + tier.Domain + `",` +
+				   ` "domainid":"` + tier.DomainId + `",` +
+				   ` "project":"` + tier.Project + `",` +
+				   ` "projectid":"` + tier.ProjectId + `",` +
+				   ` "aclId":"` + tier.AclId + `"}`)
 }
 
-func buildListTierJsonResponse(tiers []Tier) []byte {
+func buildListTestTierJsonResponse(tiers []Tier) []byte {
 	resp := `[`
 	for i, t := range tiers {
-		resp += string(buildTierJsonResponse(&t))
+		resp += string(buildTestTierJsonResponse(&t))
 		if i != len(tiers) - 1 {
 			resp += `,`
 		}
@@ -41,13 +70,26 @@ func TestGetTierReturnTierIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedTier := Tier{Id: TIER_ID,
-								 Name: TIER_NAME}
+	expectedTier := Tier{Id: TEST_TIER_ID,
+						 Name: TEST_TIER_NAME,
+						 ZoneId: TEST_TIER_ZONE_ID,
+						 ZoneName: TEST_TIER_ZONE_NAME,
+						 Cidr: TEST_TIER_CIDR,
+						 Type: TEST_TIER_TYPE,
+						 Gateway: TEST_TIER_GATEWAY,
+						 NetworkOfferingId: TEST_TIER_NETWORK_OFFERING_ID,
+						 IsSystem: TEST_TIER_IS_SYSTEM,
+						 VpcId: TEST_TIER_VPC_ID,
+						 Domain: TEST_TIER_DOMAIN,
+						 DomainId: TEST_TIER_DOMAIN_ID,
+						 Project: TEST_TIER_PROJECT,
+						 ProjectId: TEST_TIER_PROJECT_ID,
+						 AclId: TEST_TIER_ACL_ID}
 
-	mockEntityService.EXPECT().Get(TIER_ID, gomock.Any()).Return(buildTierJsonResponse(&expectedTier), nil)
+	mockEntityService.EXPECT().Get(TEST_TIER_ID, gomock.Any()).Return(buildTestTierJsonResponse(&expectedTier), nil)
 
 	//when
-	tier, _ := tierService.Get(TIER_ID)
+	tier, _ := tierService.Get(TEST_TIER_ID)
 
 	//then
 	if assert.NotNil(t, tier) {
@@ -68,10 +110,10 @@ func TestGetTierReturnNilWithErrorIfError(t *testing.T) {
 
 	mockError := mocks.MockError{"some_get_error"}
 
-	mockEntityService.EXPECT().Get(TIER_ID, gomock.Any()).Return(nil, mockError)
+	mockEntityService.EXPECT().Get(TEST_TIER_ID, gomock.Any()).Return(nil, mockError)
 
 	//when
-	tier, err := tierService.Get(TIER_ID)
+	tier, err := tierService.Get(TEST_TIER_ID)
 
 	//then
 	assert.Nil(t, tier)
@@ -90,18 +132,41 @@ func TestListTierReturnTiersIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedTiers := []Tier{
-		Tier{
-			Id: "list_id_1",
-			Name: "list_name_1",
-		},
-		Tier{
-			Id: "list_id_2",
-			Name: "list_name_2",
-		},
-	}
+	expectedTier1 := Tier{Id: "list_id_1",
+						 Name: "list_name_1",
+						 ZoneId: "list_zone_id_1",
+						 ZoneName: "list_zone_name_1",
+						 Cidr: "list_cidr_1",
+						 Type: "list_type_1",
+						 Gateway: "list_gateway_1",
+						 NetworkOfferingId: "list_network_offering_id_1",
+						 IsSystem: true,
+						 VpcId: "list_vpc_id_1",
+						 Domain: "list_domain_1",
+						 DomainId: "list_domain_id_1",
+						 Project: "list_project_1",
+						 ProjectId: "list_project_id_1",
+						 AclId: "list_acl_id_1"}
 
-	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListTierJsonResponse(expectedTiers), nil)
+	expectedTier2 := Tier{Id: "list_id_2",
+						 Name: "list_name_2",
+						 ZoneId: "list_zone_id_2",
+						 ZoneName: "list_zone_name_2",
+						 Cidr: "list_cidr_2",
+						 Type: "list_type_2",
+						 Gateway: "list_gateway_2",
+						 NetworkOfferingId: "list_network_offering_id_2",
+						 IsSystem: false,
+						 VpcId: "list_vpc_id_2",
+						 Domain: "list_domain_2",
+						 DomainId: "list_domain_id_2",
+						 Project: "list_project_2",
+						 ProjectId: "list_project_id_2",
+						 AclId: "list_acl_id_2"}
+
+	expectedTiers := []Tier{expectedTier1, expectedTier2}
+
+	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListTestTierJsonResponse(expectedTiers), nil)
 
 	//when
 	tiers, _ := tierService.List()

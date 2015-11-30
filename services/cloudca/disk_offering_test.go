@@ -10,10 +10,10 @@ import (
 )
 
 const (
-	DISK_OFFERING_ID = "some_id"
-	DISK_OFFERING_NAME = "test_disk_offering"
-	DISK_OFFERING_GBSIZE = 50
-	DISK_OFFERING_STORAGE_TIER = "performance"
+	TEST_DISK_OFFERING_ID = "some_id"
+	TEST_DISK_OFFERING_NAME = "test_disk_offering"
+	TEST_DISK_OFFERING_GBSIZE = 50
+	TEST_DISK_OFFERING_STORAGE_TIER = "performance"
 )
 
 func buildDiskOfferingJsonResponse(diskOffering *DiskOffering) []byte {
@@ -46,15 +46,15 @@ func TestGetDiskOfferingReturnDiskOfferingIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedDiskOffering := DiskOffering{Id: DISK_OFFERING_ID, 
-										Name: DISK_OFFERING_NAME, 
-										GbSize: DISK_OFFERING_GBSIZE,
-										StorageTier: DISK_OFFERING_STORAGE_TIER}
+	expectedDiskOffering := DiskOffering{Id: TEST_DISK_OFFERING_ID, 
+										Name: TEST_DISK_OFFERING_NAME, 
+										GbSize: TEST_DISK_OFFERING_GBSIZE,
+										StorageTier: TEST_DISK_OFFERING_STORAGE_TIER}
 
-	mockEntityService.EXPECT().Get(DISK_OFFERING_ID, gomock.Any()).Return(buildDiskOfferingJsonResponse(&expectedDiskOffering), nil)
+	mockEntityService.EXPECT().Get(TEST_DISK_OFFERING_ID, gomock.Any()).Return(buildDiskOfferingJsonResponse(&expectedDiskOffering), nil)
 
 	//when
-	diskOffering, _ := diskOfferingService.Get(DISK_OFFERING_ID)
+	diskOffering, _ := diskOfferingService.Get(TEST_DISK_OFFERING_ID)
 
 	//then
 	if assert.NotNil(t, diskOffering) {
@@ -75,10 +75,10 @@ func TestGetDiskOfferingReturnNilWithErrorIfError(t *testing.T) {
 
 	mockError := mocks.MockError{"some_get_error"}
 
-	mockEntityService.EXPECT().Get(DISK_OFFERING_ID, gomock.Any()).Return(nil, mockError)
+	mockEntityService.EXPECT().Get(TEST_DISK_OFFERING_ID, gomock.Any()).Return(nil, mockError)
 
 	//when
-	diskOffering, err := diskOfferingService.Get(DISK_OFFERING_ID)
+	diskOffering, err := diskOfferingService.Get(TEST_DISK_OFFERING_ID)
 
 	//then
 	assert.Nil(t, diskOffering)
