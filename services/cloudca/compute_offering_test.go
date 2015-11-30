@@ -16,11 +16,23 @@ const (
 	COMPUTE_OFFERING_CPU_NUMBER = 2
 )
 
-func buildGetComputeOfferingSuccessResponse() []byte {
-	return  []byte(`{"id": "` + COMPUTE_OFFERING_ID + 
-			`","name":"` + COMPUTE_OFFERING_NAME + 
-			`","memory":` + strconv.Itoa(COMPUTE_OFFERING_MEMORY) + 
-			`,"cpuNumber": ` + strconv.Itoa(COMPUTE_OFFERING_CPU_NUMBER) + `}`)
+func buildComputeOfferingJsonResponse(computeOffering *ComputeOffering) []byte {
+	return  []byte(`{"id": "` + computeOffering.Id + 
+			`","name":"` + computeOffering.Name + 
+			`","memory":` + strconv.Itoa(computeOffering.Memory) + 
+			`,"cpuNumber": ` + strconv.Itoa(computeOffering.CpuNumber) + `}`)
+}
+
+func buildListComputeOfferingJsonResponse(computeOfferings []ComputeOffering) []byte {
+	resp := `[`
+	for i, d := range computeOfferings {
+		resp += string(buildComputeOfferingJsonResponse(&d))
+		if i != len(computeOfferings) - 1 {
+			resp += `,`
+		}
+	}
+	resp += `]`
+	return []byte(resp)
 }
 
 func TestGetComputeOfferingReturnComputeOfferingIfSuccess(t *testing.T) {
@@ -39,7 +51,7 @@ func TestGetComputeOfferingReturnComputeOfferingIfSuccess(t *testing.T) {
 										Memory: COMPUTE_OFFERING_MEMORY,
 										CpuNumber: COMPUTE_OFFERING_CPU_NUMBER}
 
-	mockEntityService.EXPECT().Get(COMPUTE_OFFERING_ID, gomock.Any()).Return(buildGetComputeOfferingSuccessResponse(), nil)
+	mockEntityService.EXPECT().Get(COMPUTE_OFFERING_ID, gomock.Any()).Return(buildComputeOfferingJsonResponse(&expectedComputeOffering), nil)
 
 	//when
 	computeOffering, _ := computeOfferingService.Get(COMPUTE_OFFERING_ID)
@@ -74,13 +86,6 @@ func TestGetComputeOfferingReturnNilWithErrorIfError(t *testing.T) {
 
 }
 
-func buildListComputeOfferingSuccessResponse() []byte {
-	return []byte(`[
-		{"id": "list_id_1", "name": "list_name_1", "memory": 1, "cpuNumber": 1},
-		{"id": "list_id_2", "name": "list_name_2", "memory": 2, "cpuNumber": 2}
-	]`)
-}
-
 func TestListComputeOfferingReturnComputeOfferingsIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)
@@ -107,7 +112,7 @@ func TestListComputeOfferingReturnComputeOfferingsIfSuccess(t *testing.T) {
 		},
 	}
 
-	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListComputeOfferingSuccessResponse(), nil)
+	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListComputeOfferingJsonResponse(expectedComputeOfferings), nil)
 
 	//when
 	computeOfferings, _ := computeOfferingService.List()

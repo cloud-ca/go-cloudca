@@ -16,11 +16,23 @@ const (
 	DISK_OFFERING_STORAGE_TIER = "performance"
 )
 
-func buildGetDiskOfferingSuccessResponse() []byte {
-	return  []byte(`{"id": "` + DISK_OFFERING_ID + 
-			`","name":"` + DISK_OFFERING_NAME + 
-			`","gbSize":` + strconv.Itoa(DISK_OFFERING_GBSIZE) + 
-			`,"storageTier": "` + DISK_OFFERING_STORAGE_TIER + `"}`)
+func buildDiskOfferingJsonResponse(diskOffering *DiskOffering) []byte {
+	return  []byte(`{"id": "` + diskOffering.Id + 
+			`","name":"` + diskOffering.Name + 
+			`","gbSize":` + strconv.Itoa(diskOffering.GbSize) + 
+			`,"storageTier": "` + diskOffering.StorageTier + `"}`)
+}
+
+func buildListDiskOfferingJsonResponse(diskOfferings []DiskOffering) []byte {
+	resp := `[`
+	for i, d := range diskOfferings {
+		resp += string(buildDiskOfferingJsonResponse(&d))
+		if i != len(diskOfferings) - 1 {
+			resp += `,`
+		}
+	}
+	resp += `]`
+	return []byte(resp)
 }
 
 func TestGetDiskOfferingReturnDiskOfferingIfSuccess(t *testing.T) {
@@ -39,7 +51,7 @@ func TestGetDiskOfferingReturnDiskOfferingIfSuccess(t *testing.T) {
 										GbSize: DISK_OFFERING_GBSIZE,
 										StorageTier: DISK_OFFERING_STORAGE_TIER}
 
-	mockEntityService.EXPECT().Get(DISK_OFFERING_ID, gomock.Any()).Return(buildGetDiskOfferingSuccessResponse(), nil)
+	mockEntityService.EXPECT().Get(DISK_OFFERING_ID, gomock.Any()).Return(buildDiskOfferingJsonResponse(&expectedDiskOffering), nil)
 
 	//when
 	diskOffering, _ := diskOfferingService.Get(DISK_OFFERING_ID)
@@ -74,13 +86,6 @@ func TestGetDiskOfferingReturnNilWithErrorIfError(t *testing.T) {
 
 }
 
-func buildListDiskOfferingSuccessResponse() []byte {
-	return []byte(`[
-		{"id": "list_id_1", "name": "list_name_1", "gbSize": 51, "storageTier": "storage_tier_1"},
-		{"id": "list_id_2", "name": "list_name_2", "gbSize": 52, "storageTier": "storage_tier_2"}
-	]`)
-}
-
 func TestListDiskOfferingReturnDiskOfferingsIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)
@@ -107,7 +112,7 @@ func TestListDiskOfferingReturnDiskOfferingsIfSuccess(t *testing.T) {
 		},
 	}
 
-	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListDiskOfferingSuccessResponse(), nil)
+	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListDiskOfferingJsonResponse(expectedDiskOfferings), nil)
 
 	//when
 	diskOfferings, _ := diskOfferingService.List()

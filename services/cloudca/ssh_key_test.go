@@ -13,9 +13,21 @@ const (
 	SSH_KEY_FINGERPRINT = "test_fingerprint"
 )
 
-func buildGetSSHKeySuccessResponse() []byte {
-	return  []byte(`{"name": "` + SSH_KEY_NAME + 
-			`","fingerprint":"` + SSH_KEY_FINGERPRINT + `"}`)
+func buildSSHKeyJsonResponse(sshKey *SSHKey) []byte {
+	return  []byte(`{"name": "` + sshKey.Name + 
+			`","fingerprint":"` + sshKey.Fingerprint + `"}`)
+}
+
+func buildListSSHKeyJsonResponse(sshKeys []SSHKey) []byte {
+	resp := `[`
+	for i, s := range sshKeys {
+		resp += string(buildSSHKeyJsonResponse(&s))
+		if i != len(sshKeys) - 1 {
+			resp += `,`
+		}
+	}
+	resp += `]`
+	return []byte(resp)
 }
 
 func TestGetSSHKeyReturnSSHKeyIfSuccess(t *testing.T) {
@@ -32,7 +44,7 @@ func TestGetSSHKeyReturnSSHKeyIfSuccess(t *testing.T) {
 	expectedSSHKey := SSHKey{Name: SSH_KEY_NAME, 
 							 Fingerprint: SSH_KEY_FINGERPRINT}
 
-	mockEntityService.EXPECT().Get(SSH_KEY_NAME, gomock.Any()).Return(buildGetSSHKeySuccessResponse(), nil)
+	mockEntityService.EXPECT().Get(SSH_KEY_NAME, gomock.Any()).Return(buildSSHKeyJsonResponse(&expectedSSHKey), nil)
 
 	//when
 	sshKey, _ := sshKeyService.Get(SSH_KEY_NAME)
@@ -67,13 +79,6 @@ func TestGetSSHKeyReturnNilWithErrorIfError(t *testing.T) {
 
 }
 
-func buildListSSHKeySuccessResponse() []byte {
-	return []byte(`[
-		{"name": "list_name_1", "fingerprint": "list_fingerprint_1"},
-		{"name": "list_name_2", "fingerprint": "list_fingerprint_2"}
-	]`)
-}
-
 func TestListSSHKeyReturnSSHKeysIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)
@@ -96,7 +101,7 @@ func TestListSSHKeyReturnSSHKeysIfSuccess(t *testing.T) {
 		},
 	}
 
-	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListSSHKeySuccessResponse(), nil)
+	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListSSHKeyJsonResponse(expectedSSHKeys), nil)
 
 	//when
 	sshKeys, _ := sshKeyService.List()

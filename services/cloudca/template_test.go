@@ -26,21 +26,34 @@ const (
 	TEMPLATE_PROJECT_ID = "test_template_project_id"
 )
 
-func buildGetTemplateSuccessResponse() []byte {
-	return  []byte(`{"id":"` + TEMPLATE_ID + `",` +
-				   ` "name": "` + TEMPLATE_NAME + `",` +
-				   ` "description": "` + TEMPLATE_DESCRIPTION + `",` +
-				   ` "size": ` + strconv.Itoa(TEMPLATE_SIZE) + `,` +
-				   ` "isPublic": ` + strconv.FormatBool(TEMPLATE_IS_PUBLIC) + `,` +
-				   ` "isReady": ` + strconv.FormatBool(TEMPLATE_IS_READY) + `,` +
-				   ` "sshKeyEnabled": ` + strconv.FormatBool(TEMPLATE_SSH_KEY_ENABLED) + `,` +
-				   ` "extractable": ` + strconv.FormatBool(TEMPLATE_EXTRACTABLE) + `,` +
-				   ` "osType": "` + TEMPLATE_OS_TYPE + `",` +
-				   ` "osTypeId": "` + TEMPLATE_OS_TYPE_ID + `",` +
-				   ` "hypervisor": "` + TEMPLATE_HYPERVISOR + `",` +
-				   ` "format": "` + TEMPLATE_FORMAT + `",` +
-				   ` "zoneName": "` + TEMPLATE_ZONE_NAME + `",` +
-				   ` "projectId": "` + TEMPLATE_PROJECT_ID + `"}`)
+func buildTemplateJsonResponse(template *Template) []byte {
+	return  []byte(`{"id":"` + template.Id + `",` +
+				   ` "name": "` + template.Name + `",` +
+				   ` "description": "` + template.Description + `",` +
+				   ` "size": ` + strconv.Itoa(template.Size) + `,` +
+				   ` "isPublic": ` + strconv.FormatBool(template.IsPublic) + `,` +
+				   ` "isReady": ` + strconv.FormatBool(template.IsReady) + `,` +
+				   ` "sshKeyEnabled": ` + strconv.FormatBool(template.SSHKeyEnabled) + `,` +
+				   ` "extractable": ` + strconv.FormatBool(template.Extractable) + `,` +
+				   ` "osType": "` + template.OSType + `",` +
+				   ` "osTypeId": "` + template.OSTypeId + `",` +
+				   ` "hypervisor": "` + template.Hypervisor + `",` +
+				   ` "format": "` + template.Format + `",` +
+				   ` "zoneName": "` + template.ZoneName + `",` +
+				   ` "projectId": "` + template.ProjectId + `"}`)
+}
+
+
+func buildListTemplateJsonResponse(templates []Template) []byte {
+	resp := `[`
+	for i, t := range templates {
+		resp += string(buildTemplateJsonResponse(&t))
+		if i != len(templates) - 1 {
+			resp += `,`
+		}
+	}
+	resp += `]`
+	return []byte(resp)
 }
 
 func TestGetTemplateReturnTemplateIfSuccess(t *testing.T) {
@@ -70,7 +83,7 @@ func TestGetTemplateReturnTemplateIfSuccess(t *testing.T) {
 								 ProjectId: TEMPLATE_PROJECT_ID,
 								}
 
-	mockEntityService.EXPECT().Get(TEMPLATE_ID, gomock.Any()).Return(buildGetTemplateSuccessResponse(), nil)
+	mockEntityService.EXPECT().Get(TEMPLATE_ID, gomock.Any()).Return(buildTemplateJsonResponse(&expectedTemplate), nil)
 
 	//when
 	template, _ := templateService.Get(TEMPLATE_ID)
@@ -105,38 +118,6 @@ func TestGetTemplateReturnNilWithErrorIfError(t *testing.T) {
 
 }
 
-func buildListTemplateSuccessResponse() []byte {
-	template1 := `{"id":"list_id_1",` +
-				   ` "name": "list_name_1",` +
-				   ` "description": "list_description_1",` +
-				   ` "size": 1,` +
-				   ` "isPublic": true,` +
-				   ` "isReady": true,` +
-				   ` "sshKeyEnabled": true,` +
-				   ` "extractable": true,` +
-				   ` "osType": "list_os_type_1",` +
-				   ` "osTypeId": "list_os_type_id_1",` +
-				   ` "hypervisor": "list_hypervisor_1",` +
-				   ` "format": "list_format_1",` +
-				   ` "zoneName": "list_zone_name_1",` +
-				   ` "projectId": "list_project_id_1"}`
-	template2 := `{"id":"list_id_2",` +
-				   ` "name": "list_name_2",` +
-				   ` "description": "list_description_2",` +
-				   ` "size": 2,` +
-				   ` "isPublic": false,` +
-				   ` "isReady": false,` +
-				   ` "sshKeyEnabled": false,` +
-				   ` "extractable": false,` +
-				   ` "osType": "list_os_type_2",` +
-				   ` "osTypeId": "list_os_type_id_2",` +
-				   ` "hypervisor": "list_hypervisor_2",` +
-				   ` "format": "list_format_2",` +
-				   ` "zoneName": "list_zone_name_2",` +
-				   ` "projectId": "list_project_id_2"}`
-	return []byte(`[` + template1 + `,` + template2 + `]`)
-}
-
 func TestListTemplateReturnTemplatesIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)
@@ -148,10 +129,10 @@ func TestListTemplateReturnTemplatesIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	template1 := Template{Id: "list_id_1",
+	expectedTemplate1 := Template{Id: "list_id_1",
 						  Name: "list_name_1",
 						  Description: "list_description_1",
-						  Size: 1,
+						  Size: 132123,
 						  IsPublic: true,
 						  IsReady: true,
 						  SSHKeyEnabled: true,
@@ -163,10 +144,10 @@ func TestListTemplateReturnTemplatesIfSuccess(t *testing.T) {
 						  ZoneName: "list_zone_name_1",
 						  ProjectId: "list_project_id_1",
 				}
-	template2 := Template{Id: "list_id_2",
+	expectedTemplate2 := Template{Id: "list_id_2",
 						  Name: "list_name_2",
 						  Description: "list_description_2",
-						  Size: 2,
+						  Size: 4525,
 						  IsPublic: false,
 						  IsReady: false,
 						  SSHKeyEnabled: false,
@@ -179,9 +160,9 @@ func TestListTemplateReturnTemplatesIfSuccess(t *testing.T) {
 						  ProjectId: "list_project_id_2",
 				}
 
-	expectedTemplates := []Template{template1, template2}
+	expectedTemplates := []Template{expectedTemplate1, expectedTemplate2}
 
-	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListTemplateSuccessResponse(), nil)
+	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListTemplateJsonResponse(expectedTemplates), nil)
 
 	//when
 	templates, _ := templateService.List()
