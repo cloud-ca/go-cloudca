@@ -23,7 +23,7 @@ type ComputeOfferingApi struct {
 	entityService services.EntityService
 }
 
-func NewComputeOfferingService(apiClient api.CcaApiClient, serviceCode string, environmentName string) ComputeOfferingService {
+func NewComputeOfferingService(apiClient api.CcaClient, serviceCode string, environmentName string) ComputeOfferingService {
 	return &ComputeOfferingApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, COMPUTE_OFFERING_ENTITY_TYPE),
 	}

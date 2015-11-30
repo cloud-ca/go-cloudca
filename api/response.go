@@ -10,6 +10,7 @@ import (
 //Status codes
 const (
 	OK = 200
+	NOT_FOUND = 404
 )
 
 //An API error

@@ -82,7 +82,7 @@ type InstanceApi struct {
 	entityService services.EntityService
 }
 
-func NewInstanceService(apiClient api.CcaApiClient, serviceCode string, environmentName string) InstanceService {
+func NewInstanceService(apiClient api.CcaClient, serviceCode string, environmentName string) InstanceService {
 	return &InstanceApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, INSTANCE_ENTITY_TYPE),
 	}

@@ -16,14 +16,14 @@ type EntityService interface {
 
 //Implementation of the EntityService
 type EntityApi struct {
-	apiClient api.CcaApiClient
+	apiClient api.CcaClient
 	taskService TaskService
 	serviceCode string
 	environmentName string
 	entityType string
 }
 
-func NewEntityService(apiClient api.CcaApiClient, serviceCode string, environmentName string, entityType string) EntityService {
+func NewEntityService(apiClient api.CcaClient, serviceCode string, environmentName string, entityType string) EntityService {
 	return &EntityApi{
 		apiClient: apiClient,
 		taskService: NewTaskService(apiClient),

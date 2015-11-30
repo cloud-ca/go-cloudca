@@ -21,7 +21,7 @@ type SSHKeyApi struct {
 	entityService services.EntityService
 }
 
-func NewSSHKeyService(apiClient api.CcaApiClient, serviceCode string, environmentName string) SSHKeyService {
+func NewSSHKeyService(apiClient api.CcaClient, serviceCode string, environmentName string) SSHKeyService {
 	return &SSHKeyApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, SSH_KEY_ENTITY_TYPE),
 	}

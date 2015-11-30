@@ -13,7 +13,7 @@ const (
 type CcaClient struct {
 	apiURL string
 	apiKey string
-	apiClient api.CcaApiClient
+	apiClient api.CcaClient
 	Tasks services.TaskService
 }
 
@@ -52,6 +52,6 @@ func (c CcaClient) GetApiKey() string {
 }
 
 //Get the API Client used by all the services
-func (c CcaClient) GetApiClient() api.CcaApiClient {
+func (c CcaClient) GetApiClient() api.CcaClient {
 	return c.apiClient
 }

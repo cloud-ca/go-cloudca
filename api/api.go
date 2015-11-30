@@ -8,6 +8,10 @@ import (
 	"io"
 	)
 
+type CcaClient interface {
+	Do(request CcaRequest) (*CcaResponse, error)
+}
+
 type CcaApiClient struct {
 	apiURL string
 	apiKey string
