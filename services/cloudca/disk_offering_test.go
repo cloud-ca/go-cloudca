@@ -11,7 +11,7 @@ import (
 
 const (
 	DISK_OFFERING_ID = "some_id"
-	DISK_OFFERING_NAME = "test_compute_offering"
+	DISK_OFFERING_NAME = "test_disk_offering"
 	DISK_OFFERING_GBSIZE = 50
 	DISK_OFFERING_STORAGE_TIER = "performance"
 )
@@ -23,7 +23,7 @@ func buildGetDiskOfferingSuccessResponse() []byte {
 			`,"storageTier": "` + DISK_OFFERING_STORAGE_TIER + `"}`)
 }
 
-func TestGetDiskOfferingReturnComputeOfferingIfSuccess(t *testing.T) {
+func TestGetDiskOfferingReturnDiskOfferingIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -81,7 +81,7 @@ func buildListDiskOfferingSuccessResponse() []byte {
 	]`)
 }
 
-func TestListDiskOfferingReturnComputeOfferingsIfSuccess(t *testing.T) {
+func TestListDiskOfferingReturnDiskOfferingsIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
