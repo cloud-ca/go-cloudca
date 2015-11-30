@@ -31,7 +31,7 @@ func (ft FailedTask) Error() string {
 }
 
 type TaskService interface {
-	Find(id string) (*Task, error)
+	Get(id string) (*Task, error)
 	Poll(id string, milliseconds time.Duration) ([]byte, error)
 	PollResponse(response *api.CcaResponse, milliseconds time.Duration) ([]byte, error)
 }
@@ -48,7 +48,7 @@ func NewTaskService(apiClient api.CcaClient) TaskService {
 }
 
 //Retrieve a Task with sepecified id
-func (taskApi *TaskApi) Find(id string) (*Task, error) {
+func (taskApi *TaskApi) Get(id string) (*Task, error) {
 	request := api.CcaRequest{
 		Method: api.GET,
 		Endpoint: "tasks/" + id,
@@ -77,14 +77,14 @@ func (taskApi *TaskApi) Find(id string) (*Task, error) {
 //Returns result on success, an error otherwise
 func (taskApi *TaskApi) Poll(id string, milliseconds time.Duration) ([]byte, error) {
 	ticker := time.NewTicker(time.Millisecond * milliseconds)
-	task, err := taskApi.Find(id)
+	task, err := taskApi.Get(id)
 	if err != nil {
 		return nil, err
 	}
 	done := task.Completed()
 	for !done {
 		<-ticker.C
-		task, err = taskApi.Find(id)
+		task, err = taskApi.Get(id)
 		if err != nil {
 			return nil, err
 		}
@@ -98,8 +98,10 @@ func (taskApi *TaskApi) Poll(id string, milliseconds time.Duration) ([]byte, err
 
 //Poll an the Task API. Blocks until success or failure
 func (taskApi *TaskApi) PollResponse(response *api.CcaResponse, milliseconds time.Duration) ([]byte, error) {
-	if !strings.EqualFold(response.TaskStatus, PENDING) {
+	if strings.EqualFold(response.TaskStatus, SUCCESS) {
 		return response.Data, nil
+	} else if strings.EqualFold(response.TaskStatus, FAILED) {
+		return nil, api.CcaErrorResponse(*response)
 	}
 	return taskApi.Poll(response.TaskId, milliseconds)
 }
