@@ -31,7 +31,7 @@ type Instance struct {
 	TemplateId string `json:"templateId,omitempty"`
 	TemplateName string `json:"templateName,omitempty"`
 	IsPasswordEnabled bool `json:"isPasswordEnabled,omitempty"`
-	IsSshKeyEnabled bool `json:"isSshKeyEnabled,omitempty"`
+	IsSSHKeyEnabled bool `json:"isSshKeyEnabled,omitempty"`
 	Username string `json:"username,omitempty"`
 	Password string `json:"password,omitempty"`
 	SSHKeyName string `json:"sshKeyName,omitempty"`
@@ -48,6 +48,7 @@ type Instance struct {
 	MacAddress string `json:"macAddress,omitempty"`
 	UserData string `json:"userData,omitempty"`
 	RecoveryPoint RecoveryPoint `json:"recoveryPoint,omitempty"`
+	IpAddress string `json:"ipAddress,omitempty"`
 	PublicIps []PublicIp `json:"publicIPs,omitempty"`
 	PurgeImmediately bool `json:"purgeImmediately,omitempty"`
 }
