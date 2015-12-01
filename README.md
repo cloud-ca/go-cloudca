@@ -2,61 +2,44 @@
 
 Cloud.ca client for the Go programming language
 
-# Example
+# How to use
 
+First of all create a new CcaClient.
 ```
-package main
-
-import (
-	"github.com/cloud-ca/go-cloudca"
-	"github.com/cloud-ca/go-cloudca/services/cloudca"
-	"fmt"
-	)
-
-func main() {
-	//Create a CcaClient
 	ccaClient := gocca.NewCcaClient("[your-api-key]")
-	
-	//Get the available resources for a specific service and environment
-	ccaResources := ccaClient.GetResources("[service-code]", "[environment-name]").(cloudca.Resources)
-	
-	//Get the list of instances
+```
+
+Get the ServiceResources object for a specific environment and service. Here, we assume that it is a cloudca service.
+```
+	resources, _ := ccaClient.GetResources("[service-code]", "[environment-name]")
+	ccaResources := resources.(cloudca.Resources)
+```
+
+Now with the cloudca ServiceResources object, we can execute operations on cloudca resources in the specified environment.
+
+Retrieve the list of instances in the environment.
+```
 	instances, _ := ccaResources.Instances.List()
-	fmt.Println(instances)
-	
-	//Get a volume with its id
+```
+
+Get a specific volume in the environment.
+```
 	volume, _ := ccaResources.Volumes.Get("[some-volume-id]")
-	fmt.Println(volume)
-	
-	//Create an instance
+```
+
+Create a new instance in the environment.
+```
 	createdInstance, _ := ccaResources.Instances.Create(cloudca.Instance{
 			Name: "[new-instance-name]",
 			TemplateId: "[some-template-id]",
 			ComputeOfferingId:"[some-compute-offering-id]",
 			NetworkId:"[some-network-id]",
 		})
-	fmt.Println(createdInstance)
-}
 ```
 
 #Handling Errors
+
 ```
-package main
-
-import (
-	"github.com/cloud-ca/go-cloudca"
-	"github.com/cloud-ca/go-cloudca/api"
-	"github.com/cloud-ca/go-cloudca/services/cloudca"
-	"fmt"
-	)
-
-func main() {
-	//Create a CcaClient
-	ccaClient := gocca.NewCcaClient("[your-api-key]")
-	
-	//Get the available resources for a specific service and environment
-	ccaResources := ccaClient.GetResources("[service-code]", "[environment-name]").(cloudca.Resources)
-
 	//Get a volume with a bogus id
 	_, err := ccaResources.Volumes.Get("[some-volume-id]")
 	
@@ -74,7 +57,6 @@ func main() {
 			//handle unexpected error
 		}
 	}
-}
 ```
 
 
