@@ -39,12 +39,15 @@ Create a new instance in the environment.
 
 #Handling Errors
 
+When trying to get a volume with a bogus id, an error will be returned.
 ```
 	//Get a volume with a bogus id
 	_, err := ccaResources.Volumes.Get("[some-volume-id]")
-	
-	//Handle the error. Try to cast to a CcaError for more details
-	//Might not work if connectivity error or some other unexpected error
+```
+
+Two types of error can occur: an unexpected error (ex: unable to connect to server) or an api error (ex: service resource not found)
+If an error occured, then we first try to cast the error into a CcaErrorResponse. This object contains the HTTP status code returned by the server, an error code and a list of CcaError objects. If its not a CcaErrorResponse, then this mean its not an error returned by the API.
+```
 	if err != nil {
 		if errorResponse, ok := err.(api.CcaErrorResponse); ok {
 			if errorResponse.StatusCode == api.NOT_FOUND {
@@ -55,6 +58,7 @@ Create a new instance in the environment.
 			}
 		} else {
 			//handle unexpected error
+			panic("Unexpected error")
 		}
 	}
 ```
