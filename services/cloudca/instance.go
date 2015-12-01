@@ -50,6 +50,7 @@ type Instance struct {
 	RecoveryPoint RecoveryPoint `json:"recoveryPoint,omitempty"`
 	IpAddress string `json:"ipAddress,omitempty"`
 	PublicIps []PublicIp `json:"publicIPs,omitempty"`
+	PublicKey string `json:"publicKey,omitempty"`
 	VolumeIdToAttach string `json:"volumeIdToAttach,omitempty"`
 	PortsToForward []string `json:"portsToForward,omitempty"`
 	PurgeImmediately bool `json:"purgeImmediately,omitempty"`
