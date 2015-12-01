@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"strconv"
+	"fmt"
 ) 
 
 //Status codes
@@ -81,8 +82,7 @@ func NewCcaResponse(response *http.Response) (*CcaResponse, error) {
 		json.Unmarshal(*val, &errors)
 		ccaResponse.Errors = errors
 	} else if(response.StatusCode != OK) {
-		//should always have errors in response body if not 200 OK
-		panic("Unexpected. Received status " + response.Status + " but no errors in response body")
+		return nil, fmt.Errorf("Unexpected. Received status " + response.Status + " but no errors in response body")
 	}
 	return &ccaResponse, nil
 }
