@@ -36,7 +36,7 @@ func NewCcaClientWithURL(apiURL string, apiKey string) *CcaClient {
 
 //Get the Resources for a specific serviceCode and environmentName
 //For now it assumes that the serviceCode belongs to a cloud.ca service type
-func (c CcaClient) GetResources(serviceCode string, environmentName string) services.ServiceResources, error {
+func (c CcaClient) GetResources(serviceCode string, environmentName string) (services.ServiceResources, error) {
 	//TODO: change to check service type of service code
 	return cloudca.NewResources(c.apiClient, serviceCode, environmentName), nil
 }
