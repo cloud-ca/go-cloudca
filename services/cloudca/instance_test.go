@@ -30,6 +30,7 @@ const (
 	TEST_INSTANCE_NETWORK_NAME = "test_instance_network_name"
 	TEST_INSTANCE_MAC_ADDRESS = "test_instance_mac_address"
 	TEST_INSTANCE_IP_ADDRESS = "test_instance_ip_address"
+	TEST_VOLUME_ID_TO_ATTACH = "test_volume_id_to_attach"
 	TEST_INSTANCE_USER_DATA = "test_instance_user_data"
 )
 
@@ -53,6 +54,7 @@ func buildTestInstanceJsonResponse(instance *Instance) []byte {
 			`"networkName":"` + instance.NetworkName + `", ` +
 			`"macAddress":"` + instance.MacAddress + `", ` +
 			`"ipAddress":"` + instance.IpAddress + `", ` +
+			`"volumeIdToAttach":"` + instance.VolumeIdToAttach + `", ` +
 			`"userData":"` + instance.UserData + `"}`)
 }
 
@@ -98,6 +100,7 @@ func TestGetInstanceReturnInstanceIfSuccess(t *testing.T) {
 								 NetworkName: TEST_INSTANCE_NETWORK_NAME,
 								 MacAddress: TEST_INSTANCE_MAC_ADDRESS,
 								 IpAddress: TEST_INSTANCE_IP_ADDRESS,
+								 VolumeIdToAttach: TEST_VOLUME_ID_TO_ATTACH,
 								 UserData: TEST_INSTANCE_USER_DATA}
 
 	mockEntityService.EXPECT().Get(TEST_INSTANCE_ID, gomock.Any()).Return(buildTestInstanceJsonResponse(&expectedInstance), nil)
@@ -164,6 +167,7 @@ func TestListInstanceReturnInstancesIfSuccess(t *testing.T) {
 								 NetworkId: "list_network_id_1",
 								 NetworkName: "list_network_name_1",
 								 MacAddress: "list_mac_address_1",
+								 VolumeIdToAttach: "list_volume_id_to_attach_1",
 								 IpAddress: "list_ip_address_1",
 								 UserData: "list_user_data_1"}
 
