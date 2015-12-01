@@ -44,7 +44,7 @@ func (errorResponse CcaErrorResponse) Error() string {
 	var errorStr string = "[ERROR] Received HTTP status code " + strconv.Itoa(errorResponse.StatusCode) + "\n"
 	for _, e := range errorResponse.Errors {
 		context, _ := json.Marshal(e.Context)
-		errorStr += "[ERROR] Error Code: " + strconv.Itoa(e.Code) + ", Message: " + e.Message + ", Context: " + string(context)
+		errorStr += "[ERROR] Error Code: " + strconv.Itoa(e.Code) + ", Message: " + e.Message + ", Context: " + string(context) + "\n"
 	}
 	return errorStr
 }
