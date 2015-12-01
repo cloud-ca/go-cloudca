@@ -24,7 +24,7 @@ type DiskOfferingApi struct {
 	entityService services.EntityService
 }
 
-func NewDiskOfferingService(apiClient api.CcaClient, serviceCode string, environmentName string) DiskOfferingService {
+func NewDiskOfferingService(apiClient api.ApiClient, serviceCode string, environmentName string) DiskOfferingService {
 	return &DiskOfferingApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, DISK_OFFERING_ENTITY_TYPE),
 	}

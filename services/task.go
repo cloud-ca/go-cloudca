@@ -37,11 +37,11 @@ type TaskService interface {
 }
 
 type TaskApi struct {
- 	apiClient api.CcaClient
+ 	apiClient api.ApiClient
 }
 
 //Create a new TaskService
-func NewTaskService(apiClient api.CcaClient) TaskService {
+func NewTaskService(apiClient api.ApiClient) TaskService {
 	return &TaskApi{
 		apiClient: apiClient,
 	}

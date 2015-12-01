@@ -42,7 +42,7 @@ type TierApi struct {
 	entityService services.EntityService
 }
 
-func NewTierService(apiClient api.CcaClient, serviceCode string, environmentName string) TierService {
+func NewTierService(apiClient api.ApiClient, serviceCode string, environmentName string) TierService {
 	return &TierApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, TIER_ENTITY_TYPE),
 	}

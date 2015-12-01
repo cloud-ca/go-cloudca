@@ -38,7 +38,7 @@ type VolumeApi struct {
 	entityService services.EntityService
 }
 
-func NewVolumeService(apiClient api.CcaClient, serviceCode string, environmentName string) VolumeService {
+func NewVolumeService(apiClient api.ApiClient, serviceCode string, environmentName string) VolumeService {
 	return &VolumeApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, VOLUME_ENTITY_TYPE),
 	}

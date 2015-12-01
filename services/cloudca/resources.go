@@ -9,7 +9,7 @@ const (
 )
 
 type Resources struct {
-	apiClient api.CcaClient
+	apiClient api.ApiClient
 	serviceCode string
 	environmentName string
 	Instances InstanceService
@@ -21,7 +21,7 @@ type Resources struct {
 	Tiers TierService
 }
 
-func NewResources(apiClient api.CcaClient, serviceCode string, environmentName string) Resources {
+func NewResources(apiClient api.ApiClient, serviceCode string, environmentName string) Resources {
 	return Resources{
 		apiClient: apiClient,
 		serviceCode: serviceCode,

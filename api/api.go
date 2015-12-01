@@ -8,7 +8,7 @@ import (
 	"io"
 	)
 
-type CcaClient interface {
+type ApiClient interface {
 	Do(request CcaRequest) (*CcaResponse, error)
 }
 
@@ -20,7 +20,7 @@ type CcaApiClient struct {
 
 const API_KEY_HEADER = "MC-Api-Key"
 
-func NewApiClient(apiURL, apiKey string) CcaApiClient {
+func NewApiClient(apiURL, apiKey string) ApiClient {
 	return CcaApiClient{
 		apiURL: apiURL,
 		apiKey: apiKey,

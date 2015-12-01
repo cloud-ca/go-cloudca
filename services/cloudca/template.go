@@ -33,7 +33,7 @@ type TemplateApi struct {
 	entityService services.EntityService
 }
 
-func NewTemplateService(apiClient api.CcaClient, serviceCode string, environmentName string) TemplateService {
+func NewTemplateService(apiClient api.ApiClient, serviceCode string, environmentName string) TemplateService {
 	return &TemplateApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, TEMPLATE_ENTITY_TYPE),
 	}
