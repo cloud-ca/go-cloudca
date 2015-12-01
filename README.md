@@ -45,8 +45,8 @@ When trying to get a volume with a bogus id, an error will be returned.
 	_, err := ccaResources.Volumes.Get("[some-volume-id]")
 ```
 
-Two types of error can occur: an unexpected error (ex: unable to connect to server) or an api error (ex: service resource not found)
-If an error occured, then we first try to cast the error into a CcaErrorResponse. This object contains the HTTP status code returned by the server, an error code and a list of CcaError objects. If its not a CcaErrorResponse, then this mean its not an error returned by the API.
+Two types of error can occur: an unexpected error (ex: unable to connect to server) or an API error (ex: service resource not found)
+If an error has occured, then we first try to cast the error into a CcaErrorResponse. This object contains the HTTP status code returned by the server, an error code and a list of CcaError objects. If it's not a CcaErrorResponse, then the error was not returned by the API.
 ```
 	if err != nil {
 		if errorResponse, ok := err.(api.CcaErrorResponse); ok {
