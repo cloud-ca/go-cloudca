@@ -19,7 +19,7 @@ func TestGetTaskReturnTaskIfSuccess(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockCcaClient := api_mocks.NewMockCcaClient(ctrl)
+	mockCcaClient := api_mocks.NewMockApiClient(ctrl)
 
 	taskService := TaskApi{
 		apiClient: mockCcaClient,
@@ -52,7 +52,7 @@ func TestGetTaskReturnErrorIfHasCcaErrors(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockCcaClient := api_mocks.NewMockCcaClient(ctrl)
+	mockCcaClient := api_mocks.NewMockApiClient(ctrl)
 
 	taskService := TaskApi{
 		apiClient: mockCcaClient,
@@ -80,7 +80,7 @@ func TestGetTaskReturnErrorIfHasUnexpectedErrors(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockCcaClient := api_mocks.NewMockCcaClient(ctrl)
+	mockCcaClient := api_mocks.NewMockApiClient(ctrl)
 
 	taskService := TaskApi{
 		apiClient: mockCcaClient,
@@ -106,7 +106,7 @@ func TestPollingReturnTaskResultOnSuccessfulComplete(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockCcaClient := api_mocks.NewMockCcaClient(ctrl)
+	mockCcaClient := api_mocks.NewMockApiClient(ctrl)
 
 	taskService := TaskApi{
 		apiClient: mockCcaClient,
@@ -147,7 +147,7 @@ func TestPollingGetErrorOnTaskFailure(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockCcaClient := api_mocks.NewMockCcaClient(ctrl)
+	mockCcaClient := api_mocks.NewMockApiClient(ctrl)
 
 	taskService := TaskApi{
 		apiClient: mockCcaClient,
