@@ -1,6 +1,6 @@
 # go-cloudca
 
-Cloud.ca client for the Go programming language
+A cloud.ca client for the Go programming language
 
 # How to use
 
