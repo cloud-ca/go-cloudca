@@ -11,8 +11,6 @@ const (
 )
 
 type CcaClient struct {
-	apiURL string
-	apiKey string
 	apiClient api.ApiClient
 	Tasks services.TaskService
 }
@@ -25,13 +23,13 @@ func NewCcaClient(apiKey string) *CcaClient {
 //Create a CcaClient with a custom URL
 func NewCcaClientWithURL(apiURL string, apiKey string) *CcaClient {
 	apiClient := api.NewApiClient(apiURL, apiKey)
-	ccaClient := CcaClient{
-		apiURL: apiURL,
-		apiKey: apiKey,
-		apiClient: apiClient,
-		Tasks: services.NewTaskService(apiClient),
-	}
-	return &ccaClient
+	return NewCcaClientWithApiClient(apiClient)
+}
+
+//Create a CcaClient with a custom URL that accepts insecure connections
+func NewInsecureCcaClientWithURL(apiURL string, apiKey string) *CcaClient {
+	apiClient := api.NewInsecureApiClient(apiURL, apiKey)
+	return NewCcaClientWithApiClient(apiClient)
 }
 
 func NewCcaClientWithApiClient(apiClient api.ApiClient) *CcaClient {
@@ -51,12 +49,12 @@ func (c CcaClient) GetResources(serviceCode string, environmentName string) (ser
 
 //Get the API url used to do he calls
 func (c CcaClient) GetApiURL() string {
-	return c.apiURL
+	return c.apiClient.GetApiURL()
 }
 
 //Get the API key used in the calls
 func (c CcaClient) GetApiKey() string {
-	return c.apiKey
+	return c.apiClient.GetApiKey()
 }
 
 //Get the API Client used by all the services

@@ -6,10 +6,13 @@ import (
 	"strings"
 	"net/http"
 	"io"
+	"crypto/tls"
 	)
 
 type ApiClient interface {
 	Do(request CcaRequest) (*CcaResponse, error)
+	GetApiURL() string
+	GetApiKey() string
 }
 
 type CcaApiClient struct {
@@ -25,6 +28,17 @@ func NewApiClient(apiURL, apiKey string) ApiClient {
 		apiURL: apiURL,
 		apiKey: apiKey,
 		httpClient: &http.Client{},
+	}
+}
+
+func NewInsecureApiClient(apiURL, apiKey string) ApiClient {
+	tr := &http.Transport{
+        TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+    }
+	return CcaApiClient{
+		apiURL: apiURL,
+		apiKey: apiKey,
+		httpClient: &http.Client{Transport: tr},
 	}
 }
 
@@ -62,4 +76,12 @@ func (ccaClient CcaApiClient) Do(request CcaRequest) (*CcaResponse, error) {
 	}
 	defer resp.Body.Close()
 	return NewCcaResponse(resp)
+}
+
+func (ccaClient CcaApiClient) GetApiKey() string {
+	return ccaClient.apiKey
+}
+
+func (ccaClient CcaApiClient) GetApiURL() string {
+	return ccaClient.apiURL
 }
