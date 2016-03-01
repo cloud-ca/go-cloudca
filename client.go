@@ -3,6 +3,7 @@ package gocca
 import (
 	"github.com/cloud-ca/go-cloudca/services/cloudca"
 	"github.com/cloud-ca/go-cloudca/services"
+	"github.com/cloud-ca/go-cloudca/configuration"
 	"github.com/cloud-ca/go-cloudca/api"
 )
 
@@ -13,6 +14,7 @@ const (
 type CcaClient struct {
 	apiClient api.ApiClient
 	Tasks services.TaskService
+	Environments configuration.EnvironmentService
 }
 
 //Create a CcaClient with the default URL
@@ -36,6 +38,7 @@ func NewCcaClientWithApiClient(apiClient api.ApiClient) *CcaClient {
 	ccaClient := CcaClient{
 		apiClient: apiClient,
 		Tasks: services.NewTaskService(apiClient),
+		Environments : configuration.NewEnvironmentService(apiClient),
 	}
 	return &ccaClient
 }
