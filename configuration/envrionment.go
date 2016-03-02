@@ -9,6 +9,7 @@ type Environment struct {
    Id string `json:"id,omitempty"`
    Name string `json:"name,omitempty"`
    Description string `json:"description,omitempty"`
+   Membership string `json:"membership,omitempty"`
    Organization Organization `json:"tenant,omitempty"`
    ServiceConnection ServiceConnection `json:"serviceConnection,omitempty"`
    Users []User `json:"users"`
@@ -20,6 +21,8 @@ type EnvironmentService interface {
    List() ([]Environment, error)
    ListWithOptions(options map[string]string) ([]Environment, error)
    Create(environment Environment) (*Environment, error)
+   Update(id string, environment Environment) (*Environment, error)
+   Delete(id string) (bool, error)
 }
 
 type EnvironmentApi struct {
@@ -73,11 +76,26 @@ func (environmentApi *EnvironmentApi) Create(environment Environment) (*Environm
    if merr != nil {
       return nil, merr
    }
-   
    body, err := environmentApi.configurationService.Create(send, map[string]string{})
-   
    if err != nil {
       return nil, err
    }
    return parseEnvironment(body), nil
+}
+
+func (environmentApi *EnvironmentApi) Update(id string, environment Environment) (*Environment, error) {
+   send, merr := json.Marshal(environment)
+   if merr != nil {
+      return nil, merr
+   }
+   body, err := environmentApi.configurationService.Update(id, send, map[string]string{})
+   if err != nil {
+      return nil, err
+   }
+   return parseEnvironment(body), nil
+}
+
+func (environmentApi *EnvironmentApi) Delete(id string) (bool, error) {
+   _, err := environmentApi.configurationService.Delete(id, []byte{}, map[string]string{})
+   return err == nil, err
 }
