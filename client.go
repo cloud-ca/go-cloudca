@@ -17,7 +17,7 @@ type CcaClient struct {
 	Environments configuration.EnvironmentService
 	Users configuration.UserService
 	ServiceConnections configuration.ServiceConnectionService
-	
+	Organizations configuration.OrganizationService
 }
 
 //Create a CcaClient with the default URL
@@ -44,6 +44,7 @@ func NewCcaClientWithApiClient(apiClient api.ApiClient) *CcaClient {
 		Environments : configuration.NewEnvironmentService(apiClient),
 		Users : configuration.NewUserService(apiClient),
 		ServiceConnections: configuration.NewServiceConnectionService(apiClient),
+		Organizations: configuration.NewOrganizationService(apiClient),
 	}
 	return &ccaClient
 }
