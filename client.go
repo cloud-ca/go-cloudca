@@ -15,6 +15,7 @@ type CcaClient struct {
 	apiClient api.ApiClient
 	Tasks services.TaskService
 	Environments configuration.EnvironmentService
+	ServiceConnections configuration.ServiceConnectionService
 }
 
 //Create a CcaClient with the default URL
@@ -39,6 +40,7 @@ func NewCcaClientWithApiClient(apiClient api.ApiClient) *CcaClient {
 		apiClient: apiClient,
 		Tasks: services.NewTaskService(apiClient),
 		Environments : configuration.NewEnvironmentService(apiClient),
+		ServiceConnections: configuration.NewServiceConnectionService(apiClient),
 	}
 	return &ccaClient
 }
