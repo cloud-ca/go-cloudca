@@ -20,6 +20,7 @@ type Resources struct {
 	SSHKeys SSHKeyService
 	Tiers TierService
 	Vpcs VpcService
+	VpcOfferings VpcOfferingService
 }
 
 func NewResources(apiClient api.ApiClient, serviceCode string, environmentName string) Resources {
@@ -33,6 +34,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		ComputeOfferings: NewComputeOfferingService(apiClient, serviceCode, environmentName),
 		Tiers: NewTierService(apiClient, serviceCode, environmentName),
 		Vpcs: NewVpcService(apiClient, serviceCode, environmentName),
+		VpcOfferings: NewVpcOfferingService(apiClient, serviceCode, environmentName),
 	}
 }
 
