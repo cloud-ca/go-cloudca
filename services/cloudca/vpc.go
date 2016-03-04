@@ -22,6 +22,7 @@ type Vpc struct {
 	SourceNatIp string `json:"sourceNatIp,omitempty"`
 	VpnStatus string `json:"vpnsStatus,omitempty"`
 	Type string `json:"type,omitempty"`
+	VpcOfferingId string `json:"vpcOfferingId,omitempty"`
 }
 
 type VpcService interface {
