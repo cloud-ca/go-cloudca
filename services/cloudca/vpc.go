@@ -20,7 +20,7 @@ type Vpc struct {
 	ZoneName string `json:"zoneName,omitempty"`
 	NetworkDomain string `json:"networkDomain,omitempty"`
 	SourceNatIp string `json:"sourceNatIp,omitempty"`
-	VpnStatus string `json:"vpnsStatus,omitempty"`
+	VpnStatus string `json:"vpnStatus,omitempty"`
 	Type string `json:"type,omitempty"`
 	VpcOfferingId string `json:"vpcOfferingId,omitempty"`
 }
@@ -115,5 +115,5 @@ func (vpcApi *VpcApi) Destroy(id string) (bool, error) {
 //Restart the router of the vpc with the specified id exists in the current environment
 func (vpcApi *VpcApi) RestartRouter(id string) (bool, error) {
 	_, err := vpcApi.entityService.Execute(id, VPC_RESTART_ROUTER_OPERATION, []byte{}, map[string]string{})
-	return err == nil, nil
+	return err == nil, err
 }
