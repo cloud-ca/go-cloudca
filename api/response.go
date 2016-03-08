@@ -35,7 +35,7 @@ type CcaResponse struct {
 
 //Returns true if API response has errors
 func (ccaResponse CcaResponse) IsError() bool {
-	return ccaResponse.StatusCode != OK
+	return !isInOKRange(ccaResponse.StatusCode)
 }
 
 //An Api Response with errors
