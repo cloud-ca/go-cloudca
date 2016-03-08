@@ -11,6 +11,7 @@ import (
 //Status codes
 const (
 	OK = 200
+	MUTIPLE_CHOICES = 300
 	BAD_REQUEST = 400
 	NOT_FOUND = 404
 )
@@ -81,8 +82,12 @@ func NewCcaResponse(response *http.Response) (*CcaResponse, error) {
 		errors := []CcaError{}
 		json.Unmarshal(*val, &errors)
 		ccaResponse.Errors = errors
-	} else if(response.StatusCode != OK) {
+	} else if(!isInOKRange(response.StatusCode)) {
 		return nil, fmt.Errorf("Unexpected. Received status " + response.Status + " but no errors in response body")
 	}
 	return &ccaResponse, nil
+}
+
+func isInOKRange(statusCode int) bool {
+	return statusCode >= OK && statusCode < MUTIPLE_CHOICES
 }
