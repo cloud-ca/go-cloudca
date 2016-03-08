@@ -20,7 +20,7 @@ const (
 	TEST_VPC_SOURCE_NAT_IP = "test_vpc_source_nat_ip"
 	TEST_VPC_VPN_STATUS = "test_vpc_vpn_status"
 	TEST_VPC_TYPE = "test_vpc_type"
-	TEST_VPC_OFFERING_ID = "test_vpc_offering_id"
+	TEST_VPC_VPC_OFFERING_ID = "test_vpc_offering_id"
 )
 
 func buildTestVpcJsonResponse(vpc *Vpc) []byte {
@@ -72,7 +72,7 @@ func TestGetVpcReturnVpcIfSuccess(t *testing.T) {
 					   SourceNatIp: TEST_VPC_SOURCE_NAT_IP,
 					   VpnStatus: TEST_VPC_VPN_STATUS,
 					   Type: TEST_VPC_TYPE,
-					   VpcOfferingId: TEST_VPC_OFFERING_ID,
+					   VpcOfferingId: TEST_VPC_VPC_OFFERING_ID,
 					}
 
 	mockEntityService.EXPECT().Get(TEST_VPC_ID, gomock.Any()).Return(buildTestVpcJsonResponse(&expectedVpc), nil)
@@ -132,7 +132,7 @@ func TestListVpcReturnVpcsIfSuccess(t *testing.T) {
 							 SourceNatIp: TEST_VPC_SOURCE_NAT_IP + "1",
 							 VpnStatus: TEST_VPC_VPN_STATUS + "1",
 							 Type: TEST_VPC_TYPE + "1",
-							 VpcOfferingId: TEST_VPC_OFFERING_ID + "1",
+							 VpcOfferingId: TEST_VPC_VPC_OFFERING_ID + "1",
 							}
 
 	expectedVpcs := []Vpc{expectedVpc1}
