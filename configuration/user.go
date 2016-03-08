@@ -18,9 +18,6 @@ type UserService interface {
    Get(id string) (*User, error)
    List() ([]User, error)
    ListWithOptions(options map[string]string) ([]User, error)
-   // Create(user User) (*User, error)
-   // Update(id string, user User) (*User, error)
-   // Delete(id string) (bool, error)
 }
 
 type UserApi struct {
@@ -67,33 +64,3 @@ func (userApi *UserApi) ListWithOptions(options map[string]string) ([]User, erro
    }
    return parseUserList(data), nil
 }
-
-// //Create user
-// func (userApi *UserApi) Create(user User) (*User, error) {
-//    send, merr := json.Marshal(user)
-//    if merr != nil {
-//       return nil, merr
-//    }
-//    body, err := userApi.configurationService.Create(send, map[string]string{})
-//    if err != nil {
-//       return nil, err
-//    }
-//    return parseUser(body), nil
-// }
-
-// func (userApi *UserApi) Update(id string, user User) (*User, error) {
-//    send, merr := json.Marshal(user)
-//    if merr != nil {
-//       return nil, merr
-//    }
-//    body, err := userApi.configurationService.Update(id, send, map[string]string{})
-//    if err != nil {
-//       return nil, err
-//    }
-//    return parseUser(body), nil
-// }
-
-// func (userApi *UserApi) Delete(id string) (bool, error) {
-//    _, err := userApi.configurationService.Delete(id, []byte{}, map[string]string{})
-//    return err == nil, err
-// }
