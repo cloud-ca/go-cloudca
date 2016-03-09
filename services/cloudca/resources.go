@@ -21,6 +21,8 @@ type Resources struct {
 	Tiers TierService
 	Vpcs VpcService
 	VpcOfferings VpcOfferingService
+	NetworkOfferings NetworkOfferingService
+	NetworkAcls NetworkAclService
 }
 
 func NewResources(apiClient api.ApiClient, serviceCode string, environmentName string) Resources {
@@ -35,6 +37,8 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		Tiers: NewTierService(apiClient, serviceCode, environmentName),
 		Vpcs: NewVpcService(apiClient, serviceCode, environmentName),
 		VpcOfferings: NewVpcOfferingService(apiClient, serviceCode, environmentName),
+		NetworkOfferings: NewNetworkOfferingService(apiClient, serviceCode, environmentName),
+		NetworkAcls: NewNetworkAclService(apiClient, serviceCode, environmentName),
 	}
 }
 
