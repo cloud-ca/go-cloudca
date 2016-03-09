@@ -8,7 +8,6 @@ import (
 type User struct {
    Id string `json:"id,omitempty"`
    Username string `json:"username,omitempty"`
-   Users []User `json:"users"`
    Roles []Role `json:"roles"`
    Organization Organization `json:"tenant,omitempty"`
 }

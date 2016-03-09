@@ -9,7 +9,6 @@ type Environment struct {
    Id string `json:"id,omitempty"`
    Name string `json:"name,omitempty"`
    Description string `json:"description,omitempty"`
-   Membership string `json:"membership,omitempty"`
    Organization Organization `json:"tenant,omitempty"`
    ServiceConnection ServiceConnection `json:"serviceConnection,omitempty"`
    Users []User `json:"users"`
