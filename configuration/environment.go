@@ -5,6 +5,10 @@ import (
    "encoding/json"
 )
 
+const (
+   ENVIRONMENT_CONFIGURATION_TYPE="environments"
+)
+
 type Environment struct {
    Id string `json:"id,omitempty"`
    Name string `json:"name,omitempty"`
@@ -30,7 +34,7 @@ type EnvironmentApi struct {
 
 func NewEnvironmentService(apiClient api.ApiClient) EnvironmentService {
    return &EnvironmentApi{
-      configurationService: NewConfigurationService(apiClient, "environments"),
+      configurationService: NewConfigurationService(apiClient, ENVIRONMENT_CONFIGURATION_TYPE),
    }
 }
 
