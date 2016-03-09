@@ -256,8 +256,7 @@ func TestCreateInstanceReturnNilWithErrorIfError(t *testing.T) {
 
 	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return(nil, mockError)
 
-	instanceToCreate := Instance{Id: "new_id", 
-								 Name: "new_name",
+	instanceToCreate := Instance{Name: "new_name",
 								 TemplateId: "templateId",
 								 ComputeOfferingId: "computeOfferingId",
 								 NetworkId: "networkId"}

@@ -9,4 +9,6 @@ const (
 	COMPUTE_OFFERING_ENTITY_TYPE = "computeofferings"
 	DISK_OFFERING_ENTITY_TYPE = "diskofferings"
 	SSH_KEY_ENTITY_TYPE = "sshkeys"
+	VPC_ENTITY_TYPE = "vpcs"
+	VPC_OFFERING_ENTITY_TYPE = "vpcofferings"
 )

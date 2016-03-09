@@ -70,6 +70,7 @@ func (ccaClient CcaApiClient) Do(request CcaRequest) (*CcaResponse, error) {
 		return nil, err
 	}
 	req.Header.Add(API_KEY_HEADER, ccaClient.apiKey)
+	req.Header.Add("Content-Type", "application/json")
 	resp, err := ccaClient.httpClient.Do(req)
 	if err != nil {
 		return nil, err
