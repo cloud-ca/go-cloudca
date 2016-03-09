@@ -14,20 +14,21 @@ type Service struct {
 type Tier struct {
 	Id string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
 	ZoneId string `json:"zoneid,omitempty"`
 	ZoneName string `json:"zonename,omitempty"`
 	Cidr string `json:"cidr,omitempty"`
 	Type string `json:"type,omitempty"`
 	State string `json:"state,omitempty"`
 	Gateway string `json:"gateway,omitempty"`
-	NetworkOfferingId string `json:"networkofferingid,omitempty"`
+	NetworkOfferingId string `json:"networkOfferingId,omitempty"`
 	IsSystem bool `json:"issystem,omitempty"`
-	VpcId string `json:"vpcid,omitempty"`
+	VpcId string `json:"vpcId,omitempty"`
 	Domain string `json:"domain,omitempty"`
 	DomainId string `json:"domainid,omitempty"`
 	Project string `json:"project,omitempty"`
 	ProjectId string `json:"projectid,omitempty"`
-	AclId string `json:"aclId,omitempty"`
+	AclId string `json:"networkACLId,omitempty"`
 	Services []Service `json:"service,omitempty"`
 }
 
