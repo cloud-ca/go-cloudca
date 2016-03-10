@@ -14,6 +14,7 @@ type Vpc struct {
 	Id string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
+	VpcOfferingId string `json:"vpcOfferingId,omitempty"`
 	State string `json:"state,omitempty"`
 	Cidr string `json:"cidr,omitempty"`
 	ZoneId string `json:"zoneId,omitempty"`
@@ -22,7 +23,6 @@ type Vpc struct {
 	SourceNatIp string `json:"sourceNatIp,omitempty"`
 	VpnStatus string `json:"vpnStatus,omitempty"`
 	Type string `json:"type,omitempty"`
-	VpcOfferingId string `json:"vpcOfferingId,omitempty"`
 }
 
 type VpcService interface {
