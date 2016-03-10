@@ -1,4 +1,4 @@
-package gocca
+package cca
 
 import (
 	"github.com/cloud-ca/go-cloudca/services/cloudca"
