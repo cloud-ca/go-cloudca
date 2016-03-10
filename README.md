@@ -2,6 +2,7 @@
 
 A cloud.ca client for the Go programming language
 
+[![GoDoc](https://godoc.org/github.com/cloud-ca/go-cloudca?status.svg)](https://godoc.org/github.com/cloud-ca/go-cloudca)
 # How to use
 
 First of all create a new CcaClient.
