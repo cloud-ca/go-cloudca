@@ -40,6 +40,7 @@ type TierService interface {
 	Create(tier Tier) (*Tier, error)
 	Update(id string, tier Tier) (*Tier, error)
 	Delete(id string) (bool, error)
+	ChangeAcl(id string, aclId string) (bool, error)
 }
 
 type TierApi struct {
@@ -120,5 +121,16 @@ func (tierApi *TierApi) Update(id string, tier Tier) (*Tier, error) {
 
 func (tierApi *TierApi) Delete(id string) (bool, error) {
 	_, err := tierApi.entityService.Delete(id, []byte{}, map[string]string{})
+	return err == nil, err
+}
+
+func (tierApi *TierApi) ChangeAcl(id string, aclId string) (bool, error){
+	send, merr := json.Marshal(Tier{
+			NetworkAclId: aclId,
+	});
+	if merr != nil {
+		return false, merr
+	}
+	_, err := tierApi.entityService.Execute(id, "replace", send, map[string]string{})
 	return err == nil, err
 }
