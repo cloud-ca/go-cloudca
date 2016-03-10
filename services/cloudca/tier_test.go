@@ -37,14 +37,14 @@ func buildTestTierJsonResponse(tier *Tier) []byte {
 				   ` "type":"` + tier.Type + `",` +
 				   ` "state":"` + tier.State + `",` +
 				   ` "gateway":"` + tier.Gateway + `",` +
-				   ` "networkofferingid":"` + tier.NetworkOfferingId + `",` +
+				   ` "networkOfferingId":"` + tier.NetworkOfferingId + `",` +
 				   ` "issystem":` + strconv.FormatBool(tier.IsSystem) + `,` +
-				   ` "vpcid":"` + tier.VpcId + `",` +
+				   ` "vpcId":"` + tier.VpcId + `",` +
 				   ` "domain":"` + tier.Domain + `",` +
 				   ` "domainid":"` + tier.DomainId + `",` +
 				   ` "project":"` + tier.Project + `",` +
 				   ` "projectid":"` + tier.ProjectId + `",` +
-				   ` "aclId":"` + tier.AclId + `"}`)
+				   ` "networkACLId":"` + tier.AclId + `"}`)
 }
 
 func buildListTestTierJsonResponse(tiers []Tier) []byte {
