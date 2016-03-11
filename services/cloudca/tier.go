@@ -17,7 +17,7 @@ type Tier struct {
 	Description string `json:"description,omitempty"`
 	VpcId string `json:"vpcId,omitempty"`
 	NetworkOfferingId string `json:"networkOfferingId,omitempty"`
-	NetworkAclId string `json:"networkACLId,omitempty"`
+	NetworkAclId string `json:"networkAclId,omitempty"`
 	ZoneId string `json:"zoneid,omitempty"`
 	ZoneName string `json:"zonename,omitempty"`
 	Cidr string `json:"cidr,omitempty"`
