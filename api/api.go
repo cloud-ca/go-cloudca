@@ -1,13 +1,13 @@
 package api
 
 import (
-	"net/url"
 	"bytes"
-	"strings"
-	"net/http"
-	"io"
 	"crypto/tls"
-	)
+	"io"
+	"net/http"
+	"net/url"
+	"strings"
+)
 
 type ApiClient interface {
 	Do(request CcaRequest) (*CcaResponse, error)
@@ -16,8 +16,8 @@ type ApiClient interface {
 }
 
 type CcaApiClient struct {
-	apiURL string
-	apiKey string
+	apiURL     string
+	apiKey     string
 	httpClient *http.Client
 }
 
@@ -25,32 +25,32 @@ const API_KEY_HEADER = "MC-Api-Key"
 
 func NewApiClient(apiURL, apiKey string) ApiClient {
 	return CcaApiClient{
-		apiURL: apiURL,
-		apiKey: apiKey,
+		apiURL:     apiURL,
+		apiKey:     apiKey,
 		httpClient: &http.Client{},
 	}
 }
 
 func NewInsecureApiClient(apiURL, apiKey string) ApiClient {
 	tr := &http.Transport{
-        TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-    }
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
 	return CcaApiClient{
-		apiURL: apiURL,
-		apiKey: apiKey,
+		apiURL:     apiURL,
+		apiKey:     apiKey,
 		httpClient: &http.Client{Transport: tr},
 	}
 }
 
 //Build a URL by using endpoint and options. Options will be set as query parameters.
-func (ccaClient CcaApiClient) buildUrl(endpoint string, options map[string]string) string  {
+func (ccaClient CcaApiClient) buildUrl(endpoint string, options map[string]string) string {
 	query := url.Values{}
 	if options != nil {
 		for k, v := range options {
 			query.Add(k, v)
 		}
 	}
-	u, _ := url.Parse(ccaClient.apiURL + "/" +  strings.Trim(endpoint, "/") + "?" + query.Encode())
+	u, _ := url.Parse(ccaClient.apiURL + "/" + strings.Trim(endpoint, "/") + "?" + query.Encode())
 	return u.String()
 }
 

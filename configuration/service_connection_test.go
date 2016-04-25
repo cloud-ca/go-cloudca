@@ -3,16 +3,16 @@ package configuration
 import (
 	"encoding/json"
 
-	"testing"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/configuration_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 var (
-	TEST_SERVICE_CONNECTION_ID = "connection_id"
-	TEST_SERVICE_CONNECTION_NAME = "test_connection_name"
+	TEST_SERVICE_CONNECTION_ID           = "connection_id"
+	TEST_SERVICE_CONNECTION_NAME         = "test_connection_name"
 	TEST_SERVICE_CONNECTION_SERVICE_CODE = "test_connection_code"
 )
 
@@ -37,9 +37,9 @@ func TestGetServiceConnectionReturnServiceConnectionIfSuccess(t *testing.T) {
 		configurationService: mockConfigurationService,
 	}
 
-	expectedServiceConnection := ServiceConnection{Id: TEST_SERVICE_CONNECTION_ID, 
-										Name: TEST_SERVICE_CONNECTION_NAME,
-										ServiceCode: TEST_SERVICE_CONNECTION_SERVICE_CODE}
+	expectedServiceConnection := ServiceConnection{Id: TEST_SERVICE_CONNECTION_ID,
+		Name:        TEST_SERVICE_CONNECTION_NAME,
+		ServiceCode: TEST_SERVICE_CONNECTION_SERVICE_CODE}
 
 	mockConfigurationService.EXPECT().Get(TEST_SERVICE_CONNECTION_ID, gomock.Any()).Return(buildServiceConnectionJsonResponse(&expectedServiceConnection), nil)
 
@@ -89,13 +89,13 @@ func TestListServiceConnectionReturnDiskOfferingsIfSuccess(t *testing.T) {
 
 	expectedServiceConnections := []ServiceConnection{
 		ServiceConnection{
-			Id: "connection_1",
-			Name: "connection_name_1",
+			Id:          "connection_1",
+			Name:        "connection_name_1",
 			ServiceCode: "connection_code_1",
 		},
 		ServiceConnection{
-			Id: "connection_2",
-			Name: "connection_name_2",
+			Id:          "connection_2",
+			Name:        "connection_name_2",
 			ServiceCode: "connection_code_2",
 		},
 	}
@@ -110,7 +110,6 @@ func TestListServiceConnectionReturnDiskOfferingsIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedServiceConnections, serviceConnections)
 	}
 }
-
 
 func TestListServiceConnectionReturnNilWithErrorIfError(t *testing.T) {
 	//given

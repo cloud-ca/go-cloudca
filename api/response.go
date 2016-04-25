@@ -1,36 +1,36 @@
 package api
 
 import (
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
-	"strconv"
 	"fmt"
-) 
+	"io/ioutil"
+	"net/http"
+	"strconv"
+)
 
 //Status codes
 const (
-	OK = 200
+	OK              = 200
 	MUTIPLE_CHOICES = 300
-	BAD_REQUEST = 400
-	NOT_FOUND = 404
+	BAD_REQUEST     = 400
+	NOT_FOUND       = 404
 )
 
 //An API error
 type CcaError struct {
-	Code int `json:"code"`
-	Message string `json:"message"`
+	Code    int                    `json:"code"`
+	Message string                 `json:"message"`
 	Context map[string]interface{} `json:"context"`
 }
 
 //An Api Response
 type CcaResponse struct {
-	TaskId string
+	TaskId     string
 	TaskStatus string
 	StatusCode int
-	Data []byte
-	Errors []CcaError
-	MetaData map[string]interface{}
+	Data       []byte
+	Errors     []CcaError
+	MetaData   map[string]interface{}
 }
 
 //Returns true if API response has errors
@@ -52,7 +52,7 @@ func (errorResponse CcaErrorResponse) Error() string {
 
 func NewCcaResponse(response *http.Response) (*CcaResponse, error) {
 	respBody, err := ioutil.ReadAll(response.Body)
-    if err != nil {
+	if err != nil {
 		return nil, err
 	}
 	ccaResponse := CcaResponse{}
@@ -82,7 +82,7 @@ func NewCcaResponse(response *http.Response) (*CcaResponse, error) {
 		errors := []CcaError{}
 		json.Unmarshal(*val, &errors)
 		ccaResponse.Errors = errors
-	} else if(!isInOKRange(response.StatusCode)) {
+	} else if !isInOKRange(response.StatusCode) {
 		return nil, fmt.Errorf("Unexpected. Received status " + response.Status + " but no errors in response body")
 	}
 	return &ccaResponse, nil

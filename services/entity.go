@@ -16,20 +16,20 @@ type EntityService interface {
 
 //Implementation of the EntityService
 type EntityApi struct {
-	apiClient api.ApiClient
-	taskService TaskService
-	serviceCode string
+	apiClient       api.ApiClient
+	taskService     TaskService
+	serviceCode     string
 	environmentName string
-	entityType string
+	entityType      string
 }
 
 func NewEntityService(apiClient api.ApiClient, serviceCode string, environmentName string, entityType string) EntityService {
 	return &EntityApi{
-		apiClient: apiClient,
-		taskService: NewTaskService(apiClient),
-		serviceCode: serviceCode,
+		apiClient:       apiClient,
+		taskService:     NewTaskService(apiClient),
+		serviceCode:     serviceCode,
 		environmentName: environmentName,
-		entityType: entityType,
+		entityType:      entityType,
 	}
 }
 
@@ -40,9 +40,9 @@ func (entityApi *EntityApi) buildEndpoint() string {
 //Get an entity. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) Get(id string, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: entityApi.buildEndpoint() + "/" + id,
-		Options: options,
+		Options:  options,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {
@@ -56,9 +56,9 @@ func (entityApi *EntityApi) Get(id string, options map[string]string) ([]byte, e
 //Get an entity list. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) List(options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: entityApi.buildEndpoint(),
-		Options: options,
+		Options:  options,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {
@@ -77,10 +77,10 @@ func (entityApi *EntityApi) Execute(id string, operation string, body []byte, op
 	}
 	optionsCopy["operation"] = operation
 	request := api.CcaRequest{
-		Method: api.POST,
-		Body: body,
+		Method:   api.POST,
+		Body:     body,
 		Endpoint: entityApi.buildEndpoint() + "/" + id,
-		Options: optionsCopy,
+		Options:  optionsCopy,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {
@@ -95,10 +95,10 @@ func (entityApi *EntityApi) Execute(id string, operation string, body []byte, op
 //Create a new entity described in the body parameter (json object). Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) Create(body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
-		Method: api.POST,
-		Body: body,
+		Method:   api.POST,
+		Body:     body,
 		Endpoint: entityApi.buildEndpoint(),
-		Options: options,
+		Options:  options,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {
@@ -112,10 +112,10 @@ func (entityApi *EntityApi) Create(body []byte, options map[string]string) ([]by
 //Update entity with specified id described in the body parameter (json object). Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) Update(id string, body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
-		Method: api.PUT,
-		Body: body,
+		Method:   api.PUT,
+		Body:     body,
 		Endpoint: entityApi.buildEndpoint() + "/" + id,
-		Options: options,
+		Options:  options,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {
@@ -129,10 +129,10 @@ func (entityApi *EntityApi) Update(id string, body []byte, options map[string]st
 //Delete specified id described. A body (json object) can be provided if some fields must be sent to server. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi EntityApi) Delete(id string, body []byte, options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
-		Method: api.DELETE,
-		Body: body,
+		Method:   api.DELETE,
+		Body:     body,
 		Endpoint: entityApi.buildEndpoint() + "/" + id,
-		Options: options,
+		Options:  options,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {

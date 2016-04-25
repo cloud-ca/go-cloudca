@@ -37,7 +37,7 @@ type TierService interface {
 	List() ([]Tier, error)
 	ListOfVpc(vpcId string) ([]Tier, error)
 	ListWithOptions(options map[string]string) ([]Tier, error)
-	Create(tier Tier) (*Tier, error)
+	Create(tier Tier, options map[string]string) (*Tier, error)
 	Update(id string, tier Tier) (*Tier, error)
 	Delete(id string) (bool, error)
 	ChangeAcl(id string, aclId string) (bool, error)
@@ -95,12 +95,12 @@ func (tierApi *TierApi) ListWithOptions(options map[string]string) ([]Tier, erro
 	return parseTierList(data), nil
 }
 
-func (tierApi *TierApi) Create(tier Tier) (*Tier, error) {
+func (tierApi *TierApi) Create(tier Tier,options map[string]string) (*Tier, error) {
 	send, merr := json.Marshal(tier)
 	if merr != nil {
 		return nil, merr
 	}
-	body, err := tierApi.entityService.Create(send, map[string]string{})
+	body, err := tierApi.entityService.Create(send, options)
 	if err != nil {
 		return nil, err
 	}

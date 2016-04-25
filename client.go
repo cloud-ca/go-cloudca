@@ -1,10 +1,10 @@
 package cca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services/cloudca"
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/configuration"
 	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/configuration"
+	"github.com/cloud-ca/go-cloudca/services"
+	"github.com/cloud-ca/go-cloudca/services/cloudca"
 )
 
 const (
@@ -12,12 +12,12 @@ const (
 )
 
 type CcaClient struct {
-	apiClient api.ApiClient
-	Tasks services.TaskService
-	Environments configuration.EnvironmentService
-	Users configuration.UserService
+	apiClient          api.ApiClient
+	Tasks              services.TaskService
+	Environments       configuration.EnvironmentService
+	Users              configuration.UserService
 	ServiceConnections configuration.ServiceConnectionService
-	Organizations configuration.OrganizationService
+	Organizations      configuration.OrganizationService
 }
 
 //Create a CcaClient with the default URL
@@ -39,12 +39,12 @@ func NewInsecureCcaClientWithURL(apiURL string, apiKey string) *CcaClient {
 
 func NewCcaClientWithApiClient(apiClient api.ApiClient) *CcaClient {
 	ccaClient := CcaClient{
-		apiClient: apiClient,
-		Tasks: services.NewTaskService(apiClient),
-		Environments : configuration.NewEnvironmentService(apiClient),
-		Users : configuration.NewUserService(apiClient),
+		apiClient:          apiClient,
+		Tasks:              services.NewTaskService(apiClient),
+		Environments:       configuration.NewEnvironmentService(apiClient),
+		Users:              configuration.NewUserService(apiClient),
 		ServiceConnections: configuration.NewServiceConnectionService(apiClient),
-		Organizations: configuration.NewOrganizationService(apiClient),
+		Organizations:      configuration.NewOrganizationService(apiClient),
 	}
 	return &ccaClient
 }

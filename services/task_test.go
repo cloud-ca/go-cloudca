@@ -1,13 +1,12 @@
 package services
 
-
 import (
-	"testing"
+	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/api_mocks"
-	"github.com/cloud-ca/go-cloudca/api"
-	"github.com/stretchr/testify/assert"
 	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 const (
@@ -26,19 +25,19 @@ func TestGetTaskReturnTaskIfSuccess(t *testing.T) {
 	}
 
 	expectedTask := Task{
-		Id: TEST_TASK_ID,
-		Status: "SUCCESS",
+		Id:      TEST_TASK_ID,
+		Status:  "SUCCESS",
 		Created: "2015-07-07",
-		Result: []byte(`{"key": "value"}`),
+		Result:  []byte(`{"key": "value"}`),
 	}
 
 	mockCcaClient.EXPECT().Do(api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: "tasks/" + TEST_TASK_ID,
 	}).Return(&api.CcaResponse{
-			StatusCode: 200,
-			Data: []byte(`{"id":"` + TEST_TASK_ID +`", "status":"SUCCESS", "created":"2015-07-07", "result":{"key": "value"}}`),
-		}, nil)
+		StatusCode: 200,
+		Data:       []byte(`{"id":"` + TEST_TASK_ID + `", "status":"SUCCESS", "created":"2015-07-07", "result":{"key": "value"}}`),
+	}, nil)
 
 	//when
 	task, _ := taskService.Get(TEST_TASK_ID)
@@ -59,11 +58,11 @@ func TestGetTaskReturnErrorIfHasCcaErrors(t *testing.T) {
 	}
 
 	ccaResponse := api.CcaResponse{
-			StatusCode: 400,
-			Errors: []api.CcaError{api.CcaError{}},
-		}
+		StatusCode: 400,
+		Errors:     []api.CcaError{api.CcaError{}},
+	}
 	mockCcaClient.EXPECT().Do(api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: "tasks/" + TEST_TASK_ID,
 	}).Return(&ccaResponse, nil)
 
@@ -89,7 +88,7 @@ func TestGetTaskReturnErrorIfHasUnexpectedErrors(t *testing.T) {
 	mockError := mocks.MockError{"some_get_task_error"}
 
 	mockCcaClient.EXPECT().Do(api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: "tasks/" + TEST_TASK_ID,
 	}).Return(nil, mockError)
 
@@ -102,7 +101,7 @@ func TestGetTaskReturnErrorIfHasUnexpectedErrors(t *testing.T) {
 }
 
 func TestPollingReturnTaskResultOnSuccessfulComplete(t *testing.T) {
-		//given
+	//given
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -113,27 +112,27 @@ func TestPollingReturnTaskResultOnSuccessfulComplete(t *testing.T) {
 	}
 
 	request := api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: "tasks/" + TEST_TASK_ID,
 	}
 
 	expectedResult := []byte(`{"foo":"bar"}`)
 
 	pendingResponse := &api.CcaResponse{
-			StatusCode: 200,
-			Data: []byte(`{"id":"` + TEST_TASK_ID +`", "status":"PENDING", "created":"2015-07-07"}`),
-		}
+		StatusCode: 200,
+		Data:       []byte(`{"id":"` + TEST_TASK_ID + `", "status":"PENDING", "created":"2015-07-07"}`),
+	}
 	successResponse := &api.CcaResponse{
-			StatusCode: 200,
-			Data: []byte(`{"id":"` + TEST_TASK_ID +`", "status":"SUCCESS", "created":"2015-07-07", "result":`+ string(expectedResult) +`}`),
-		}
+		StatusCode: 200,
+		Data:       []byte(`{"id":"` + TEST_TASK_ID + `", "status":"SUCCESS", "created":"2015-07-07", "result":` + string(expectedResult) + `}`),
+	}
 	gomock.InOrder(
-	    mockCcaClient.EXPECT().Do(request).Return(pendingResponse, nil),
 		mockCcaClient.EXPECT().Do(request).Return(pendingResponse, nil),
-	    mockCcaClient.EXPECT().Do(request).Return(successResponse, nil),
-    )
+		mockCcaClient.EXPECT().Do(request).Return(pendingResponse, nil),
+		mockCcaClient.EXPECT().Do(request).Return(successResponse, nil),
+	)
 
-    //when
+	//when
 	result, _ := taskService.Poll(TEST_TASK_ID, 10)
 
 	//then
@@ -143,7 +142,7 @@ func TestPollingReturnTaskResultOnSuccessfulComplete(t *testing.T) {
 }
 
 func TestPollingGetErrorOnTaskFailure(t *testing.T) {
-		//given
+	//given
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -154,27 +153,27 @@ func TestPollingGetErrorOnTaskFailure(t *testing.T) {
 	}
 
 	request := api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: "tasks/" + TEST_TASK_ID,
 	}
 
 	expectedResult := []byte(`{"foo":"bar"}`)
 
 	pendingResponse := &api.CcaResponse{
-			StatusCode: 200,
-			Data: []byte(`{"id":"` + TEST_TASK_ID +`", "status":"PENDING", "created":"2015-07-07"}`),
-		}
+		StatusCode: 200,
+		Data:       []byte(`{"id":"` + TEST_TASK_ID + `", "status":"PENDING", "created":"2015-07-07"}`),
+	}
 	failedResponse := &api.CcaResponse{
-			StatusCode: 400,
-			Data: []byte(`{"id":"` + TEST_TASK_ID +`", "status":"FAILED", "created":"2015-07-07", "result":`+ string(expectedResult) +`}`),
-		}
+		StatusCode: 400,
+		Data:       []byte(`{"id":"` + TEST_TASK_ID + `", "status":"FAILED", "created":"2015-07-07", "result":` + string(expectedResult) + `}`),
+	}
 	gomock.InOrder(
-	    mockCcaClient.EXPECT().Do(request).Return(pendingResponse, nil),
 		mockCcaClient.EXPECT().Do(request).Return(pendingResponse, nil),
-	    mockCcaClient.EXPECT().Do(request).Return(failedResponse, nil),
-    )
+		mockCcaClient.EXPECT().Do(request).Return(pendingResponse, nil),
+		mockCcaClient.EXPECT().Do(request).Return(failedResponse, nil),
+	)
 
-    //when
+	//when
 	_, err := taskService.Poll(TEST_TASK_ID, 10)
 
 	//then

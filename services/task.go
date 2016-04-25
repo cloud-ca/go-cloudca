@@ -2,26 +2,26 @@ package services
 
 import (
 	"encoding/json"
-	"time"
-	"strings"
 	"github.com/cloud-ca/go-cloudca/api"
+	"strings"
+	"time"
 )
 
 //Task status
 const (
-   PENDING = "PENDING"
-   SUCCESS = "SUCCESS"
-   FAILED = "FAILED"
+	PENDING = "PENDING"
+	SUCCESS = "SUCCESS"
+	FAILED  = "FAILED"
 )
 
 const DEFAULT_POLLING_INTERVAL = 1000
 
 //A Task object. This object can be used to poll asynchronous operations.
 type Task struct {
-	Id string
-	Status string
+	Id      string
+	Status  string
 	Created string
-	Result []byte
+	Result  []byte
 }
 
 type FailedTask Task
@@ -37,7 +37,7 @@ type TaskService interface {
 }
 
 type TaskApi struct {
- 	apiClient api.ApiClient
+	apiClient api.ApiClient
 }
 
 //Create a new TaskService
@@ -50,7 +50,7 @@ func NewTaskService(apiClient api.ApiClient) TaskService {
 //Retrieve a Task with sepecified id
 func (taskApi *TaskApi) Get(id string) (*Task, error) {
 	request := api.CcaRequest{
-		Method: api.GET,
+		Method:   api.GET,
 		Endpoint: "tasks/" + id,
 	}
 	response, err := taskApi.apiClient.Do(request)
@@ -62,7 +62,7 @@ func (taskApi *TaskApi) Get(id string) (*Task, error) {
 	data := response.Data
 	taskMap := map[string]*json.RawMessage{}
 	json.Unmarshal(data, &taskMap)
-	
+
 	task := Task{}
 	json.Unmarshal(*taskMap["id"], &task.Id)
 	json.Unmarshal(*taskMap["status"], &task.Status)
@@ -108,20 +108,20 @@ func (taskApi *TaskApi) PollResponse(response *api.CcaResponse, milliseconds tim
 
 //Returns true if task has failed
 func (task Task) Failed() bool {
-   return strings.EqualFold(task.Status, FAILED)
+	return strings.EqualFold(task.Status, FAILED)
 }
 
 //Returns true if task was successful
 func (task Task) Success() bool {
-   return strings.EqualFold(task.Status, SUCCESS)
+	return strings.EqualFold(task.Status, SUCCESS)
 }
 
 //Returns true if task is still executing
 func (task Task) Pending() bool {
-   return strings.EqualFold(task.Status, PENDING)
+	return strings.EqualFold(task.Status, PENDING)
 }
 
 //Returns true if task has completed its execution
 func (task Task) Completed() bool {
-   return !task.Pending()
+	return !task.Pending()
 }
