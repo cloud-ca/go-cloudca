@@ -11,6 +11,7 @@ const (
 	SSH_KEY_ENTITY_TYPE = "sshkeys"
 	VPC_ENTITY_TYPE = "vpcs"
 	VPC_OFFERING_ENTITY_TYPE = "vpcofferings"
-   NETWORK_OFFERING_ENTITY_TYPE = "networkofferings"
-   NETWORK_ACL_ENTITY_TYPE = "networkacls"
+	PUBLIC_IP_ENTITY_TYPE = "publicipaddresses"
+    NETWORK_OFFERING_ENTITY_TYPE = "networkofferings"
+    NETWORK_ACL_ENTITY_TYPE = "networkacls"
 )

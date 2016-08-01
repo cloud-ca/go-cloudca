@@ -13,7 +13,6 @@ type DiskOffering struct {
 	StorageTier string `json:"storageTier,omitempty"`
 }
 
-
 type DiskOfferingService interface {
 	Get(id string) (*DiskOffering, error)
 	List() ([]DiskOffering, error)

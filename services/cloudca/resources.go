@@ -13,6 +13,7 @@ type Resources struct {
 	serviceCode string
 	environmentName string
 	Instances InstanceService
+	PublicIps PublicIpService
 	Volumes VolumeService
 	Templates TemplateService
 	ComputeOfferings ComputeOfferingService
@@ -31,6 +32,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		serviceCode: serviceCode,
 		environmentName: environmentName,
 		Instances: NewInstanceService(apiClient, serviceCode, environmentName),
+		PublicIps: NewPublicIpService(apiClient, serviceCode, environmentName),
 		Volumes: NewVolumeService(apiClient, serviceCode, environmentName),
 		Templates: NewTemplateService(apiClient, serviceCode, environmentName),
 		ComputeOfferings: NewComputeOfferingService(apiClient, serviceCode, environmentName),
