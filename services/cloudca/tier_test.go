@@ -44,7 +44,7 @@ func buildTestTierJsonResponse(tier *Tier) []byte {
 				   ` "domainid":"` + tier.DomainId + `",` +
 				   ` "project":"` + tier.Project + `",` +
 				   ` "projectid":"` + tier.ProjectId + `",` +
-				   ` "networkACLId":"` + tier.AclId + `"}`)
+				   ` "networkACLId":"` + tier.NetworkAclId + `"}`)
 }
 
 func buildListTestTierJsonResponse(tiers []Tier) []byte {
@@ -84,7 +84,7 @@ func TestGetTierReturnTierIfSuccess(t *testing.T) {
 						 DomainId: TEST_TIER_DOMAIN_ID,
 						 Project: TEST_TIER_PROJECT,
 						 ProjectId: TEST_TIER_PROJECT_ID,
-						 AclId: TEST_TIER_ACL_ID}
+						 NetworkAclId: TEST_TIER_ACL_ID}
 
 	mockEntityService.EXPECT().Get(TEST_TIER_ID, gomock.Any()).Return(buildTestTierJsonResponse(&expectedTier), nil)
 
@@ -146,7 +146,7 @@ func TestListTierReturnTiersIfSuccess(t *testing.T) {
 						 DomainId: "list_domain_id_1",
 						 Project: "list_project_1",
 						 ProjectId: "list_project_id_1",
-						 AclId: "list_acl_id_1"}
+						 NetworkAclId: "list_acl_id_1"}
 
 	expectedTier2 := Tier{Id: "list_id_2",
 						 Name: "list_name_2",
@@ -162,7 +162,7 @@ func TestListTierReturnTiersIfSuccess(t *testing.T) {
 						 DomainId: "list_domain_id_2",
 						 Project: "list_project_2",
 						 ProjectId: "list_project_id_2",
-						 AclId: "list_acl_id_2"}
+						 NetworkAclId: "list_acl_id_2"}
 
 	expectedTiers := []Tier{expectedTier1, expectedTier2}
 
