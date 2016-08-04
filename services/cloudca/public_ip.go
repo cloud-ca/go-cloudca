@@ -20,6 +20,7 @@ type PublicIp struct {
 	NetworkId string `json:"networkId,omitempty"`
 	Network string `json:"network,omitempty"`
 	VpcId string `json:"vpcId,omitempty"`
+	PrivateIpId string `json:"privateIpId,omitempty"`
 	InstanceNames []string `json:"instanceNames,omitempty"`
 	InstanceId string `json:"instanceId,omitempty"`
 	Purposes []string `json:"purposes,omitempty"`
@@ -31,7 +32,7 @@ type PublicIpService interface {
 	List() ([]PublicIp, error)
 	Acquire(publicIp PublicIp) (*PublicIp, error)
 	Release(id string) (bool, error)
-	EnableStaticNat(id string, publicIp PublicIp) (bool, error)
+	EnableStaticNat(publicIp PublicIp) (bool, error)
 	DisableStaticNat(id string) (bool, error)
 }
 
@@ -94,12 +95,12 @@ func (publicIpApi *PublicIpApi) Release(id string) (bool, error) {
 	return err == nil, err
 }
 
-func (publicIpApi *PublicIpApi) EnableStaticNat(id string, publicIp PublicIp) (bool, error) {
+func (publicIpApi *PublicIpApi) EnableStaticNat(publicIp PublicIp) (bool, error) {
 	send, merr := json.Marshal(publicIp)
 	if merr != nil {
 		return false, merr
 	}
-	_, err := publicIpApi.entityService.Execute(id, PUBLIC_IP_ENABLE_STATIC_NAT_OPERATION, send, map[string]string{})
+	_, err := publicIpApi.entityService.Execute(publicIp.Id, PUBLIC_IP_ENABLE_STATIC_NAT_OPERATION, send, map[string]string{})
 	return err == nil, err
 }
 
