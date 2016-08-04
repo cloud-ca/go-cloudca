@@ -29,7 +29,7 @@ type PublicIp struct {
 type PublicIpService interface {
 	Get(id string) (*PublicIp, error)
 	List() ([]PublicIp, error)
-	Acquire(vpcId string) (*PublicIp, error)
+	Acquire(publicIp PublicIp) (*PublicIp, error)
 	Release(id string) (bool, error)
 	EnableStaticNat(id string, publicIp PublicIp) (bool, error)
 	DisableStaticNat(id string) (bool, error)
@@ -77,8 +77,8 @@ func (publicIpApi *PublicIpApi) ListWithOptions(options map[string]string) ([]Pu
 	return parsePublicIpList(data), nil
 }
 
-func (publicIpApi *PublicIpApi) Acquire(vpcId string) (*PublicIp, error) {
-	send, merr := json.Marshal(PublicIp{VpcId: vpcId})
+func (publicIpApi *PublicIpApi) Acquire(publicIp PublicIp) (*PublicIp, error) {
+	send, merr := json.Marshal(publicIp)
 	if merr != nil {
 		return nil, merr
 	}
