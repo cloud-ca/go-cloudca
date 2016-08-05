@@ -12,7 +12,7 @@ const (
 )
 
 type PortForwardingRule struct {
-	Id               string `json:"id,omitempty`
+	Id               string `json:"id,omitempty"`
 	InstanceId       string `json:"instanceId,omitempty"`
 	InstanceName     string `json:"instanceName,omitempty"`
 	NetworkId        string `json:"networkId,omitempty"`
@@ -21,7 +21,7 @@ type PortForwardingRule struct {
 	PrivatePort      string `json:"privatePort,omitempty"`
 	PrivatePortStart string `json:"privatePortStart,omitempty"`
 	PrivatePortEnd   string `json:"privatePortEnd,omitempty"`
-	PublicIp         string `json:"ipAddress,omitempty`
+	PublicIp         string `json:"ipAddress,omitempty"`
 	PublicIpId       string `json:"ipAddressId,omitempty"`
 	PublicPort       string `json:"publicPort,omitempty"`
 	PublicPortStart  string `json:"publicPortStart,omitempty"`
@@ -43,21 +43,21 @@ type PortForwardingRuleApi struct {
 	entityService services.EntityService
 }
 
-func NewPortForwardingRuleService(apiClient api.ApiClient, serviceCode string, environmentName string) PortForwardingRuleApi {
+func NewPortForwardingRuleService(apiClient api.ApiClient, serviceCode string, environmentName string) PortForwardingRuleService {
 	return &PortForwardingRuleApi{
-		entityService: services.newEntityService(apiClient, serviceCode, environmentName, PORT_FORWARDING_RULE_ENTITY_TYPE),
+		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, PORT_FORWARDING_RULE_ENTITY_TYPE),
 	}
 }
 
 func parse(data []byte) *PortForwardingRule {
 	pfr := PortForwardingRule{}
-	data.Unmarshal(data, pfr)
+	json.Unmarshal(data, &pfr)
 	return &pfr
 }
 
 func parseList(data []byte) []PortForwardingRule {
 	pfrs := []PortForwardingRule{}
-	data.Unmarshal(data, pfrs)
+	json.Unmarshal(data, &pfrs)
 	return pfrs
 }
 
@@ -69,7 +69,7 @@ func (api PortForwardingRuleApi) Get(id string) (*PortForwardingRule, error) {
 	return parse(data), nil
 }
 
-func (api PortForwardingRuleApi) ListWithOptions(options map[string]string) {
+func (api PortForwardingRuleApi) ListWithOptions(options map[string]string) ([]PortForwardingRule, error) {
 	data, err := api.entityService.List(options)
 	if err != nil {
 		return nil, err
@@ -81,7 +81,7 @@ func (api PortForwardingRuleApi) List() ([]PortForwardingRule, error) {
 	return api.ListWithOptions(map[string]string{})
 }
 
-func (api PortForwardingRuleApi) Create(pfr PortForwardingRule) (PortForwardingRule, error) {
+func (api PortForwardingRuleApi) Create(pfr PortForwardingRule) (*PortForwardingRule, error) {
 	msg, err := json.Marshal(pfr)
 	if err != nil {
 		return nil, err
@@ -90,10 +90,10 @@ func (api PortForwardingRuleApi) Create(pfr PortForwardingRule) (PortForwardingR
 	if err != nil {
 		return nil, err
 	}
-	return result, nil
+	return parse(result), nil
 }
 
-func (api PortForwardingRuleApi) Delete(string id) (bool, error) {
+func (api PortForwardingRuleApi) Delete(id string) (bool, error) {
 	_, err := api.entityService.Delete(id, []byte{}, map[string]string{})
 	return err == nil, err
 }
