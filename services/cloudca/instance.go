@@ -1,9 +1,9 @@
 package cloudca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 	"strings"
 )
 
@@ -13,47 +13,47 @@ const (
 )
 
 const (
-	INSTANCE_START_OPERATION = "start"
-	INSTANCE_STOP_OPERATION = "stop"
-	INSTANCE_REBOOT_OPERATION = "reboot"
-	INSTANCE_RECOVER_OPERATION = "recover"
-	INSTANCE_PURGE_OPERATION = "purge"
-	INSTANCE_RESET_PASSWORD_OPERATION = "resetPassword"
-	INSTANCE_CREATE_RECOVERY_POINT_OPERATION = "createRecoveryPoint"
+	INSTANCE_START_OPERATION                   = "start"
+	INSTANCE_STOP_OPERATION                    = "stop"
+	INSTANCE_REBOOT_OPERATION                  = "reboot"
+	INSTANCE_RECOVER_OPERATION                 = "recover"
+	INSTANCE_PURGE_OPERATION                   = "purge"
+	INSTANCE_RESET_PASSWORD_OPERATION          = "resetPassword"
+	INSTANCE_CREATE_RECOVERY_POINT_OPERATION   = "createRecoveryPoint"
 	INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION = "changeComputeOffering"
-	INSTANCE_ASSOCIATE_SSH_KEY_OPERATION = "associateSSHKey"
+	INSTANCE_ASSOCIATE_SSH_KEY_OPERATION       = "associateSSHKey"
 )
 
 type Instance struct {
-	Id string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-	State string `json:"state,omitempty"`
-	TemplateId string `json:"templateId,omitempty"`
-	TemplateName string `json:"templateName,omitempty"`
-	IsPasswordEnabled bool `json:"isPasswordEnabled,omitempty"`
-	IsSSHKeyEnabled bool `json:"isSshKeyEnabled,omitempty"`
-	Username string `json:"username,omitempty"`
-	Password string `json:"password,omitempty"`
-	SSHKeyName string `json:"sshKeyName,omitempty"`
-	ComputeOfferingId string `json:"computeOfferingId,omitempty"`
-	ComputeOfferingName string `json:"computeOfferingName,omitempty"`
-	NewComputeOfferingId string `json:"newComputeOfferingId,omitempty"`
-	CpuCount int `json:"cpuCount,omitempty"`
-	MemoryInMB int `json:"memoryInMB,omitempty"`
-	ZoneId string `json:"zoneId,omitempty"`
-	ZoneName string `json:"zoneName,omitempty"`
-	ProjectId string `json:"projectId,omitempty"`
-	NetworkId string `json:"networkId,omitempty"`
-	NetworkName string `json:"networkName,omitempty"`
-	MacAddress string `json:"macAddress,omitempty"`
-	UserData string `json:"userData,omitempty"`
-	RecoveryPoint RecoveryPoint `json:"recoveryPoint,omitempty"`
-	IpAddress string `json:"ipAddress,omitempty"`
-	PublicIps []PublicIp `json:"publicIPs,omitempty"`
-	PublicKey string `json:"publicKey,omitempty"`
-	VolumeIdToAttach string `json:"volumeIdToAttach,omitempty"`
-	PortsToForward []string `json:"portsToForward,omitempty"`
-	PurgeImmediately bool `json:"purgeImmediately,omitempty"`
+	Id                   string        `json:"id,omitempty"`
+	Name                 string        `json:"name,omitempty"`
+	State                string        `json:"state,omitempty"`
+	TemplateId           string        `json:"templateId,omitempty"`
+	TemplateName         string        `json:"templateName,omitempty"`
+	IsPasswordEnabled    bool          `json:"isPasswordEnabled,omitempty"`
+	IsSSHKeyEnabled      bool          `json:"isSshKeyEnabled,omitempty"`
+	Username             string        `json:"username,omitempty"`
+	Password             string        `json:"password,omitempty"`
+	SSHKeyName           string        `json:"sshKeyName,omitempty"`
+	ComputeOfferingId    string        `json:"computeOfferingId,omitempty"`
+	ComputeOfferingName  string        `json:"computeOfferingName,omitempty"`
+	NewComputeOfferingId string        `json:"newComputeOfferingId,omitempty"`
+	CpuCount             int           `json:"cpuCount,omitempty"`
+	MemoryInMB           int           `json:"memoryInMB,omitempty"`
+	ZoneId               string        `json:"zoneId,omitempty"`
+	ZoneName             string        `json:"zoneName,omitempty"`
+	ProjectId            string        `json:"projectId,omitempty"`
+	NetworkId            string        `json:"networkId,omitempty"`
+	NetworkName          string        `json:"networkName,omitempty"`
+	MacAddress           string        `json:"macAddress,omitempty"`
+	UserData             string        `json:"userData,omitempty"`
+	RecoveryPoint        RecoveryPoint `json:"recoveryPoint,omitempty"`
+	IpAddress            string        `json:"ipAddress,omitempty"`
+	PublicIps            []PublicIp    `json:"publicIPs,omitempty"`
+	PublicKey            string        `json:"publicKey,omitempty"`
+	VolumeIdToAttach     string        `json:"volumeIdToAttach,omitempty"`
+	PortsToForward       []string      `json:"portsToForward,omitempty"`
+	PurgeImmediately     bool          `json:"purgeImmediately,omitempty"`
 }
 
 func (instance *Instance) IsRunning() bool {
@@ -75,10 +75,10 @@ type InstanceService interface {
 	Exists(id string) (bool, error)
 	Start(id string) (bool, error)
 	Stop(id string) (bool, error)
-	AssociateSSHKey(id string, sshKeyName string) (bool, error) 
-	Reboot(id string) (bool, error) 
-	ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) 
-	ResetPassword(id string) (string, error) 
+	AssociateSSHKey(id string, sshKeyName string) (bool, error)
+	Reboot(id string) (bool, error)
+	ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error)
+	ResetPassword(id string) (string, error)
 	CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error)
 }
 
@@ -145,7 +145,7 @@ func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
 func (instanceApi *InstanceApi) Destroy(id string, purge bool) (bool, error) {
 	send, merr := json.Marshal(Instance{
 		PurgeImmediately: purge,
-	});
+	})
 	if merr != nil {
 		return false, merr
 	}
@@ -195,8 +195,8 @@ func (instanceApi *InstanceApi) Stop(id string) (bool, error) {
 //Note: This will reboot your instance if running
 func (instanceApi *InstanceApi) AssociateSSHKey(id string, sshKeyName string) (bool, error) {
 	send, merr := json.Marshal(Instance{
-			SSHKeyName: sshKeyName,
-		});
+		SSHKeyName: sshKeyName,
+	})
 	if merr != nil {
 		return false, merr
 	}
@@ -214,8 +214,8 @@ func (instanceApi *InstanceApi) Reboot(id string) (bool, error) {
 //Note: This will reboot your instance if running
 func (instanceApi *InstanceApi) ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) {
 	send, merr := json.Marshal(Instance{
-			NewComputeOfferingId: newComputeOfferingId,
-		});
+		NewComputeOfferingId: newComputeOfferingId,
+	})
 	if merr != nil {
 		return false, merr
 	}
@@ -236,12 +236,11 @@ func (instanceApi *InstanceApi) ResetPassword(id string) (string, error) {
 //Create a recovery point of the instance with the specified id exists in the current environment
 func (instanceApi *InstanceApi) CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error) {
 	send, merr := json.Marshal(Instance{
-			RecoveryPoint: recoveryPoint,
-		});
+		RecoveryPoint: recoveryPoint,
+	})
 	if merr != nil {
 		return false, merr
 	}
 	_, err := instanceApi.entityService.Execute(id, INSTANCE_CREATE_RECOVERY_POINT_OPERATION, send, map[string]string{})
 	return err == nil, err
 }
-

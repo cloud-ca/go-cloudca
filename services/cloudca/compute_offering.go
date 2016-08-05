@@ -1,16 +1,16 @@
 package cloudca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 )
 
 type ComputeOffering struct {
-	Id string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-	Memory int `json:"memory,omitempty"`
-	CpuNumber int `json:"cpuNumber,omitempty"`
+	Id        string `json:"id,omitempty"`
+	Name      string `json:"name,omitempty"`
+	Memory    int    `json:"memory,omitempty"`
+	CpuNumber int    `json:"cpuNumber,omitempty"`
 }
 
 type ComputeOfferingService interface {

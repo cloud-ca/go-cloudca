@@ -1,48 +1,48 @@
 package cloudca
 
 import (
-	"testing"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 const (
-	TEST_VPC_ID = "test_vpc_id"
-	TEST_VPC_NAME = "test_vpc"
-	TEST_VPC_DESCRIPTION = "test_vpc_description"
-	TEST_VPC_STATE = "test_vpc_state"
-	TEST_VPC_CIDR = "test_vpc_cidr"
-	TEST_VPC_ZONE_ID = "test_vpc_zone_id"
-	TEST_VPC_ZONE_NAME = "test_vpc_zone_name"
-	TEST_VPC_NETWORK_DOMAIN = "test_vpc_network_domain"
-	TEST_VPC_SOURCE_NAT_IP = "test_vpc_source_nat_ip"
-	TEST_VPC_VPN_STATUS = "test_vpc_vpn_status"
-	TEST_VPC_TYPE = "test_vpc_type"
+	TEST_VPC_ID              = "test_vpc_id"
+	TEST_VPC_NAME            = "test_vpc"
+	TEST_VPC_DESCRIPTION     = "test_vpc_description"
+	TEST_VPC_STATE           = "test_vpc_state"
+	TEST_VPC_CIDR            = "test_vpc_cidr"
+	TEST_VPC_ZONE_ID         = "test_vpc_zone_id"
+	TEST_VPC_ZONE_NAME       = "test_vpc_zone_name"
+	TEST_VPC_NETWORK_DOMAIN  = "test_vpc_network_domain"
+	TEST_VPC_SOURCE_NAT_IP   = "test_vpc_source_nat_ip"
+	TEST_VPC_VPN_STATUS      = "test_vpc_vpn_status"
+	TEST_VPC_TYPE            = "test_vpc_type"
 	TEST_VPC_VPC_OFFERING_ID = "test_vpc_offering_id"
 )
 
 func buildTestVpcJsonResponse(vpc *Vpc) []byte {
-	return  []byte(`{"id": "` + vpc.Id + `", ` +
-			`"name":"` + vpc.Name + `", ` +
-			`"description":"` + vpc.Description + `", ` +
-			`"state":"` + vpc.State + `", ` +
-			`"cidr":"` + vpc.Cidr + `", ` +
-			`"zoneId":"` + vpc.ZoneId + `", ` +
-			`"zoneName":"` + vpc.ZoneName + `", ` +
-			`"networkDomain":"` + vpc.NetworkDomain + `", ` +
-			`"sourceNatIp":"` + vpc.SourceNatIp + `", ` +
-			`"vpnStatus":"` + vpc.VpnStatus + `", ` +
-			`"type":"` + vpc.Type + `", ` +
-			`"vpcOfferingId":"` + vpc.VpcOfferingId + `"}`)
+	return []byte(`{"id": "` + vpc.Id + `", ` +
+		`"name":"` + vpc.Name + `", ` +
+		`"description":"` + vpc.Description + `", ` +
+		`"state":"` + vpc.State + `", ` +
+		`"cidr":"` + vpc.Cidr + `", ` +
+		`"zoneId":"` + vpc.ZoneId + `", ` +
+		`"zoneName":"` + vpc.ZoneName + `", ` +
+		`"networkDomain":"` + vpc.NetworkDomain + `", ` +
+		`"sourceNatIp":"` + vpc.SourceNatIp + `", ` +
+		`"vpnStatus":"` + vpc.VpnStatus + `", ` +
+		`"type":"` + vpc.Type + `", ` +
+		`"vpcOfferingId":"` + vpc.VpcOfferingId + `"}`)
 }
 
 func buildListTestVpcJsonResponse(vpcs []Vpc) []byte {
 	resp := `[`
 	for i, vpc := range vpcs {
 		resp += string(buildTestVpcJsonResponse(&vpc))
-		if i != len(vpcs) - 1 {
+		if i != len(vpcs)-1 {
 			resp += `,`
 		}
 	}
@@ -61,19 +61,19 @@ func TestGetVpcReturnVpcIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedVpc := Vpc{Id: TEST_VPC_ID, 
-					   Name: TEST_VPC_NAME,
-					   Description: TEST_VPC_DESCRIPTION,
-					   State: TEST_VPC_STATE,
-					   Cidr: TEST_VPC_CIDR,
-					   ZoneId: TEST_VPC_ZONE_ID,
-					   ZoneName: TEST_VPC_ZONE_NAME,
-					   NetworkDomain: TEST_VPC_NETWORK_DOMAIN,
-					   SourceNatIp: TEST_VPC_SOURCE_NAT_IP,
-					   VpnStatus: TEST_VPC_VPN_STATUS,
-					   Type: TEST_VPC_TYPE,
-					   VpcOfferingId: TEST_VPC_VPC_OFFERING_ID,
-					}
+	expectedVpc := Vpc{Id: TEST_VPC_ID,
+		Name:          TEST_VPC_NAME,
+		Description:   TEST_VPC_DESCRIPTION,
+		State:         TEST_VPC_STATE,
+		Cidr:          TEST_VPC_CIDR,
+		ZoneId:        TEST_VPC_ZONE_ID,
+		ZoneName:      TEST_VPC_ZONE_NAME,
+		NetworkDomain: TEST_VPC_NETWORK_DOMAIN,
+		SourceNatIp:   TEST_VPC_SOURCE_NAT_IP,
+		VpnStatus:     TEST_VPC_VPN_STATUS,
+		Type:          TEST_VPC_TYPE,
+		VpcOfferingId: TEST_VPC_VPC_OFFERING_ID,
+	}
 
 	mockEntityService.EXPECT().Get(TEST_VPC_ID, gomock.Any()).Return(buildTestVpcJsonResponse(&expectedVpc), nil)
 
@@ -121,19 +121,19 @@ func TestListVpcReturnVpcsIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedVpc1 := Vpc{Id: TEST_VPC_ID + "1", 
-							 Name: TEST_VPC_NAME + "1",
-							 Description: TEST_VPC_DESCRIPTION + "1",
-							 State: TEST_VPC_STATE + "1",
-							 Cidr: TEST_VPC_CIDR + "1",
-							 ZoneId: TEST_VPC_ZONE_ID + "1",
-							 ZoneName: TEST_VPC_ZONE_NAME + "1",
-							 NetworkDomain: TEST_VPC_NETWORK_DOMAIN + "1",
-							 SourceNatIp: TEST_VPC_SOURCE_NAT_IP + "1",
-							 VpnStatus: TEST_VPC_VPN_STATUS + "1",
-							 Type: TEST_VPC_TYPE + "1",
-							 VpcOfferingId: TEST_VPC_VPC_OFFERING_ID + "1",
-							}
+	expectedVpc1 := Vpc{Id: TEST_VPC_ID + "1",
+		Name:          TEST_VPC_NAME + "1",
+		Description:   TEST_VPC_DESCRIPTION + "1",
+		State:         TEST_VPC_STATE + "1",
+		Cidr:          TEST_VPC_CIDR + "1",
+		ZoneId:        TEST_VPC_ZONE_ID + "1",
+		ZoneName:      TEST_VPC_ZONE_NAME + "1",
+		NetworkDomain: TEST_VPC_NETWORK_DOMAIN + "1",
+		SourceNatIp:   TEST_VPC_SOURCE_NAT_IP + "1",
+		VpnStatus:     TEST_VPC_VPN_STATUS + "1",
+		Type:          TEST_VPC_TYPE + "1",
+		VpcOfferingId: TEST_VPC_VPC_OFFERING_ID + "1",
+	}
 
 	expectedVpcs := []Vpc{expectedVpc1}
 
@@ -147,7 +147,6 @@ func TestListVpcReturnVpcsIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedVpcs, vpcs)
 	}
 }
-
 
 func TestListVpcReturnNilWithErrorIfError(t *testing.T) {
 	//given
@@ -185,9 +184,9 @@ func TestCreateVpcReturnCreatedInstanceIfSuccess(t *testing.T) {
 	}
 
 	vpcToCreate := Vpc{Name: "new_name",
-					   Description: "new_description",
-					   VpcOfferingId: "vpc_offering_id",
-					}
+		Description:   "new_description",
+		VpcOfferingId: "vpc_offering_id",
+	}
 
 	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return([]byte(`{"id":"new_id"}`), nil)
 
@@ -216,8 +215,8 @@ func TestCreateVpcReturnNilWithErrorIfError(t *testing.T) {
 	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return(nil, mockError)
 
 	vpcToCreate := Vpc{Name: "new_name",
-					   Description: "new_description",
-					   VpcOfferingId: "vpcOfferingId",}
+		Description:   "new_description",
+		VpcOfferingId: "vpcOfferingId"}
 
 	//when
 	createdVpc, err := vpcService.Create(vpcToCreate)

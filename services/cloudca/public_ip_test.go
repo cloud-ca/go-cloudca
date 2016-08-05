@@ -1,28 +1,28 @@
 package cloudca
 
 import (
-	"testing"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 const (
 	TEST_PUBLIC_IP_ID = "test_public_ip_id"
-	TEST_IP_ADDRESS = "172.31.3.208"
+	TEST_IP_ADDRESS   = "172.31.3.208"
 )
 
 func buildTestPublicIpJsonResponse(publicIp *PublicIp) []byte {
-	return  []byte(`{"id":"` + publicIp.Id + `",` +
-				   ` "ipAddress":"` + publicIp.IpAddress + `"}`)
+	return []byte(`{"id":"` + publicIp.Id + `",` +
+		` "ipAddress":"` + publicIp.IpAddress + `"}`)
 }
 
 func buildListTestPublicIpJsonResponse(publicIps []PublicIp) []byte {
 	resp := `[`
 	for i, t := range publicIps {
 		resp += string(buildTestPublicIpJsonResponse(&t))
-		if i != len(publicIps) - 1 {
+		if i != len(publicIps)-1 {
 			resp += `,`
 		}
 	}
@@ -42,8 +42,8 @@ func TestGetPublicIpReturnPublicIpIfSuccess(t *testing.T) {
 	}
 
 	expectedPublicIp := PublicIp{Id: TEST_PUBLIC_IP_ID,
-						 		 IpAddress: TEST_IP_ADDRESS,
-						}
+		IpAddress: TEST_IP_ADDRESS,
+	}
 
 	mockEntityService.EXPECT().Get(TEST_PUBLIC_IP_ID, gomock.Any()).Return(buildTestPublicIpJsonResponse(&expectedPublicIp), nil)
 
@@ -92,10 +92,10 @@ func TestListPublicIpReturnTiersIfSuccess(t *testing.T) {
 	}
 
 	expectedPublicIp1 := PublicIp{Id: "list_id_1",
-						 IpAddress: "list_ip_address_1"}
+		IpAddress: "list_ip_address_1"}
 
 	expectedPublicIp2 := PublicIp{Id: "list_id_2",
-						 IpAddress: "list_ip_address_2"}
+		IpAddress: "list_ip_address_2"}
 
 	expectedPublicIps := []PublicIp{expectedPublicIp1, expectedPublicIp2}
 
@@ -109,7 +109,6 @@ func TestListPublicIpReturnTiersIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedPublicIps, publicIps)
 	}
 }
-
 
 func TestListPublicIpReturnNilWithErrorIfError(t *testing.T) {
 	//given
@@ -177,7 +176,6 @@ func TestPublicIpReturnNilWithErrorIfError(t *testing.T) {
 
 	publicIpToAcquire := PublicIp{VpcId: "vpcId"}
 
-
 	//when
 	acquiredPublicIp, err := publicIpService.Acquire(publicIpToAcquire)
 
@@ -241,7 +239,7 @@ func TestPublicIpEnableStaticNatReturnTrueIfSuccess(t *testing.T) {
 	}
 
 	publicIp := PublicIp{
-		Id: TEST_PUBLIC_IP_ID,
+		Id:          TEST_PUBLIC_IP_ID,
 		PrivateIpId: "private_ip_id",
 	}
 
@@ -266,7 +264,7 @@ func TestPublicIpEnableStaticNatReturnFalseIfError(t *testing.T) {
 	}
 
 	publicIp := PublicIp{
-		Id: TEST_PUBLIC_IP_ID,
+		Id:          TEST_PUBLIC_IP_ID,
 		PrivateIpId: "private_ip_id",
 	}
 

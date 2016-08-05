@@ -1,33 +1,33 @@
 package cloudca
 
 import (
-	"testing"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"strconv"
+	"testing"
 )
 
 const (
-	TEST_COMPUTE_OFFERING_ID = "some_id"
-	TEST_COMPUTE_OFFERING_NAME = "test_compute_offering"
-	TEST_COMPUTE_OFFERING_MEMORY = 4
+	TEST_COMPUTE_OFFERING_ID         = "some_id"
+	TEST_COMPUTE_OFFERING_NAME       = "test_compute_offering"
+	TEST_COMPUTE_OFFERING_MEMORY     = 4
 	TEST_COMPUTE_OFFERING_CPU_NUMBER = 2
 )
 
 func buildComputeOfferingJsonResponse(computeOffering *ComputeOffering) []byte {
-	return  []byte(`{"id": "` + computeOffering.Id + 
-			`","name":"` + computeOffering.Name + 
-			`","memory":` + strconv.Itoa(computeOffering.Memory) + 
-			`,"cpuNumber": ` + strconv.Itoa(computeOffering.CpuNumber) + `}`)
+	return []byte(`{"id": "` + computeOffering.Id +
+		`","name":"` + computeOffering.Name +
+		`","memory":` + strconv.Itoa(computeOffering.Memory) +
+		`,"cpuNumber": ` + strconv.Itoa(computeOffering.CpuNumber) + `}`)
 }
 
 func buildListComputeOfferingJsonResponse(computeOfferings []ComputeOffering) []byte {
 	resp := `[`
 	for i, d := range computeOfferings {
 		resp += string(buildComputeOfferingJsonResponse(&d))
-		if i != len(computeOfferings) - 1 {
+		if i != len(computeOfferings)-1 {
 			resp += `,`
 		}
 	}
@@ -46,10 +46,10 @@ func TestGetComputeOfferingReturnComputeOfferingIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedComputeOffering := ComputeOffering{Id: TEST_COMPUTE_OFFERING_ID, 
-										Name: TEST_COMPUTE_OFFERING_NAME, 
-										Memory: TEST_COMPUTE_OFFERING_MEMORY,
-										CpuNumber: TEST_COMPUTE_OFFERING_CPU_NUMBER}
+	expectedComputeOffering := ComputeOffering{Id: TEST_COMPUTE_OFFERING_ID,
+		Name:      TEST_COMPUTE_OFFERING_NAME,
+		Memory:    TEST_COMPUTE_OFFERING_MEMORY,
+		CpuNumber: TEST_COMPUTE_OFFERING_CPU_NUMBER}
 
 	mockEntityService.EXPECT().Get(TEST_COMPUTE_OFFERING_ID, gomock.Any()).Return(buildComputeOfferingJsonResponse(&expectedComputeOffering), nil)
 
@@ -99,15 +99,15 @@ func TestListComputeOfferingReturnComputeOfferingsIfSuccess(t *testing.T) {
 
 	expectedComputeOfferings := []ComputeOffering{
 		ComputeOffering{
-			Id: "list_id_1",
-			Name: "list_name_1",
-			Memory: 1,
+			Id:        "list_id_1",
+			Name:      "list_name_1",
+			Memory:    1,
 			CpuNumber: 1,
 		},
 		ComputeOffering{
-			Id: "list_id_2",
-			Name: "list_name_2",
-			Memory: 2,
+			Id:        "list_id_2",
+			Name:      "list_name_2",
+			Memory:    2,
 			CpuNumber: 2,
 		},
 	}
@@ -122,7 +122,6 @@ func TestListComputeOfferingReturnComputeOfferingsIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedComputeOfferings, computeOfferings)
 	}
 }
-
 
 func TestListComputeOfferingReturnNilWithErrorIfError(t *testing.T) {
 	//given

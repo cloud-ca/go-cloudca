@@ -1,28 +1,28 @@
 package cloudca
 
 import (
-	"testing"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 const (
-	TEST_SSH_KEY_NAME = "test_ssh_key"
+	TEST_SSH_KEY_NAME        = "test_ssh_key"
 	TEST_SSH_KEY_FINGERPRINT = "test_fingerprint"
 )
 
 func buildSSHKeyJsonResponse(sshKey *SSHKey) []byte {
-	return  []byte(`{"name": "` + sshKey.Name + 
-			`","fingerprint":"` + sshKey.Fingerprint + `"}`)
+	return []byte(`{"name": "` + sshKey.Name +
+		`","fingerprint":"` + sshKey.Fingerprint + `"}`)
 }
 
 func buildListSSHKeyJsonResponse(sshKeys []SSHKey) []byte {
 	resp := `[`
 	for i, s := range sshKeys {
 		resp += string(buildSSHKeyJsonResponse(&s))
-		if i != len(sshKeys) - 1 {
+		if i != len(sshKeys)-1 {
 			resp += `,`
 		}
 	}
@@ -41,8 +41,8 @@ func TestGetSSHKeyReturnSSHKeyIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedSSHKey := SSHKey{Name: TEST_SSH_KEY_NAME, 
-							 Fingerprint: TEST_SSH_KEY_FINGERPRINT}
+	expectedSSHKey := SSHKey{Name: TEST_SSH_KEY_NAME,
+		Fingerprint: TEST_SSH_KEY_FINGERPRINT}
 
 	mockEntityService.EXPECT().Get(TEST_SSH_KEY_NAME, gomock.Any()).Return(buildSSHKeyJsonResponse(&expectedSSHKey), nil)
 
@@ -92,11 +92,11 @@ func TestListSSHKeyReturnSSHKeysIfSuccess(t *testing.T) {
 
 	expectedSSHKeys := []SSHKey{
 		SSHKey{
-			Name: "list_name_1",
+			Name:        "list_name_1",
 			Fingerprint: "list_fingerprint_1",
 		},
 		SSHKey{
-			Name: "list_name_2",
+			Name:        "list_name_2",
 			Fingerprint: "list_fingerprint_2",
 		},
 	}
@@ -111,7 +111,6 @@ func TestListSSHKeyReturnSSHKeysIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedSSHKeys, sshKeys)
 	}
 }
-
 
 func TestListSSHKeyReturnNilWithErrorIfError(t *testing.T) {
 	//given

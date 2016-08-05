@@ -1,33 +1,33 @@
 package cloudca
 
 import (
-	"testing"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"strconv"
+	"testing"
 )
 
 const (
-	TEST_DISK_OFFERING_ID = "some_id"
-	TEST_DISK_OFFERING_NAME = "test_disk_offering"
-	TEST_DISK_OFFERING_GBSIZE = 50
+	TEST_DISK_OFFERING_ID           = "some_id"
+	TEST_DISK_OFFERING_NAME         = "test_disk_offering"
+	TEST_DISK_OFFERING_GBSIZE       = 50
 	TEST_DISK_OFFERING_STORAGE_TIER = "performance"
 )
 
 func buildDiskOfferingJsonResponse(diskOffering *DiskOffering) []byte {
-	return  []byte(`{"id": "` + diskOffering.Id + 
-			`","name":"` + diskOffering.Name + 
-			`","gbSize":` + strconv.Itoa(diskOffering.GbSize) + 
-			`,"storageTier": "` + diskOffering.StorageTier + `"}`)
+	return []byte(`{"id": "` + diskOffering.Id +
+		`","name":"` + diskOffering.Name +
+		`","gbSize":` + strconv.Itoa(diskOffering.GbSize) +
+		`,"storageTier": "` + diskOffering.StorageTier + `"}`)
 }
 
 func buildListDiskOfferingJsonResponse(diskOfferings []DiskOffering) []byte {
 	resp := `[`
 	for i, d := range diskOfferings {
 		resp += string(buildDiskOfferingJsonResponse(&d))
-		if i != len(diskOfferings) - 1 {
+		if i != len(diskOfferings)-1 {
 			resp += `,`
 		}
 	}
@@ -46,10 +46,10 @@ func TestGetDiskOfferingReturnDiskOfferingIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedDiskOffering := DiskOffering{Id: TEST_DISK_OFFERING_ID, 
-										Name: TEST_DISK_OFFERING_NAME, 
-										GbSize: TEST_DISK_OFFERING_GBSIZE,
-										StorageTier: TEST_DISK_OFFERING_STORAGE_TIER}
+	expectedDiskOffering := DiskOffering{Id: TEST_DISK_OFFERING_ID,
+		Name:        TEST_DISK_OFFERING_NAME,
+		GbSize:      TEST_DISK_OFFERING_GBSIZE,
+		StorageTier: TEST_DISK_OFFERING_STORAGE_TIER}
 
 	mockEntityService.EXPECT().Get(TEST_DISK_OFFERING_ID, gomock.Any()).Return(buildDiskOfferingJsonResponse(&expectedDiskOffering), nil)
 
@@ -99,15 +99,15 @@ func TestListDiskOfferingReturnDiskOfferingsIfSuccess(t *testing.T) {
 
 	expectedDiskOfferings := []DiskOffering{
 		DiskOffering{
-			Id: "list_id_1",
-			Name: "list_name_1",
-			GbSize: 51,
+			Id:          "list_id_1",
+			Name:        "list_name_1",
+			GbSize:      51,
 			StorageTier: "storage_tier_1",
 		},
 		DiskOffering{
-			Id: "list_id_2",
-			Name: "list_name_2",
-			GbSize: 52,
+			Id:          "list_id_2",
+			Name:        "list_name_2",
+			GbSize:      52,
 			StorageTier: "storage_tier_2",
 		},
 	}
@@ -122,7 +122,6 @@ func TestListDiskOfferingReturnDiskOfferingsIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedDiskOfferings, diskOfferings)
 	}
 }
-
 
 func TestListDiskOfferingReturnNilWithErrorIfError(t *testing.T) {
 	//given

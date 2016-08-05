@@ -1,30 +1,30 @@
 package cloudca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 )
 
 const (
-	PUBLIC_IP_ENABLE_STATIC_NAT_OPERATION = "enableStaticNat"
+	PUBLIC_IP_ENABLE_STATIC_NAT_OPERATION  = "enableStaticNat"
 	PUBLIC_IP_DISABLE_STATIC_NAT_OPERATION = "disableStaticNat"
 )
 
 type PublicIp struct {
-	Id string `json:"id,omitempty"`
-	IpAddress string `json:"ipaddress,omitempty"`
-	State string `json:"state,omitempty"`
-	ZoneId string `json:"zoneId,omitempty"`
-	ZoneName string `json:"zoneName,omitempty"`
-	NetworkId string `json:"networkId,omitempty"`
-	Network string `json:"network,omitempty"`
-	VpcId string `json:"vpcId,omitempty"`
-	PrivateIpId string `json:"privateIpId,omitempty"`
+	Id            string   `json:"id,omitempty"`
+	IpAddress     string   `json:"ipaddress,omitempty"`
+	State         string   `json:"state,omitempty"`
+	ZoneId        string   `json:"zoneId,omitempty"`
+	ZoneName      string   `json:"zoneName,omitempty"`
+	NetworkId     string   `json:"networkId,omitempty"`
+	Network       string   `json:"network,omitempty"`
+	VpcId         string   `json:"vpcId,omitempty"`
+	PrivateIpId   string   `json:"privateIpId,omitempty"`
 	InstanceNames []string `json:"instanceNames,omitempty"`
-	InstanceId string `json:"instanceId,omitempty"`
-	Purposes []string `json:"purposes,omitempty"`
-	Ports []string `json:"ports,omitempty"`
+	InstanceId    string   `json:"instanceId,omitempty"`
+	Purposes      []string `json:"purposes,omitempty"`
+	Ports         []string `json:"ports,omitempty"`
 }
 
 type PublicIpService interface {
