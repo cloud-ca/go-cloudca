@@ -23,6 +23,7 @@ type Resources struct {
 	VpcOfferings VpcOfferingService
 	NetworkOfferings NetworkOfferingService
 	NetworkAcls NetworkAclService
+	PortForwardingRules PortForwardingRuleService
 }
 
 func NewResources(apiClient api.ApiClient, serviceCode string, environmentName string) Resources {
@@ -39,6 +40,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		VpcOfferings: NewVpcOfferingService(apiClient, serviceCode, environmentName),
 		NetworkOfferings: NewNetworkOfferingService(apiClient, serviceCode, environmentName),
 		NetworkAcls: NewNetworkAclService(apiClient, serviceCode, environmentName),
+		PortForwardingRules: NewPortForwardingRuleService(apiClient, serviceCode, environmentName),
 	}
 }
 
