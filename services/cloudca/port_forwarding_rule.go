@@ -18,12 +18,10 @@ type PortForwardingRule struct {
 	NetworkId        string `json:"networkId,omitempty"`
 	PrivateIp        string `json:"privateIp,omitempty"`
 	PrivateIpId      string `json:"privateIpId,omitempty"`
-	PrivatePort      string `json:"privatePort,omitempty"`
 	PrivatePortStart string `json:"privatePortStart,omitempty"`
 	PrivatePortEnd   string `json:"privatePortEnd,omitempty"`
 	PublicIp         string `json:"ipAddress,omitempty"`
 	PublicIpId       string `json:"ipAddressId,omitempty"`
-	PublicPort       string `json:"publicPort,omitempty"`
 	PublicPortStart  string `json:"publicPortStart,omitempty"`
 	PublicPortEnd    string `json:"publicPortEnd,omitempty"`
 	Protocol         string `json:"protocol,omitempty"`
