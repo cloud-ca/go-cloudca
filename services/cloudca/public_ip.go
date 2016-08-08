@@ -20,7 +20,7 @@ type PublicIp struct {
 	NetworkId     string   `json:"networkId,omitempty"`
 	NetworkName   string   `json:"networkName,omitempty"`
 	VpcId         string   `json:"vpcId,omitempty"`
-	vpcName       string   `json:"vpcName,omitempty"`
+	VpcName       string   `json:"vpcName,omitempty"`
 	PrivateIpId   string   `json:"privateIpId,omitempty"`
 	InstanceNames []string `json:"instanceNames,omitempty"`
 	InstanceId    string   `json:"instanceId,omitempty"`
