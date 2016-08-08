@@ -1,70 +1,70 @@
 package cloudca
 
 import (
-	"testing"
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"strconv"
+	"testing"
 )
 
 const (
-	TEST_INSTANCE_ID = "test_instance_id"
-	TEST_INSTANCE_NAME = "test_instance"
-	TEST_INSTANCE_STATE = "test_instance_state"
-	TEST_INSTANCE_TEMPLATE_ID = "test_instance_template_id"
-	TEST_INSTANCE_TEMPLATE_NAME = "test_instance_template_name"
-	TEST_INSTANCE_IS_PASSWORD_ENABLED = true
-	TEST_INSTANCE_IS_SSH_KEY_ENABLED = false
-	TEST_INSTANCE_USERNAME = "test_instance_username"
-	TEST_INSTANCE_COMPUTE_OFFERING_ID ="test_instance_compute_offering_id"
+	TEST_INSTANCE_ID                    = "test_instance_id"
+	TEST_INSTANCE_NAME                  = "test_instance"
+	TEST_INSTANCE_STATE                 = "test_instance_state"
+	TEST_INSTANCE_TEMPLATE_ID           = "test_instance_template_id"
+	TEST_INSTANCE_TEMPLATE_NAME         = "test_instance_template_name"
+	TEST_INSTANCE_IS_PASSWORD_ENABLED   = true
+	TEST_INSTANCE_IS_SSH_KEY_ENABLED    = false
+	TEST_INSTANCE_USERNAME              = "test_instance_username"
+	TEST_INSTANCE_COMPUTE_OFFERING_ID   = "test_instance_compute_offering_id"
 	TEST_INSTANCE_COMPUTE_OFFERING_NAME = "test_instance_compute_offering_name"
-	TEST_INSTANCE_CPU_NUMBER = 2
-	TEST_INSTANCE_MEMORY_IN_MB = 8000
-	TEST_INSTANCE_ZONE_ID = "test_instance_zone_id"
-	TEST_INSTANCE_ZONE_NAME = "test_instance_zone_name"
-	TEST_INSTANCE_PROJECT_ID = "test_instance_project_id"
-	TEST_INSTANCE_NETWORK_ID = "test_instance_network_id"
-	TEST_INSTANCE_NETWORK_NAME = "test_instance_network_name"
-	TEST_INSTANCE_MAC_ADDRESS = "test_instance_mac_address"
-	TEST_INSTANCE_IP_ADDRESS = "test_instance_ip_address"
-	TEST_INSTANCE_VOLUME_ID_TO_ATTACH = "test_volume_id_to_attach"
-	TEST_INSTANCE_USER_DATA = "test_instance_user_data"
-	TEST_INSTANCE_PUBLIC_KEY = "test_instance_public_key"
+	TEST_INSTANCE_CPU_NUMBER            = 2
+	TEST_INSTANCE_MEMORY_IN_MB          = 8000
+	TEST_INSTANCE_ZONE_ID               = "test_instance_zone_id"
+	TEST_INSTANCE_ZONE_NAME             = "test_instance_zone_name"
+	TEST_INSTANCE_PROJECT_ID            = "test_instance_project_id"
+	TEST_INSTANCE_NETWORK_ID            = "test_instance_network_id"
+	TEST_INSTANCE_NETWORK_NAME          = "test_instance_network_name"
+	TEST_INSTANCE_MAC_ADDRESS           = "test_instance_mac_address"
+	TEST_INSTANCE_IP_ADDRESS            = "test_instance_ip_address"
+	TEST_INSTANCE_VOLUME_ID_TO_ATTACH   = "test_volume_id_to_attach"
+	TEST_INSTANCE_USER_DATA             = "test_instance_user_data"
+	TEST_INSTANCE_PUBLIC_KEY            = "test_instance_public_key"
 )
 
 func buildTestInstanceJsonResponse(instance *Instance) []byte {
-	return  []byte(`{"id": "` + instance.Id + `", ` +
-			`"name":"` + instance.Name + `", ` +
-			`"state":"` + instance.State + `", ` +
-			`"templateId":"` + instance.TemplateId + `", ` +
-			`"templateName":"` + instance.TemplateName + `", ` +
-			`"isPasswordEnabled":` + strconv.FormatBool(instance.IsPasswordEnabled) + `, ` +
-			`"isSshKeyEnabled":` + strconv.FormatBool(instance.IsSSHKeyEnabled) + `, ` +
-			`"username":"` + instance.Username + `", ` +
-			`"computeOfferingId":"` + instance.ComputeOfferingId + `", ` +
-			`"computeOfferingName":"` + instance.ComputeOfferingName + `", ` +
-			`"cpuCount": ` + strconv.Itoa(instance.CpuCount) + `, ` +
-			`"memoryInMB": ` + strconv.Itoa(instance.MemoryInMB) + `, ` +
-			`"zoneId":"` + instance.ZoneId + `", ` +
-			`"zoneName":"` + instance.ZoneName + `", ` +
-			`"projectId":"` + instance.ProjectId + `", ` +
-			`"networkId":"` + instance.NetworkId + `", ` +
-			`"networkName":"` + instance.NetworkName + `", ` +
-			`"macAddress":"` + instance.MacAddress + `", ` +
-			`"ipAddress":"` + instance.IpAddress + `", ` +
-			`"volumeIdToAttach":"` + instance.VolumeIdToAttach + `", ` +
-			`"publicKey":"` + instance.PublicKey + `", ` +
-			`"userData":"` + instance.UserData + `"}`)
+	return []byte(`{"id": "` + instance.Id + `", ` +
+		`"name":"` + instance.Name + `", ` +
+		`"state":"` + instance.State + `", ` +
+		`"templateId":"` + instance.TemplateId + `", ` +
+		`"templateName":"` + instance.TemplateName + `", ` +
+		`"isPasswordEnabled":` + strconv.FormatBool(instance.IsPasswordEnabled) + `, ` +
+		`"isSshKeyEnabled":` + strconv.FormatBool(instance.IsSSHKeyEnabled) + `, ` +
+		`"username":"` + instance.Username + `", ` +
+		`"computeOfferingId":"` + instance.ComputeOfferingId + `", ` +
+		`"computeOfferingName":"` + instance.ComputeOfferingName + `", ` +
+		`"cpuCount": ` + strconv.Itoa(instance.CpuCount) + `, ` +
+		`"memoryInMB": ` + strconv.Itoa(instance.MemoryInMB) + `, ` +
+		`"zoneId":"` + instance.ZoneId + `", ` +
+		`"zoneName":"` + instance.ZoneName + `", ` +
+		`"projectId":"` + instance.ProjectId + `", ` +
+		`"networkId":"` + instance.NetworkId + `", ` +
+		`"networkName":"` + instance.NetworkName + `", ` +
+		`"macAddress":"` + instance.MacAddress + `", ` +
+		`"ipAddress":"` + instance.IpAddress + `", ` +
+		`"volumeIdToAttach":"` + instance.VolumeIdToAttach + `", ` +
+		`"publicKey":"` + instance.PublicKey + `", ` +
+		`"userData":"` + instance.UserData + `"}`)
 }
 
 func buildListTestInstanceJsonResponse(instances []Instance) []byte {
 	resp := `[`
 	for i, inst := range instances {
 		resp += string(buildTestInstanceJsonResponse(&inst))
-		if i != len(instances) - 1 {
+		if i != len(instances)-1 {
 			resp += `,`
 		}
 	}
@@ -83,28 +83,28 @@ func TestGetInstanceReturnInstanceIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedInstance := Instance{Id: TEST_INSTANCE_ID, 
-								 Name: TEST_INSTANCE_NAME,
-								 State: TEST_INSTANCE_STATE,
-								 TemplateId: TEST_INSTANCE_TEMPLATE_ID,
-								 TemplateName: TEST_INSTANCE_TEMPLATE_NAME,
-								 IsPasswordEnabled: TEST_INSTANCE_IS_PASSWORD_ENABLED,
-								 IsSSHKeyEnabled: TEST_INSTANCE_IS_SSH_KEY_ENABLED,
-								 Username: TEST_INSTANCE_USERNAME,
-								 ComputeOfferingId: TEST_INSTANCE_COMPUTE_OFFERING_ID,
-								 ComputeOfferingName: TEST_INSTANCE_COMPUTE_OFFERING_NAME,
-								 CpuCount: TEST_INSTANCE_CPU_NUMBER,
-								 MemoryInMB: TEST_INSTANCE_MEMORY_IN_MB,
-								 ZoneId: TEST_INSTANCE_ZONE_ID,
-								 ZoneName: TEST_INSTANCE_ZONE_NAME,
-								 ProjectId: TEST_INSTANCE_PROJECT_ID,
-								 NetworkId: TEST_INSTANCE_NETWORK_ID,
-								 NetworkName: TEST_INSTANCE_NETWORK_NAME,
-								 MacAddress: TEST_INSTANCE_MAC_ADDRESS,
-								 IpAddress: TEST_INSTANCE_IP_ADDRESS,
-								 VolumeIdToAttach: TEST_INSTANCE_VOLUME_ID_TO_ATTACH,
-								 PublicKey: TEST_INSTANCE_PUBLIC_KEY,
-								 UserData: TEST_INSTANCE_USER_DATA}
+	expectedInstance := Instance{Id: TEST_INSTANCE_ID,
+		Name:                TEST_INSTANCE_NAME,
+		State:               TEST_INSTANCE_STATE,
+		TemplateId:          TEST_INSTANCE_TEMPLATE_ID,
+		TemplateName:        TEST_INSTANCE_TEMPLATE_NAME,
+		IsPasswordEnabled:   TEST_INSTANCE_IS_PASSWORD_ENABLED,
+		IsSSHKeyEnabled:     TEST_INSTANCE_IS_SSH_KEY_ENABLED,
+		Username:            TEST_INSTANCE_USERNAME,
+		ComputeOfferingId:   TEST_INSTANCE_COMPUTE_OFFERING_ID,
+		ComputeOfferingName: TEST_INSTANCE_COMPUTE_OFFERING_NAME,
+		CpuCount:            TEST_INSTANCE_CPU_NUMBER,
+		MemoryInMB:          TEST_INSTANCE_MEMORY_IN_MB,
+		ZoneId:              TEST_INSTANCE_ZONE_ID,
+		ZoneName:            TEST_INSTANCE_ZONE_NAME,
+		ProjectId:           TEST_INSTANCE_PROJECT_ID,
+		NetworkId:           TEST_INSTANCE_NETWORK_ID,
+		NetworkName:         TEST_INSTANCE_NETWORK_NAME,
+		MacAddress:          TEST_INSTANCE_MAC_ADDRESS,
+		IpAddress:           TEST_INSTANCE_IP_ADDRESS,
+		VolumeIdToAttach:    TEST_INSTANCE_VOLUME_ID_TO_ATTACH,
+		PublicKey:           TEST_INSTANCE_PUBLIC_KEY,
+		UserData:            TEST_INSTANCE_USER_DATA}
 
 	mockEntityService.EXPECT().Get(TEST_INSTANCE_ID, gomock.Any()).Return(buildTestInstanceJsonResponse(&expectedInstance), nil)
 
@@ -152,28 +152,28 @@ func TestListInstanceReturnInstancesIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedInstance1 := Instance{Id: "list_id_1", 
-								 Name: "list_name_1",
-								 State: "list_state_1",
-								 TemplateId: "list_template_id_1",
-								 TemplateName: "list_template_name_1",
-								 IsPasswordEnabled: false,
-								 IsSSHKeyEnabled: true,
-								 Username: "list_username_1",
-								 ComputeOfferingId: "list_compute_offering_id_1",
-								 ComputeOfferingName: "list_compute_offering_name_1",
-								 CpuCount: 2,
-								 MemoryInMB: 12425,
-								 ZoneId: "list_zone_id_1",
-								 ZoneName: "list_zone_name_1",
-								 ProjectId: "list_project_id_1",
-								 NetworkId: "list_network_id_1",
-								 NetworkName: "list_network_name_1",
-								 MacAddress: "list_mac_address_1",
-								 VolumeIdToAttach: "list_volume_id_to_attach_1",
-								 IpAddress: "list_ip_address_1",
-								 PublicKey: "list_public_key_1",
-								 UserData: "list_user_data_1"}
+	expectedInstance1 := Instance{Id: "list_id_1",
+		Name:                "list_name_1",
+		State:               "list_state_1",
+		TemplateId:          "list_template_id_1",
+		TemplateName:        "list_template_name_1",
+		IsPasswordEnabled:   false,
+		IsSSHKeyEnabled:     true,
+		Username:            "list_username_1",
+		ComputeOfferingId:   "list_compute_offering_id_1",
+		ComputeOfferingName: "list_compute_offering_name_1",
+		CpuCount:            2,
+		MemoryInMB:          12425,
+		ZoneId:              "list_zone_id_1",
+		ZoneName:            "list_zone_name_1",
+		ProjectId:           "list_project_id_1",
+		NetworkId:           "list_network_id_1",
+		NetworkName:         "list_network_name_1",
+		MacAddress:          "list_mac_address_1",
+		VolumeIdToAttach:    "list_volume_id_to_attach_1",
+		IpAddress:           "list_ip_address_1",
+		PublicKey:           "list_public_key_1",
+		UserData:            "list_user_data_1"}
 
 	expectedInstances := []Instance{expectedInstance1}
 
@@ -187,7 +187,6 @@ func TestListInstanceReturnInstancesIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedInstances, instances)
 	}
 }
-
 
 func TestListInstanceReturnNilWithErrorIfError(t *testing.T) {
 	//given
@@ -224,11 +223,11 @@ func TestCreateInstanceReturnCreatedInstanceIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	instanceToCreate := Instance{Id: "new_id", 
-								 Name: "new_name",
-								 TemplateId: "templateId",
-								 ComputeOfferingId: "computeOfferingId",
-								 NetworkId: "networkId"}
+	instanceToCreate := Instance{Id: "new_id",
+		Name:              "new_name",
+		TemplateId:        "templateId",
+		ComputeOfferingId: "computeOfferingId",
+		NetworkId:         "networkId"}
 
 	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return([]byte(`{"id":"new_id", "password": "new_password"}`), nil)
 
@@ -257,9 +256,9 @@ func TestCreateInstanceReturnNilWithErrorIfError(t *testing.T) {
 	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return(nil, mockError)
 
 	instanceToCreate := Instance{Name: "new_name",
-								 TemplateId: "templateId",
-								 ComputeOfferingId: "computeOfferingId",
-								 NetworkId: "networkId"}
+		TemplateId:        "templateId",
+		ComputeOfferingId: "computeOfferingId",
+		NetworkId:         "networkId"}
 
 	//when
 	createdInstance, err := instanceService.Create(instanceToCreate)
@@ -312,7 +311,6 @@ func TestPurgeInstanceReturnFalseIfError(t *testing.T) {
 	assert.Equal(t, mockError, err)
 
 }
-
 
 func TestStartInstanceReturnTrueIfSuccess(t *testing.T) {
 	//given

@@ -1,17 +1,16 @@
 package cloudca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 )
 
 type VpcOffering struct {
-	Id string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
+	Id    string `json:"id,omitempty"`
+	Name  string `json:"name,omitempty"`
 	State string `json:"state,omitempty"`
 }
-
 
 type VpcOfferingService interface {
 	Get(id string) (*VpcOffering, error)

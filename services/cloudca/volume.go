@@ -1,30 +1,30 @@
 package cloudca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 )
 
 const (
-	VOLUME_TYPE_OS = "OS"
+	VOLUME_TYPE_OS   = "OS"
 	VOLUME_TYPE_DATA = "DATA"
 )
 
 type Volume struct {
-	Id string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-	Type string `json:"type,omitempty"`
-	CreationDate string `json:"creationDate,omitempty"`
-	Size int `json:"size,omitempty"`
+	Id             string `json:"id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	Type           string `json:"type,omitempty"`
+	CreationDate   string `json:"creationDate,omitempty"`
+	Size           int    `json:"size,omitempty"`
 	DiskOfferingId string `json:"diskOfferingId,omitempty"`
-	TemplateId string `json:"templateId,omitempty"`
-	StorageTier string `json:"storageTier,omitempty"`
-	ZoneName string `json:"zoneName,omitempty"`
-	State string `json:"state,omitempty"`
-	InstanceName string `json:"instanceName,omitempty"`
-	InstanceId string `json:"instanceId,omitempty"`
-	InstanceState string `json:"instanceState,omitempty"`
+	TemplateId     string `json:"templateId,omitempty"`
+	StorageTier    string `json:"storageTier,omitempty"`
+	ZoneName       string `json:"zoneName,omitempty"`
+	State          string `json:"state,omitempty"`
+	InstanceName   string `json:"instanceName,omitempty"`
+	InstanceId     string `json:"instanceId,omitempty"`
+	InstanceState  string `json:"instanceState,omitempty"`
 }
 
 type VolumeService interface {
@@ -73,8 +73,8 @@ func (volumeApi *VolumeApi) List() ([]Volume, error) {
 //List all volumes of specified type for the current environment
 func (volumeApi *VolumeApi) ListOfType(volumeType string) ([]Volume, error) {
 	return volumeApi.ListWithOptions(map[string]string{
-			"type":	volumeType,
-		})
+		"type": volumeType,
+	})
 }
 
 //List all volumes for the current environment. Can use options to do sorting and paging.
