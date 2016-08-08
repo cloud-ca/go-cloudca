@@ -18,8 +18,9 @@ type PublicIp struct {
 	ZoneId        string   `json:"zoneId,omitempty"`
 	ZoneName      string   `json:"zoneName,omitempty"`
 	NetworkId     string   `json:"networkId,omitempty"`
-	Network       string   `json:"network,omitempty"`
+	NetworkName   string   `json:"networkName,omitempty"`
 	VpcId         string   `json:"vpcId,omitempty"`
+	vpcName       string   `json:"vpcName,omitempty"`
 	PrivateIpId   string   `json:"privateIpId,omitempty"`
 	InstanceNames []string `json:"instanceNames,omitempty"`
 	InstanceId    string   `json:"instanceId,omitempty"`
