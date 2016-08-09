@@ -14,4 +14,5 @@ const (
 	NETWORK_OFFERING_ENTITY_TYPE     = "networkofferings"
 	NETWORK_ACL_ENTITY_TYPE          = "networkacls"
 	PORT_FORWARDING_RULE_ENTITY_TYPE = "portforwardingrules"
+	PUBLIC_IP_ENTITY_TYPE            = "publicipaddresses"
 )

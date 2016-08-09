@@ -76,11 +76,15 @@ func (entityApi *EntityApi) Execute(id string, operation string, body []byte, op
 		optionsCopy[k] = v
 	}
 	optionsCopy["operation"] = operation
+	endpoint := entityApi.buildEndpoint()
+	if id != "" {
+		endpoint = endpoint + "/" + id
+	}
 	request := api.CcaRequest{
-		Method:   api.POST,
-		Body:     body,
-		Endpoint: entityApi.buildEndpoint() + "/" + id,
-		Options:  optionsCopy,
+		Method: api.POST,
+		Body: body,
+		Endpoint: endpoint,
+		Options: optionsCopy,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {

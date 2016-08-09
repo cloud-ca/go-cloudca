@@ -1,70 +1,69 @@
 package cloudca
 
 import (
-   "github.com/cloud-ca/go-cloudca/services"
-   "github.com/cloud-ca/go-cloudca/api"
-   "encoding/json"
+	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 )
 
 type NetworkAcl struct {
-   Id string `json:"id,omitempty"`
-   Name string `json:"name,omitempty"`
+	Id   string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 type NetworkAclService interface {
-   Get(id string) (*NetworkAcl, error)
-   List() ([]NetworkAcl, error)
-   ListByVpcId(vpcId string) ([]NetworkAcl, error)
-   ListWithOptions(options map[string]string) ([]NetworkAcl, error)
+	Get(id string) (*NetworkAcl, error)
+	List() ([]NetworkAcl, error)
+	ListByVpcId(vpcId string) ([]NetworkAcl, error)
+	ListWithOptions(options map[string]string) ([]NetworkAcl, error)
 }
 
 type NetworkAclApi struct {
-   entityService services.EntityService
+	entityService services.EntityService
 }
 
 func NewNetworkAclService(apiClient api.ApiClient, serviceCode string, environmentName string) NetworkAclService {
-   return &NetworkAclApi{
-      entityService: services.NewEntityService(apiClient, serviceCode, environmentName, NETWORK_ACL_ENTITY_TYPE),
-   }
+	return &NetworkAclApi{
+		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, NETWORK_ACL_ENTITY_TYPE),
+	}
 }
 
 func parseNetworkAcl(data []byte) *NetworkAcl {
-   networkAcl := NetworkAcl{}
-   json.Unmarshal(data, &networkAcl)
-   return &networkAcl
+	networkAcl := NetworkAcl{}
+	json.Unmarshal(data, &networkAcl)
+	return &networkAcl
 }
 
 func parseNetworkAclList(data []byte) []NetworkAcl {
-   networkAcls := []NetworkAcl{}
-   json.Unmarshal(data, &networkAcls)
-   return networkAcls
+	networkAcls := []NetworkAcl{}
+	json.Unmarshal(data, &networkAcls)
+	return networkAcls
 }
 
 //Get network acl with the specified id for the current environment
 func (networkAclApi *NetworkAclApi) Get(id string) (*NetworkAcl, error) {
-   data, err := networkAclApi.entityService.Get(id, map[string]string{})
-   if err != nil {
-      return nil, err
-   }
-   return parseNetworkAcl(data), nil
+	data, err := networkAclApi.entityService.Get(id, map[string]string{})
+	if err != nil {
+		return nil, err
+	}
+	return parseNetworkAcl(data), nil
 }
 
 //List all network offerings for the current environment
 func (networkAclApi *NetworkAclApi) List() ([]NetworkAcl, error) {
-   return networkAclApi.ListWithOptions(map[string]string{})
+	return networkAclApi.ListWithOptions(map[string]string{})
 }
-
 
 //List all network offerings for the current environment
 func (networkAclApi *NetworkAclApi) ListByVpcId(vpcId string) ([]NetworkAcl, error) {
-   return networkAclApi.ListWithOptions(map[string]string{"vpc_id": vpcId})
+	return networkAclApi.ListWithOptions(map[string]string{"vpc_id": vpcId})
 }
 
 //List all network offerings for the current environment. Can use options to do sorting and paging.
 func (networkAclApi *NetworkAclApi) ListWithOptions(options map[string]string) ([]NetworkAcl, error) {
-   data, err := networkAclApi.entityService.List(options)
-   if err != nil {
-      return nil, err
-   }
-   return parseNetworkAclList(data), nil
+	data, err := networkAclApi.entityService.List(options)
+	if err != nil {
+		return nil, err
+	}
+	return parseNetworkAclList(data), nil
 }

@@ -1,51 +1,51 @@
 package cloudca
 
 import (
-	"testing"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"strconv"
+	"testing"
 )
 
 const (
-	TEST_VOLUME_ID = "test_volume_id"
-	TEST_VOLUME_NAME = "test_volume"
-	TEST_VOLUME_TYPE = "test_volume_type"
-	TEST_VOLUME_CREATION_DATE = "test_volume_creation_date"
-	TEST_VOLUME_SIZE = 500
+	TEST_VOLUME_ID               = "test_volume_id"
+	TEST_VOLUME_NAME             = "test_volume"
+	TEST_VOLUME_TYPE             = "test_volume_type"
+	TEST_VOLUME_CREATION_DATE    = "test_volume_creation_date"
+	TEST_VOLUME_SIZE             = 500
 	TEST_VOLUME_DISK_OFFERING_ID = "test_volume_disk_offering_id"
-	TEST_VOLUME_TEMPLATE_ID = "test_volume_template_id"
-	TEST_VOLUME_STORAGE_TIER = "test_volume_storage_tier"
-	TEST_VOLUME_ZONE_NAME = "test_volume_zone_name"
-	TEST_VOLUME_STATE = "test_volume_state"
-	TEST_VOLUME_INSTANCE_NAME = "test_volume_instance_name"
-	TEST_VOLUME_INSTANCE_ID = "test_volume_instance_id"
-	TEST_VOLUME_INSTANCE_STATE = "test_volume_instance_state"
+	TEST_VOLUME_TEMPLATE_ID      = "test_volume_template_id"
+	TEST_VOLUME_STORAGE_TIER     = "test_volume_storage_tier"
+	TEST_VOLUME_ZONE_NAME        = "test_volume_zone_name"
+	TEST_VOLUME_STATE            = "test_volume_state"
+	TEST_VOLUME_INSTANCE_NAME    = "test_volume_instance_name"
+	TEST_VOLUME_INSTANCE_ID      = "test_volume_instance_id"
+	TEST_VOLUME_INSTANCE_STATE   = "test_volume_instance_state"
 )
 
 func buildVolumeJsonResponse(volume *Volume) []byte {
-	return  []byte(`{"id":"` + volume.Id + `",` +
-				   ` "name": "` + volume.Name + `",` +
-				   ` "type": "` + volume.Type + `",` +
-				   ` "creationDate": "` + volume.CreationDate + `",` +
-				   ` "size": ` + strconv.Itoa(volume.Size) + `,` +
-				   ` "diskOfferingId": "` + volume.DiskOfferingId + `",` +
-				   ` "templateId": "` + volume.TemplateId + `",` +
-				   ` "storageTier": "` + volume.StorageTier + `",` +
-				   ` "zoneName": "` + volume.ZoneName + `",` +
-				   ` "state": "` + volume.State + `",` +
-				   ` "instanceName": "` + volume.InstanceName + `",` +
-				   ` "instanceId": "` + volume.InstanceId + `",` +
-				   ` "instanceState": "` + volume.InstanceState + `"}`)
+	return []byte(`{"id":"` + volume.Id + `",` +
+		` "name": "` + volume.Name + `",` +
+		` "type": "` + volume.Type + `",` +
+		` "creationDate": "` + volume.CreationDate + `",` +
+		` "size": ` + strconv.Itoa(volume.Size) + `,` +
+		` "diskOfferingId": "` + volume.DiskOfferingId + `",` +
+		` "templateId": "` + volume.TemplateId + `",` +
+		` "storageTier": "` + volume.StorageTier + `",` +
+		` "zoneName": "` + volume.ZoneName + `",` +
+		` "state": "` + volume.State + `",` +
+		` "instanceName": "` + volume.InstanceName + `",` +
+		` "instanceId": "` + volume.InstanceId + `",` +
+		` "instanceState": "` + volume.InstanceState + `"}`)
 }
 
 func buildListVolumeJsonResponse(volumes []Volume) []byte {
 	resp := `[`
 	for i, v := range volumes {
 		resp += string(buildVolumeJsonResponse(&v))
-		if i != len(volumes) - 1 {
+		if i != len(volumes)-1 {
 			resp += `,`
 		}
 	}
@@ -65,18 +65,18 @@ func TestGetVolumeReturnVolumeIfSuccess(t *testing.T) {
 	}
 
 	expectedVolume := Volume{Id: TEST_VOLUME_ID,
-						   	 Name: TEST_VOLUME_NAME,
-						   	 Type: TEST_VOLUME_TYPE,
-						   	 CreationDate: TEST_VOLUME_CREATION_DATE,
-						   	 Size: TEST_VOLUME_SIZE,
-						   	 DiskOfferingId: TEST_VOLUME_DISK_OFFERING_ID,
-						   	 TemplateId: TEST_VOLUME_TEMPLATE_ID,
-						   	 StorageTier: TEST_VOLUME_STORAGE_TIER,
-						   	 ZoneName: TEST_VOLUME_ZONE_NAME,
-						   	 State: TEST_VOLUME_STATE,
-						   	 InstanceName: TEST_VOLUME_INSTANCE_NAME,
-						   	 InstanceId: TEST_VOLUME_INSTANCE_ID,
-						   	 InstanceState: TEST_VOLUME_INSTANCE_STATE}
+		Name:           TEST_VOLUME_NAME,
+		Type:           TEST_VOLUME_TYPE,
+		CreationDate:   TEST_VOLUME_CREATION_DATE,
+		Size:           TEST_VOLUME_SIZE,
+		DiskOfferingId: TEST_VOLUME_DISK_OFFERING_ID,
+		TemplateId:     TEST_VOLUME_TEMPLATE_ID,
+		StorageTier:    TEST_VOLUME_STORAGE_TIER,
+		ZoneName:       TEST_VOLUME_ZONE_NAME,
+		State:          TEST_VOLUME_STATE,
+		InstanceName:   TEST_VOLUME_INSTANCE_NAME,
+		InstanceId:     TEST_VOLUME_INSTANCE_ID,
+		InstanceState:  TEST_VOLUME_INSTANCE_STATE}
 
 	mockEntityService.EXPECT().Get(TEST_VOLUME_ID, gomock.Any()).Return(buildVolumeJsonResponse(&expectedVolume), nil)
 
@@ -125,31 +125,31 @@ func TestListVolumeReturnVolumesIfSuccess(t *testing.T) {
 	}
 
 	expectedVolume1 := Volume{Id: "list_id_1",
-						   	 Name: "list_name_1",
-						   	 Type: "list_type_1",
-						   	 CreationDate: "list_creation_date_1",
-						   	 Size: 1215,
-						   	 DiskOfferingId: "list_disk_offering_id_1",
-						   	 TemplateId: "list_template_id_1",
-						   	 StorageTier: "list_storage_tier_1",
-						   	 ZoneName: "list_zone_name_1",
-						   	 State: "list_state_1",
-						   	 InstanceName: "list_instance_name_1",
-						   	 InstanceId: "list_instance_id_1",
-						   	 InstanceState: "list_instance_state_1"}
+		Name:           "list_name_1",
+		Type:           "list_type_1",
+		CreationDate:   "list_creation_date_1",
+		Size:           1215,
+		DiskOfferingId: "list_disk_offering_id_1",
+		TemplateId:     "list_template_id_1",
+		StorageTier:    "list_storage_tier_1",
+		ZoneName:       "list_zone_name_1",
+		State:          "list_state_1",
+		InstanceName:   "list_instance_name_1",
+		InstanceId:     "list_instance_id_1",
+		InstanceState:  "list_instance_state_1"}
 	expectedVolume2 := Volume{Id: "list_id_2",
-						   	 Name: "list_name_2",
-						   	 Type: "list_type_2",
-						   	 CreationDate: "list_creation_date_2",
-						   	 Size: 54582,
-						   	 DiskOfferingId: "list_disk_offering_id_2",
-						   	 TemplateId: "list_template_id_2",
-						   	 StorageTier: "list_storage_tier_2",
-						   	 ZoneName: "list_zone_name_2",
-						   	 State: "list_state_2",
-						   	 InstanceName: "list_instance_name_2",
-						   	 InstanceId: "list_instance_id_2",
-						   	 InstanceState: "list_instance_state_2"}
+		Name:           "list_name_2",
+		Type:           "list_type_2",
+		CreationDate:   "list_creation_date_2",
+		Size:           54582,
+		DiskOfferingId: "list_disk_offering_id_2",
+		TemplateId:     "list_template_id_2",
+		StorageTier:    "list_storage_tier_2",
+		ZoneName:       "list_zone_name_2",
+		State:          "list_state_2",
+		InstanceName:   "list_instance_name_2",
+		InstanceId:     "list_instance_id_2",
+		InstanceState:  "list_instance_state_2"}
 
 	expectedVolumes := []Volume{expectedVolume1, expectedVolume2}
 
@@ -163,7 +163,6 @@ func TestListVolumeReturnVolumesIfSuccess(t *testing.T) {
 		assert.Equal(t, expectedVolumes, volumes)
 	}
 }
-
 
 func TestListVolumeReturnNilWithErrorIfError(t *testing.T) {
 	//given

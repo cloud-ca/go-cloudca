@@ -1,13 +1,13 @@
 package cloudca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 )
 
 type SSHKey struct {
-	Name string `json:"name,omitempty"`
+	Name        string `json:"name,omitempty"`
 	Fingerprint string `json:"fingerprint,omitempty"`
 }
 

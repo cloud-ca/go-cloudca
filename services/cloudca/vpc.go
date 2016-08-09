@@ -1,9 +1,9 @@
 package cloudca
 
 import (
-	"github.com/cloud-ca/go-cloudca/services"
-	"github.com/cloud-ca/go-cloudca/api"
 	"encoding/json"
+	"github.com/cloud-ca/go-cloudca/api"
+	"github.com/cloud-ca/go-cloudca/services"
 )
 
 const (
@@ -11,18 +11,18 @@ const (
 )
 
 type Vpc struct {
-	Id string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-	Description string `json:"description,omitempty"`
+	Id            string `json:"id,omitempty"`
+	Name          string `json:"name,omitempty"`
+	Description   string `json:"description,omitempty"`
 	VpcOfferingId string `json:"vpcOfferingId,omitempty"`
-	State string `json:"state,omitempty"`
-	Cidr string `json:"cidr,omitempty"`
-	ZoneId string `json:"zoneId,omitempty"`
-	ZoneName string `json:"zoneName,omitempty"`
+	State         string `json:"state,omitempty"`
+	Cidr          string `json:"cidr,omitempty"`
+	ZoneId        string `json:"zoneId,omitempty"`
+	ZoneName      string `json:"zoneName,omitempty"`
 	NetworkDomain string `json:"networkDomain,omitempty"`
-	SourceNatIp string `json:"sourceNatIp,omitempty"`
-	VpnStatus string `json:"vpnStatus,omitempty"`
-	Type string `json:"type,omitempty"`
+	SourceNatIp   string `json:"sourceNatIp,omitempty"`
+	VpnStatus     string `json:"vpnStatus,omitempty"`
+	Type          string `json:"type,omitempty"`
 }
 
 type VpcService interface {
