@@ -13,7 +13,6 @@ type Resources struct {
 	serviceCode      string
 	environmentName  string
 	Instances        InstanceService
-	PublicIps        PublicIpService
 	Volumes          VolumeService
 	Templates        TemplateService
 	ComputeOfferings ComputeOfferingService
@@ -23,24 +22,28 @@ type Resources struct {
 	Vpcs             VpcService
 	VpcOfferings     VpcOfferingService
 	NetworkOfferings NetworkOfferingService
+	PublicIps        PublicIpService
 	NetworkAcls      NetworkAclService
+
+	PortForwardingRules PortForwardingRuleService
 }
 
 func NewResources(apiClient api.ApiClient, serviceCode string, environmentName string) Resources {
 	return Resources{
-		apiClient:        apiClient,
-		serviceCode:      serviceCode,
-		environmentName:  environmentName,
-		Instances:        NewInstanceService(apiClient, serviceCode, environmentName),
-		PublicIps:        NewPublicIpService(apiClient, serviceCode, environmentName),
-		Volumes:          NewVolumeService(apiClient, serviceCode, environmentName),
-		Templates:        NewTemplateService(apiClient, serviceCode, environmentName),
-		ComputeOfferings: NewComputeOfferingService(apiClient, serviceCode, environmentName),
-		Tiers:            NewTierService(apiClient, serviceCode, environmentName),
-		Vpcs:             NewVpcService(apiClient, serviceCode, environmentName),
-		VpcOfferings:     NewVpcOfferingService(apiClient, serviceCode, environmentName),
-		NetworkOfferings: NewNetworkOfferingService(apiClient, serviceCode, environmentName),
-		NetworkAcls:      NewNetworkAclService(apiClient, serviceCode, environmentName),
+		apiClient:           apiClient,
+		serviceCode:         serviceCode,
+		environmentName:     environmentName,
+		Instances:           NewInstanceService(apiClient, serviceCode, environmentName),
+		Volumes:             NewVolumeService(apiClient, serviceCode, environmentName),
+		Templates:           NewTemplateService(apiClient, serviceCode, environmentName),
+		ComputeOfferings:    NewComputeOfferingService(apiClient, serviceCode, environmentName),
+		Tiers:               NewTierService(apiClient, serviceCode, environmentName),
+		Vpcs:                NewVpcService(apiClient, serviceCode, environmentName),
+		VpcOfferings:        NewVpcOfferingService(apiClient, serviceCode, environmentName),
+		NetworkOfferings:    NewNetworkOfferingService(apiClient, serviceCode, environmentName),
+		NetworkAcls:         NewNetworkAclService(apiClient, serviceCode, environmentName),
+		PublicIps:           NewPublicIpService(apiClient, serviceCode, environmentName),
+		PortForwardingRules: NewPortForwardingRuleService(apiClient, serviceCode, environmentName),
 	}
 }
 
