@@ -8,7 +8,8 @@ A cloud.ca client for the Go programming language
 Import
 ```
 	import "github.com/cloud-ca/go-cloudca"
-	// import the service you need
+	
+	/* import the services you need */
 	import "github.com/cloud-ca/go-cloudca/services/cloudca"
 ```
 
