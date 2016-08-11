@@ -49,6 +49,7 @@ type Instance struct {
 	UserData             string        `json:"userData,omitempty"`
 	RecoveryPoint        RecoveryPoint `json:"recoveryPoint,omitempty"`
 	IpAddress            string        `json:"ipAddress,omitempty"`
+	IpAddressId          string        `json:"ipAddressId,omitempty"`
 	PublicIps            []PublicIp    `json:"publicIPs,omitempty"`
 	PublicKey            string        `json:"publicKey,omitempty"`
 	VolumeIdToAttach     string        `json:"volumeIdToAttach,omitempty"`
