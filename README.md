@@ -14,9 +14,14 @@ Import
 ```
 
 
-First of all create a new CcaClient.
+Create a new CcaClient.
 ```
 	ccaClient := cca.NewCcaClient("[your-api-key]")
+```
+
+Retrieve the list of environments
+```
+	environments, _ := ccaClient.Environments.List()
 ```
 
 Get the ServiceResources object for a specific environment and service. Here, we assume that it is a cloudca service.
@@ -72,7 +77,6 @@ If an error has occured, then we first try to cast the error into a CcaErrorResp
 		}
 	}
 ```
-
 
 #License
 
