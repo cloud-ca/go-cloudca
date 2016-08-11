@@ -5,9 +5,17 @@ A cloud.ca client for the Go programming language
 [![GoDoc](https://godoc.org/github.com/cloud-ca/go-cloudca?status.svg)](https://godoc.org/github.com/cloud-ca/go-cloudca)
 # How to use
 
+Import
+```
+	import "github.com/cloud-ca/go-cloudca"
+	// import the service you need
+	import "github.com/cloud-ca/go-cloudca/services/cloudca"
+```
+
+
 First of all create a new CcaClient.
 ```
-	ccaClient := gocca.NewCcaClient("[your-api-key]")
+	ccaClient := cca.NewCcaClient("[your-api-key]")
 ```
 
 Get the ServiceResources object for a specific environment and service. Here, we assume that it is a cloudca service.
