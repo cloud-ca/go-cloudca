@@ -5,5 +5,5 @@ type Role struct {
 	Name         string       `json:"name,omitempty"`
 	Environment  Environment  `json:"environment,omitempty"`
 	Users        []User       `json:"users"`
-	Organization Organization `json:"tenant,omitempty"`
+	Organization Organization `json:"organization,omitempty"`
 }

@@ -26,7 +26,7 @@ type OrganizationApi struct {
 
 func NewOrganizationService(apiClient api.ApiClient) OrganizationService {
 	return &OrganizationApi{
-		configurationService: NewConfigurationService(apiClient, "tenants"),
+		configurationService: NewConfigurationService(apiClient, "organizations"),
 	}
 }
 
