@@ -21,6 +21,7 @@ type Volume struct {
 	TemplateId     string `json:"templateId,omitempty"`
 	StorageTier    string `json:"storageTier,omitempty"`
 	ZoneName       string `json:"zoneName,omitempty"`
+	ZoneId         string `json:"zoneId,omitempty"`
 	State          string `json:"state,omitempty"`
 	InstanceName   string `json:"instanceName,omitempty"`
 	InstanceId     string `json:"instanceId,omitempty"`
@@ -32,6 +33,10 @@ type VolumeService interface {
 	List() ([]Volume, error)
 	ListOfType(volumeType string) ([]Volume, error)
 	ListWithOptions(options map[string]string) ([]Volume, error)
+	Create(Volume) (*Volume, error)
+	Delete(string) error
+	AttachToInstance(*Volume, string) error
+	DetachFromInstance(*Volume) error
 }
 
 type VolumeApi struct {
@@ -84,4 +89,37 @@ func (volumeApi *VolumeApi) ListWithOptions(options map[string]string) ([]Volume
 		return nil, err
 	}
 	return parseVolumeList(data), nil
+}
+
+func (api *VolumeApi) Create(volume Volume) (*Volume, error) {
+	msg, err := json.Marshal(volume)
+	if err != nil {
+		return nil, err
+	}
+	res, err := api.entityService.Create(msg, map[string]string{})
+	if err != nil {
+		return nil, err
+	}
+	return parseVolume(res), nil
+}
+
+func (api *VolumeApi) Delete(volumeId string) error {
+	_, err := api.entityService.Delete(volumeId, []byte{}, map[string]string{})
+	return err
+}
+
+func (api *VolumeApi) AttachToInstance(volume *Volume, instanceId string) error {
+	msg, err := json.Marshal(Volume{
+		InstanceId: instanceId,
+	})
+	if err != nil {
+		return err
+	}
+	_, err = api.entityService.Execute(volume.Id, "attachToInstance", msg, map[string]string{})
+	return err
+}
+
+func (api *VolumeApi) DetachFromInstance(volume *Volume) error {
+	_, err := api.entityService.Execute(volume.Id, "detachFromInstance", []byte{}, map[string]string{})
+	return err
 }
