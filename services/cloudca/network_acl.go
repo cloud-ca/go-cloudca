@@ -7,10 +7,10 @@ import (
 )
 
 type NetworkAcl struct {
-	Id   string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
+	Id          string `json:"id,omitempty"`
+	Name        string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
-	VpcId string `json:"vpcId,omitempty"`
+	VpcId       string `json:"vpcId,omitempty"`
 }
 
 type NetworkAclService interface {
@@ -18,6 +18,8 @@ type NetworkAclService interface {
 	List() ([]NetworkAcl, error)
 	ListByVpcId(vpcId string) ([]NetworkAcl, error)
 	ListWithOptions(options map[string]string) ([]NetworkAcl, error)
+	Create(networkAcl NetworkAcl) (*NetworkAcl, error)
+	Delete(id string) (bool, error)
 }
 
 type NetworkAclApi struct {
