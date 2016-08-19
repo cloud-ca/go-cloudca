@@ -24,6 +24,7 @@ type Resources struct {
 	NetworkOfferings NetworkOfferingService
 	PublicIps        PublicIpService
 	NetworkAcls      NetworkAclService
+	Zones            ZoneService
 
 	PortForwardingRules PortForwardingRuleService
 }
@@ -44,6 +45,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		NetworkAcls:         NewNetworkAclService(apiClient, serviceCode, environmentName),
 		PublicIps:           NewPublicIpService(apiClient, serviceCode, environmentName),
 		PortForwardingRules: NewPortForwardingRuleService(apiClient, serviceCode, environmentName),
+		Zones:               NewZoneService(apiClient, serviceCode, environmentName),
 	}
 }
 
