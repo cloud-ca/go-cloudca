@@ -7,8 +7,10 @@ import (
 )
 
 type NetworkAcl struct {
-	Id   string `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
+	Id          string `json:"id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	VpcId       string `json:"vpcId,omitempty"`
 }
 
 type NetworkAclService interface {
@@ -16,6 +18,8 @@ type NetworkAclService interface {
 	List() ([]NetworkAcl, error)
 	ListByVpcId(vpcId string) ([]NetworkAcl, error)
 	ListWithOptions(options map[string]string) ([]NetworkAcl, error)
+	Create(networkAcl NetworkAcl) (*NetworkAcl, error)
+	Delete(id string) (bool, error)
 }
 
 type NetworkAclApi struct {
@@ -66,4 +70,21 @@ func (networkAclApi *NetworkAclApi) ListWithOptions(options map[string]string) (
 		return nil, err
 	}
 	return parseNetworkAclList(data), nil
+}
+
+func (networkAclApi *NetworkAclApi) Create(networkAcl NetworkAcl) (*NetworkAcl, error) {
+	msg, err := json.Marshal(networkAcl)
+	if err != nil {
+		return nil, err
+	}
+	result, err := networkAclApi.entityService.Create(msg, map[string]string{})
+	if err != nil {
+		return nil, err
+	}
+	return parseNetworkAcl(result), nil
+}
+
+func (networkAclApi *NetworkAclApi) Delete(id string) (bool, error) {
+	_, err := networkAclApi.entityService.Delete(id, []byte{}, map[string]string{})
+	return err == nil, err
 }
