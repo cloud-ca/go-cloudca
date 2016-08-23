@@ -12,7 +12,7 @@ import (
 
 const ACL_RULE_TEMPLATE = `{
 	"id": "%s",
-	"aclId": "6145ea41-010c-41f2-a065-2a3a4e98d09d",
+	"networkAclId": "6145ea41-010c-41f2-a065-2a3a4e98d09d",
 	"ruleNumber": "1",
 	"cidr": "0.0.0.0/24",
 	"action": "Allow",
@@ -32,16 +32,16 @@ func setupMockForNetworkAclRule(t *testing.T) *services_mocks.MockEntityService 
 
 func createNetworkAclRuleWithId(id string) *NetworkAclRule {
 	return &NetworkAclRule{
-		Id:          id,
-		AclId:       "6145ea41-010c-41f2-a065-2a3a4e98d09d",
-		RuleNumber:  "1",
-		Cidr:        "0.0.0.0/24",
-		Action:      "Allow",
-		Protocol:    "TCP",
-		StartPort:   "80",
-		EndPort:     "80",
-		TrafficType: "Ingress",
-		State:       "Active",
+		Id:           id,
+		NetworkAclId: "6145ea41-010c-41f2-a065-2a3a4e98d09d",
+		RuleNumber:   "1",
+		Cidr:         "0.0.0.0/24",
+		Action:       "Allow",
+		Protocol:     "TCP",
+		StartPort:    "80",
+		EndPort:      "80",
+		TrafficType:  "Ingress",
+		State:        "Active",
 	}
 }
 

@@ -8,22 +8,24 @@ import (
 )
 
 type NetworkAclRule struct {
-	Id          string `json:"id,omitempty"`
-	AclId       string `json:"aclId,omitempty"`
-	RuleNumber  string `json:"ruleNumber,omitempty"`
-	Cidr        string `json:"cidr,omitempty"`
-	Action      string `json:"action,omitempty"`
-	Protocol    string `json:"protocol,omitempty"`
-	StartPort   string `json:"startPort,omitempty"`
-	EndPort     string `json:"endPort,omitempty"`
-	TrafficType string `json:"trafficType,omitempty"`
-	State       string `json:"state,omitempty"`
+	Id           string `json:"id,omitempty"`
+	NetworkAclId string `json:"networkAclId,omitempty"`
+	RuleNumber   string `json:"ruleNumber,omitempty"`
+	Cidr         string `json:"cidr,omitempty"`
+	Action       string `json:"action,omitempty"`
+	Protocol     string `json:"protocol,omitempty"`
+	StartPort    string `json:"startPort,omitempty"`
+	EndPort      string `json:"endPort,omitempty"`
+	IcmpType     string `json:"icmpType,omitempty"`
+	IcmpCode     string `json:"icmpCode,omitempty"`
+	TrafficType  string `json:"trafficType,omitempty"`
+	State        string `json:"state,omitempty"`
 }
 
 type NetworkAclRuleService interface {
 	Get(id string) (*NetworkAclRule, error)
 	List() ([]NetworkAclRule, error)
-	ListByAclId(aclId string) ([]NetworkAclRule, error)
+	ListByNetworkAclId(networkAclId string) ([]NetworkAclRule, error)
 	ListWithOptions(options map[string]string) ([]NetworkAclRule, error)
 	Create(networkAclRule NetworkAclRule) (*NetworkAclRule, error)
 	Delete(id string) (bool, error)
@@ -73,8 +75,8 @@ func (api NetworkAclRuleApi) List() ([]NetworkAclRule, error) {
 }
 
 //List all network acl rules for the NetworkAcl
-func (networkAclRuleApi *NetworkAclRuleApi) ListByAclId(aclId string) ([]NetworkAclRule, error) {
-	return networkAclRuleApi.ListWithOptions(map[string]string{"acl_id": aclId})
+func (networkAclRuleApi *NetworkAclRuleApi) ListByNetworkAclId(networkAclId string) ([]NetworkAclRule, error) {
+	return networkAclRuleApi.ListWithOptions(map[string]string{"network_acl_id": networkAclId})
 }
 
 func (networkAclRuleApi *NetworkAclRuleApi) Create(networkAclRule NetworkAclRule) (*NetworkAclRule, error) {
