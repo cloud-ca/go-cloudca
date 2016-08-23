@@ -31,6 +31,7 @@ func buildVolumeJsonResponse(volume *Volume) []byte {
 		` "type": "` + volume.Type + `",` +
 		` "creationDate": "` + volume.CreationDate + `",` +
 		` "size": ` + strconv.Itoa(volume.Size) + `,` +
+		` "sizeInGb": ` + strconv.Itoa(volume.GbSize) + `,` +
 		` "diskOfferingId": "` + volume.DiskOfferingId + `",` +
 		` "templateId": "` + volume.TemplateId + `",` +
 		` "storageTier": "` + volume.StorageTier + `",` +

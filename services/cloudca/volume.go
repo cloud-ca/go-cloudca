@@ -17,6 +17,7 @@ type Volume struct {
 	Type           string `json:"type,omitempty"`
 	CreationDate   string `json:"creationDate,omitempty"`
 	Size           int    `json:"size,omitempty"`
+	GbSize         int    `json:"sizeInGb,omitempty"`
 	DiskOfferingId string `json:"diskOfferingId,omitempty"`
 	TemplateId     string `json:"templateId,omitempty"`
 	StorageTier    string `json:"storageTier,omitempty"`
