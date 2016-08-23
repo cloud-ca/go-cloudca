@@ -9,22 +9,22 @@ const (
 )
 
 type Resources struct {
-	apiClient        api.ApiClient
-	serviceCode      string
-	environmentName  string
-	Instances        InstanceService
-	Volumes          VolumeService
-	Templates        TemplateService
-	ComputeOfferings ComputeOfferingService
-	DiskOfferings    DiskOfferingService
-	SSHKeys          SSHKeyService
-	Tiers            TierService
-	Vpcs             VpcService
-	VpcOfferings     VpcOfferingService
-	NetworkOfferings NetworkOfferingService
-	PublicIps        PublicIpService
-	NetworkAcls      NetworkAclService
-
+	apiClient           api.ApiClient
+	serviceCode         string
+	environmentName     string
+	Instances           InstanceService
+	Volumes             VolumeService
+	Templates           TemplateService
+	ComputeOfferings    ComputeOfferingService
+	DiskOfferings       DiskOfferingService
+	SSHKeys             SSHKeyService
+	Tiers               TierService
+	Vpcs                VpcService
+	VpcOfferings        VpcOfferingService
+	NetworkOfferings    NetworkOfferingService
+	PublicIps           PublicIpService
+	NetworkAcls         NetworkAclService
+	NetworkAclRules     NetworkAclRuleService
 	PortForwardingRules PortForwardingRuleService
 }
 
@@ -42,6 +42,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		VpcOfferings:        NewVpcOfferingService(apiClient, serviceCode, environmentName),
 		NetworkOfferings:    NewNetworkOfferingService(apiClient, serviceCode, environmentName),
 		NetworkAcls:         NewNetworkAclService(apiClient, serviceCode, environmentName),
+		NetworkAclRules:     NewNetworkAclRuleService(apiClient, serviceCode, environmentName),
 		PublicIps:           NewPublicIpService(apiClient, serviceCode, environmentName),
 		PortForwardingRules: NewPortForwardingRuleService(apiClient, serviceCode, environmentName),
 	}

@@ -13,6 +13,7 @@ const (
 	VPC_OFFERING_ENTITY_TYPE         = "vpcofferings"
 	NETWORK_OFFERING_ENTITY_TYPE     = "networkofferings"
 	NETWORK_ACL_ENTITY_TYPE          = "networkacls"
+	NETWORK_ACL_RULE_ENTITY_TYPE     = "networkaclrules"
 	PORT_FORWARDING_RULE_ENTITY_TYPE = "portforwardingrules"
 	PUBLIC_IP_ENTITY_TYPE            = "publicipaddresses"
 )
