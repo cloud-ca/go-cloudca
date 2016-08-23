@@ -187,3 +187,166 @@ func TestListVolumeReturnNilWithErrorIfError(t *testing.T) {
 	assert.Equal(t, mockError, err)
 
 }
+
+func TestCreateReturnsErrorIfErrorWhileCreating(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	mockError := mocks.MockError{"creation error"}
+	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return(nil, mockError)
+
+	// when
+	volume, err := volumeService.Create(Volume{})
+
+	// then
+	assert.Nil(t, volume)
+	assert.Equal(t, mockError, err)
+}
+
+func TestCreateSucceeds(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	expected := Volume{
+		Id: "expected",
+	}
+	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return(buildVolumeJsonResponse(&expected), nil)
+
+	// when
+	volume, err := volumeService.Create(Volume{})
+
+	// then
+	assert.Equal(t, expected, *volume)
+	assert.Nil(t, err)
+}
+
+func TestAttachToInstanceFailure(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	toAttach := &Volume{
+		Id: "toAttach",
+	}
+	mockError := mocks.MockError{"attach error"}
+	mockEntityService.EXPECT().Execute(toAttach.Id, "attachToInstance", gomock.Any(), gomock.Any()).Return(nil, mockError)
+
+	// when
+	err := volumeService.AttachToInstance(toAttach, "some instance")
+
+	// then
+	assert.Equal(t, mockError, err)
+}
+
+func TestAttachToInstanceSuccess(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	toAttach := &Volume{
+		Id: "toAttach",
+	}
+	mockEntityService.EXPECT().Execute(toAttach.Id, "attachToInstance", gomock.Any(), gomock.Any()).Return([]byte("success!"), nil)
+
+	// when
+	err := volumeService.AttachToInstance(toAttach, "some instance")
+
+	// then
+	assert.Nil(t, err)
+}
+
+func TestDetachFromInstanceFailure(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	toDetach := &Volume{
+		Id: "toDetach",
+	}
+	mockError := mocks.MockError{"Detach error"}
+	mockEntityService.EXPECT().Execute(toDetach.Id, "detachFromInstance", gomock.Any(), gomock.Any()).Return(nil, mockError)
+
+	// when
+	err := volumeService.DetachFromInstance(toDetach)
+
+	// then
+	assert.Equal(t, mockError, err)
+}
+
+func TestDetachFromInstanceSuccess(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	toDetach := &Volume{
+		Id: "toDetach",
+	}
+	mockEntityService.EXPECT().Execute(toDetach.Id, "detachFromInstance", gomock.Any(), gomock.Any()).Return([]byte("success!"), nil)
+
+	// when
+	err := volumeService.DetachFromInstance(toDetach)
+
+	// then
+	assert.Nil(t, err)
+}
+
+func TestDeleteSuccess(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	toDelete := &Volume{
+		Id: "toDelete",
+	}
+	mockEntityService.EXPECT().Delete(toDelete.Id, gomock.Any(), gomock.Any()).Return([]byte("success!"), nil)
+
+	// when
+	err := volumeService.Delete(toDelete.Id)
+
+	// then
+	assert.Nil(t, err)
+}
+
+func TestDeleteFailure(t *testing.T) {
+	// given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	volumeService := VolumeApi{
+		entityService: mockEntityService,
+	}
+	toDelete := &Volume{
+		Id: "toDelete",
+	}
+	mockError := mocks.MockError{"delete error"}
+	mockEntityService.EXPECT().Delete(toDelete.Id, gomock.Any(), gomock.Any()).Return(nil, mockError)
+
+	// when
+	err := volumeService.Delete(toDelete.Id)
+
+	// then
+	assert.Equal(t, mockError, err)
+}
