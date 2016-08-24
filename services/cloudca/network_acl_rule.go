@@ -28,6 +28,7 @@ type NetworkAclRuleService interface {
 	ListByNetworkAclId(networkAclId string) ([]NetworkAclRule, error)
 	ListWithOptions(options map[string]string) ([]NetworkAclRule, error)
 	Create(networkAclRule NetworkAclRule) (*NetworkAclRule, error)
+	Update(id string, networkAclRule NetworkAclRule) (*NetworkAclRule, error)
 	Delete(id string) (bool, error)
 }
 
@@ -85,6 +86,18 @@ func (networkAclRuleApi *NetworkAclRuleApi) Create(networkAclRule NetworkAclRule
 		return nil, err
 	}
 	result, err := networkAclRuleApi.entityService.Create(msg, map[string]string{})
+	if err != nil {
+		return nil, err
+	}
+	return parseNetworkAclRule(result), nil
+}
+
+func (networkAclRuleApi *NetworkAclRuleApi) Update(id string, networkAclRule NetworkAclRule) (*NetworkAclRule, error) {
+	msg, err := json.Marshal(networkAclRule)
+	if err != nil {
+		return nil, err
+	}
+	result, err := networkAclRuleApi.entityService.Update(id, msg, map[string]string{})
 	if err != nil {
 		return nil, err
 	}

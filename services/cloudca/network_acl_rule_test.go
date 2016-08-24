@@ -45,7 +45,33 @@ func createNetworkAclRuleWithId(id string) *NetworkAclRule {
 	}
 }
 
-func TestGetNetworkAclRuleById(t *testing.T) {
+func buildTestNetworkAclRuleJsonResponse(networkAclRule *NetworkAclRule) []byte {
+	return []byte(`{"id":"` + networkAclRule.Id + `",` +
+		` "networkAclId":"` + networkAclRule.NetworkAclId + `",` +
+		` "ruleNumber":"` + networkAclRule.RuleNumber + `",` +
+		` "cidr":"` + networkAclRule.Cidr + `",` +
+		` "action":"` + networkAclRule.Action + `",` +
+		` "protocol":"` + networkAclRule.Protocol + `",` +
+		` "startPort":"` + networkAclRule.StartPort + `",` +
+		` "endPort":"` + networkAclRule.EndPort + `",` +
+		` "trafficType":"` + networkAclRule.TrafficType + `",` +
+		` "state":"` + networkAclRule.State +
+		`"}`)
+}
+
+func buildListTestNetworkAclRulesJsonResponse(acls []NetworkAclRule) []byte {
+	resp := `[`
+	for i, t := range acls {
+		resp += string(buildTestNetworkAclRuleJsonResponse(&t))
+		if i != len(acls)-1 {
+			resp += `,`
+		}
+	}
+	resp += `]`
+	return []byte(resp)
+}
+
+func TestGetNetworkAclRuleByIdReturnAclRule_ifSuccess(t *testing.T) {
 	// given
 	mockEntityService := setupMockForNetworkAclRule(t)
 	networkAclRuleService := NetworkAclRuleApi{
@@ -63,6 +89,110 @@ func TestGetNetworkAclRuleById(t *testing.T) {
 
 	// then
 	assert.Equal(t, expectedNetworkAclRule, *networkAclRule)
+}
+
+func TestGetNetworkAclRuleByIdReturnError_ifError(t *testing.T) {
+	// given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	expectedId := "rule_0"
+	mockError := mocks.MockError{Message: "get error"}
+	mockEntityService.EXPECT().Get(expectedId, gomock.Any()).Return(nil, mockError)
+
+	// when
+	networkAclRule, err := networkAclRuleService.Get(expectedId)
+
+	// then
+	assert.Nil(t, networkAclRule)
+	assert.Equal(t, mockError, err)
+}
+
+func TestListNetworkAclRuleReturnAclsIfSuccess(t *testing.T) {
+	//given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	expectedId1 := "rule_1"
+	expectedNetworkAclRule1 := *createNetworkAclRuleWithId(expectedId1)
+	expectedId2 := "rule_2"
+	expectedNetworkAclRule2 := *createNetworkAclRuleWithId(expectedId2)
+
+	expectedAcls := []NetworkAclRule{expectedNetworkAclRule1, expectedNetworkAclRule2}
+
+	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListTestNetworkAclRulesJsonResponse(expectedAcls), nil)
+
+	//when
+	acls, _ := networkAclRuleService.List()
+
+	//then
+	if assert.NotNil(t, acls) {
+		assert.Equal(t, expectedAcls, acls)
+	}
+}
+
+func TestListNetworkAclRuleReturnNilWithErrorIfError(t *testing.T) {
+	//given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	mockError := mocks.MockError{Message: "some_list_error"}
+	mockEntityService.EXPECT().List(gomock.Any()).Return(nil, mockError)
+
+	//when
+	acls, err := networkAclRuleService.List()
+
+	//then
+	assert.Nil(t, acls)
+	assert.Equal(t, mockError, err)
+
+}
+
+func TestListNetworkAclRuleByAclIdReturnAcls_ifSuccess(t *testing.T) {
+	//given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	expectedId1 := "rule_1"
+	expectedNetworkAclRule1 := *createNetworkAclRuleWithId(expectedId1)
+	expectedAcls := []NetworkAclRule{expectedNetworkAclRule1}
+
+	mockEntityService.EXPECT().List(gomock.Any()).Return(buildListTestNetworkAclRulesJsonResponse(expectedAcls), nil)
+
+	//when
+	acls, _ := networkAclRuleService.ListByNetworkAclId("acl1")
+
+	//then
+	if assert.NotNil(t, acls) {
+		assert.Equal(t, expectedAcls, acls)
+	}
+}
+
+func TestListNetworkAclRuleByAclIdReturnNilWithError_ifError(t *testing.T) {
+	//given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	mockError := mocks.MockError{Message: "some_list_error"}
+	mockEntityService.EXPECT().List(gomock.Any()).Return(nil, mockError)
+
+	//when
+	acls, err := networkAclRuleService.ListByNetworkAclId("acl1")
+
+	//then
+	assert.Nil(t, acls)
+	assert.Equal(t, mockError, err)
+
 }
 
 func TestListNetworkAclRulesWithOptions(t *testing.T) {
@@ -85,7 +215,25 @@ func TestListNetworkAclRulesWithOptions(t *testing.T) {
 	assert.Equal(t, id2, rules[1].Id)
 }
 
-func TestCreateNetworkAclRule(t *testing.T) {
+func TestCreateNetworkAclRuleReturnsError_ifErrorWhileCreating(t *testing.T) {
+	// given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	mockError := mocks.MockError{Message: "creation error"}
+	mockEntityService.EXPECT().Create(gomock.Any(), gomock.Any()).Return(nil, mockError)
+
+	// when
+	rule, err := networkAclRuleService.Create(NetworkAclRule{})
+
+	// then
+	assert.Nil(t, rule)
+	assert.Equal(t, mockError, err)
+}
+
+func TestCreateNetworkAclRuleReturnsSuccess_ifNoErrorsOccur(t *testing.T) {
 	// given
 	mockEntityService := setupMockForNetworkAclRule(t)
 	networkAclRuleService := NetworkAclRuleApi{
@@ -105,6 +253,62 @@ func TestCreateNetworkAclRule(t *testing.T) {
 	assert.Equal(t, expectedNetworkAclRule, *rule)
 }
 
+func TestUpdateNetworkAclRuleReturnsError_ifErrorWhileCreating(t *testing.T) {
+	// given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	mockError := mocks.MockError{Message: "update error"}
+	mockEntityService.EXPECT().Update(gomock.Any(), gomock.Any(), gomock.Any()).Return(nil, mockError)
+
+	// when
+	rule, err := networkAclRuleService.Update("1234", NetworkAclRule{})
+
+	// then
+	assert.Nil(t, rule)
+	assert.Equal(t, mockError, err)
+}
+
+func TestUpdateNetworkAclRuleReturnsSuccess_ifNoErrorsOccur(t *testing.T) {
+	// given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	expectedId := "adsf"
+	response := fmt.Sprintf(ACL_RULE_TEMPLATE, expectedId)
+	expectedNetworkAclRule := *createNetworkAclRuleWithId(expectedId)
+
+	mockEntityService.EXPECT().Update(gomock.Any(), gomock.Any(), gomock.Any()).Return([]byte(response), nil)
+
+	// when
+	rule, _ := networkAclRuleService.Update(expectedId, expectedNetworkAclRule)
+
+	// then
+	assert.Equal(t, expectedNetworkAclRule, *rule)
+}
+
+func TestDeleteNetworkAclRuleReturnsError_ifErrorWhileDeleting(t *testing.T) {
+	// given
+	mockEntityService := setupMockForNetworkAclRule(t)
+	networkAclRuleService := NetworkAclRuleApi{
+		entityService: mockEntityService,
+	}
+
+	mockError := mocks.MockError{Message: "deletion error"}
+	mockEntityService.EXPECT().Delete(gomock.Any(), gomock.Any(), gomock.Any()).Return([]byte{}, mockError)
+
+	// when
+	success, err := networkAclRuleService.Delete("123")
+
+	// then
+	assert.False(t, success)
+	assert.Equal(t, mockError, err)
+}
+
 func TestDeleteNetworkAclRuleReturnsSuccess_ifNoErrorsOccur(t *testing.T) {
 	// given
 	mockEntityService := setupMockForNetworkAclRule(t)
@@ -120,21 +324,4 @@ func TestDeleteNetworkAclRuleReturnsSuccess_ifNoErrorsOccur(t *testing.T) {
 
 	// then
 	assert.True(t, success)
-}
-
-func TestDeleteNetworkAclRuleReturnsFailure_ifErrorOccurred(t *testing.T) {
-	// given
-	mockEntityService := setupMockForNetworkAclRule(t)
-	networkAclRuleService := NetworkAclRuleApi{
-		entityService: mockEntityService,
-	}
-
-	expectedId := "id0"
-	mockEntityService.EXPECT().Delete(expectedId, gomock.Any(), gomock.Any()).Return(nil, mocks.MockError{Message: "asdf"})
-
-	// when
-	success, _ := networkAclRuleService.Delete(expectedId)
-
-	// then
-	assert.False(t, success)
 }
