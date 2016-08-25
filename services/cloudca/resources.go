@@ -9,22 +9,23 @@ const (
 )
 
 type Resources struct {
-	apiClient           api.ApiClient
-	serviceCode         string
-	environmentName     string
-	Instances           InstanceService
-	Volumes             VolumeService
-	Templates           TemplateService
-	ComputeOfferings    ComputeOfferingService
-	DiskOfferings       DiskOfferingService
-	SSHKeys             SSHKeyService
-	Tiers               TierService
-	Vpcs                VpcService
-	VpcOfferings        VpcOfferingService
-	NetworkOfferings    NetworkOfferingService
-	PublicIps           PublicIpService
-	NetworkAcls         NetworkAclService
-	NetworkAclRules     NetworkAclRuleService
+	apiClient        api.ApiClient
+	serviceCode      string
+	environmentName  string
+	Instances        InstanceService
+	Volumes          VolumeService
+	Templates        TemplateService
+	ComputeOfferings ComputeOfferingService
+	DiskOfferings    DiskOfferingService
+	SSHKeys          SSHKeyService
+	Tiers            TierService
+	Vpcs             VpcService
+	VpcOfferings     VpcOfferingService
+	NetworkOfferings NetworkOfferingService
+	PublicIps        PublicIpService
+	NetworkAcls      NetworkAclService
+	NetworkAclRules  NetworkAclRuleService
+	Zones            ZoneService
 	PortForwardingRules PortForwardingRuleService
 }
 
@@ -37,6 +38,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		Volumes:             NewVolumeService(apiClient, serviceCode, environmentName),
 		Templates:           NewTemplateService(apiClient, serviceCode, environmentName),
 		ComputeOfferings:    NewComputeOfferingService(apiClient, serviceCode, environmentName),
+		DiskOfferings:       NewDiskOfferingService(apiClient, serviceCode, environmentName),
 		Tiers:               NewTierService(apiClient, serviceCode, environmentName),
 		Vpcs:                NewVpcService(apiClient, serviceCode, environmentName),
 		VpcOfferings:        NewVpcOfferingService(apiClient, serviceCode, environmentName),
@@ -45,6 +47,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		NetworkAclRules:     NewNetworkAclRuleService(apiClient, serviceCode, environmentName),
 		PublicIps:           NewPublicIpService(apiClient, serviceCode, environmentName),
 		PortForwardingRules: NewPortForwardingRuleService(apiClient, serviceCode, environmentName),
+		Zones:               NewZoneService(apiClient, serviceCode, environmentName),
 	}
 }
 
