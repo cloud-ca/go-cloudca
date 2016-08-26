@@ -2,6 +2,7 @@ package cloudca
 
 import (
 	"encoding/json"
+
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/services"
 )
@@ -47,13 +48,13 @@ func NewPortForwardingRuleService(apiClient api.ApiClient, serviceCode string, e
 	}
 }
 
-func parse(data []byte) *PortForwardingRule {
+func parsePortForwardingRule(data []byte) *PortForwardingRule {
 	pfr := PortForwardingRule{}
 	json.Unmarshal(data, &pfr)
 	return &pfr
 }
 
-func parseList(data []byte) []PortForwardingRule {
+func parsePortForwardingRuleList(data []byte) []PortForwardingRule {
 	pfrs := []PortForwardingRule{}
 	json.Unmarshal(data, &pfrs)
 	return pfrs
@@ -64,7 +65,7 @@ func (api PortForwardingRuleApi) Get(id string) (*PortForwardingRule, error) {
 	if err != nil {
 		return nil, err
 	}
-	return parse(data), nil
+	return parsePortForwardingRule(data), nil
 }
 
 func (api PortForwardingRuleApi) ListWithOptions(options map[string]string) ([]PortForwardingRule, error) {
@@ -72,7 +73,7 @@ func (api PortForwardingRuleApi) ListWithOptions(options map[string]string) ([]P
 	if err != nil {
 		return nil, err
 	}
-	return parseList(data), nil
+	return parsePortForwardingRuleList(data), nil
 }
 
 func (api PortForwardingRuleApi) List() ([]PortForwardingRule, error) {
@@ -88,7 +89,7 @@ func (api PortForwardingRuleApi) Create(pfr PortForwardingRule) (*PortForwarding
 	if err != nil {
 		return nil, err
 	}
-	return parse(result), nil
+	return parsePortForwardingRule(result), nil
 }
 
 func (api PortForwardingRuleApi) Delete(id string) (bool, error) {
