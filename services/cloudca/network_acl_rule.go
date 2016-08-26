@@ -63,16 +63,16 @@ func (networkAclRuleApi *NetworkAclRuleApi) Get(id string) (*NetworkAclRule, err
 	return parseNetworkAclRule(data), nil
 }
 
-func (api NetworkAclRuleApi) ListWithOptions(options map[string]string) ([]NetworkAclRule, error) {
-	data, err := api.entityService.List(options)
+func (networkAclRuleApi *NetworkAclRuleApi) ListWithOptions(options map[string]string) ([]NetworkAclRule, error) {
+	data, err := networkAclRuleApi.entityService.List(options)
 	if err != nil {
 		return nil, err
 	}
 	return parseNetworkAclRuleList(data), nil
 }
 
-func (api NetworkAclRuleApi) List() ([]NetworkAclRule, error) {
-	return api.ListWithOptions(map[string]string{})
+func (networkAclRuleApi *NetworkAclRuleApi) List() ([]NetworkAclRule, error) {
+	return networkAclRuleApi.ListWithOptions(map[string]string{})
 }
 
 //List all network acl rules for the NetworkAcl

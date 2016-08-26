@@ -60,7 +60,7 @@ func parsePortForwardingRuleList(data []byte) []PortForwardingRule {
 	return pfrs
 }
 
-func (api PortForwardingRuleApi) Get(id string) (*PortForwardingRule, error) {
+func (api *PortForwardingRuleApi) Get(id string) (*PortForwardingRule, error) {
 	data, err := api.entityService.Get(id, map[string]string{})
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (api PortForwardingRuleApi) Get(id string) (*PortForwardingRule, error) {
 	return parsePortForwardingRule(data), nil
 }
 
-func (api PortForwardingRuleApi) ListWithOptions(options map[string]string) ([]PortForwardingRule, error) {
+func (api *PortForwardingRuleApi) ListWithOptions(options map[string]string) ([]PortForwardingRule, error) {
 	data, err := api.entityService.List(options)
 	if err != nil {
 		return nil, err
@@ -76,11 +76,11 @@ func (api PortForwardingRuleApi) ListWithOptions(options map[string]string) ([]P
 	return parsePortForwardingRuleList(data), nil
 }
 
-func (api PortForwardingRuleApi) List() ([]PortForwardingRule, error) {
+func (api *PortForwardingRuleApi) List() ([]PortForwardingRule, error) {
 	return api.ListWithOptions(map[string]string{})
 }
 
-func (api PortForwardingRuleApi) Create(pfr PortForwardingRule) (*PortForwardingRule, error) {
+func (api *PortForwardingRuleApi) Create(pfr PortForwardingRule) (*PortForwardingRule, error) {
 	msg, err := json.Marshal(pfr)
 	if err != nil {
 		return nil, err
@@ -92,7 +92,7 @@ func (api PortForwardingRuleApi) Create(pfr PortForwardingRule) (*PortForwarding
 	return parsePortForwardingRule(result), nil
 }
 
-func (api PortForwardingRuleApi) Delete(id string) (bool, error) {
+func (api *PortForwardingRuleApi) Delete(id string) (bool, error) {
 	_, err := api.entityService.Delete(id, []byte{}, map[string]string{})
 	return err == nil, err
 }
