@@ -2,6 +2,7 @@ package configuration
 
 import (
 	"encoding/json"
+
 	"github.com/cloud-ca/go-cloudca/api"
 )
 
@@ -26,7 +27,7 @@ type OrganizationApi struct {
 
 func NewOrganizationService(apiClient api.ApiClient) OrganizationService {
 	return &OrganizationApi{
-		configurationService: NewConfigurationService(apiClient, "tenants"),
+		configurationService: NewConfigurationService(apiClient, "organizations"),
 	}
 }
 
