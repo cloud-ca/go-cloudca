@@ -1,10 +1,11 @@
 package configuration
 
 import (
+	"testing"
+
 	"github.com/cloud-ca/go-cloudca/mocks/configuration_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestConfigurationType(t *testing.T) {
@@ -31,7 +32,7 @@ func TestGetEnvironmentReturnEnvironmentIfSuccess(t *testing.T) {
                  "description":"pat dev 1",
                  "membership":"MANY_USERS",
                  "serviceConnection":{"id":"73983e63-e404-48aa-a89c-f41ca93af9cd","category":"IAAS","name":"patDev1","serviceCode":"dev1","type":"CloudCA"},
-                 "tenant":{"id":"4b5e5c55-7aea-48e4-9287-d63b36457c51","entryPoint":"pat","name":"Test"},
+                 "organization":{"id":"4b5e5c55-7aea-48e4-9287-d63b36457c51","entryPoint":"pat","name":"Test"},
                  "users":[{"id":"062445f9-11d3-4e7b-9a84-908272a72250","userName":"pdube"}],
                  "roles":[{"id":"32a25a1e-0506-429f-a731-e8fcaaa01c4d","users":[],"isDefault":false,"name":"Read-only"},
                           {"id":"517b40e5-20a8-44f0-a5d0-06ed20ee4d43","users":[{"id":"062445f9-11d3-4e7b-9a84-908272a72250","userName":"pdube"}],"isDefault":false,"name":"Environment Admin"}
@@ -104,7 +105,7 @@ func TestListEnvironmentReturnEnvironmentIfSuccess(t *testing.T) {
                  "description":"pat dev 1",
                  "membership":"MANY_USERS",
                  "serviceConnection":{"id":"73983e63-e404-48aa-a89c-f41ca93af9cd","category":"IAAS","name":"patDev1","serviceCode":"dev1","type":"CloudCA"},
-                 "tenant":{"id":"4b5e5c55-7aea-48e4-9287-d63b36457c51","entryPoint":"pat","name":"Test"},
+                 "organization":{"id":"4b5e5c55-7aea-48e4-9287-d63b36457c51","entryPoint":"pat","name":"Test"},
                  "users":[{"id":"062445f9-11d3-4e7b-9a84-908272a72250","userName":"pdube"}],
                  "roles":[{"id":"32a25a1e-0506-429f-a731-e8fcaaa01c4d","users":[],"isDefault":false,"name":"Read-only"},
                           {"id":"517b40e5-20a8-44f0-a5d0-06ed20ee4d43","users":[{"id":"062445f9-11d3-4e7b-9a84-908272a72250","userName":"pdube"}],"isDefault":false,"name":"Environment Admin"}
