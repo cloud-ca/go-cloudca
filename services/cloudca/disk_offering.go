@@ -2,15 +2,19 @@ package cloudca
 
 import (
 	"encoding/json"
+
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/services"
 )
 
 type DiskOffering struct {
-	Id          string `json:"id,omitempty"`
-	Name        string `json:"name,omitempty"`
-	GbSize      int    `json:"gbSize,omitempty"`
-	StorageTier string `json:"storageTier,omitempty"`
+	Id         string `json:"id,omitempty"`
+	Name       string `json:"name,omitempty"`
+	GbSize     int    `json:"gbSize,omitempty"`
+	MinIops    int    `json:"minIops,omitempty"`
+	MaxIops    int    `json:"maxIops,omitempty"`
+	CustomSize bool   `json:"customSize,omitempty"`
+	CustomIops bool   `json:"customIops,omitempty"`
 }
 
 type DiskOfferingService interface {

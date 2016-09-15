@@ -2,6 +2,7 @@ package cloudca
 
 import (
 	"encoding/json"
+
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/services"
 )
@@ -12,21 +13,22 @@ const (
 )
 
 type Volume struct {
-	Id             string `json:"id,omitempty"`
-	Name           string `json:"name,omitempty"`
-	Type           string `json:"type,omitempty"`
-	CreationDate   string `json:"creationDate,omitempty"`
-	Size           int    `json:"size,omitempty"`
-	GbSize         int    `json:"sizeInGb,omitempty"`
-	DiskOfferingId string `json:"diskOfferingId,omitempty"`
-	TemplateId     string `json:"templateId,omitempty"`
-	StorageTier    string `json:"storageTier,omitempty"`
-	ZoneName       string `json:"zoneName,omitempty"`
-	ZoneId         string `json:"zoneId,omitempty"`
-	State          string `json:"state,omitempty"`
-	InstanceName   string `json:"instanceName,omitempty"`
-	InstanceId     string `json:"instanceId,omitempty"`
-	InstanceState  string `json:"instanceState,omitempty"`
+	Id               string `json:"id,omitempty"`
+	Name             string `json:"name,omitempty"`
+	Type             string `json:"type,omitempty"`
+	CreationDate     string `json:"creationDate,omitempty"`
+	Size             int    `json:"size,omitempty"`
+	GbSize           int    `json:"sizeInGb,omitempty"`
+	DiskOfferingId   string `json:"diskOfferingId,omitempty"`
+	DiskOfferingName string `json:"diskOfferingName,omitempty"`
+	TemplateId       string `json:"templateId,omitempty"`
+	ZoneName         string `json:"zoneName,omitempty"`
+	ZoneId           string `json:"zoneId,omitempty"`
+	State            string `json:"state,omitempty"`
+	InstanceName     string `json:"instanceName,omitempty"`
+	InstanceId       string `json:"instanceId,omitempty"`
+	InstanceState    string `json:"instanceState,omitempty"`
+	Iops             int    `json:"iops,omitempty"`
 }
 
 type VolumeService interface {
