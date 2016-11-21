@@ -9,7 +9,7 @@ type User struct {
 	Id           string       `json:"id,omitempty"`
 	Username     string       `json:"username,omitempty"`
 	Roles        []Role       `json:"roles"`
-	Organization Organization `json:"tenant,omitempty"`
+	Organization Organization `json:"organization,omitempty"`
 }
 
 type UserService interface {
