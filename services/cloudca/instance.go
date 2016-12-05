@@ -2,9 +2,10 @@ package cloudca
 
 import (
 	"encoding/json"
+	"strings"
+
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/services"
-	"strings"
 )
 
 const (
@@ -78,7 +79,7 @@ type InstanceService interface {
 	Stop(id string) (bool, error)
 	AssociateSSHKey(id string, sshKeyName string) (bool, error)
 	Reboot(id string) (bool, error)
-	ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error)
+	ChangeComputeOffering(Instance) (bool, error)
 	ResetPassword(id string) (string, error)
 	CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error)
 }
@@ -213,14 +214,12 @@ func (instanceApi *InstanceApi) Reboot(id string) (bool, error) {
 
 //Change the compute offering of the instance with the specified id exists in the current environment
 //Note: This will reboot your instance if running
-func (instanceApi *InstanceApi) ChangeComputeOffering(id string, newComputeOfferingId string) (bool, error) {
-	send, merr := json.Marshal(Instance{
-		NewComputeOfferingId: newComputeOfferingId,
-	})
+func (instanceApi *InstanceApi) ChangeComputeOffering(instance Instance) (bool, error) {
+	send, merr := json.Marshal(instance)
 	if merr != nil {
 		return false, merr
 	}
-	_, err := instanceApi.entityService.Execute(id, INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION, send, map[string]string{})
+	_, err := instanceApi.entityService.Execute(instance.Id, INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION, send, map[string]string{})
 	return err == nil, err
 }
 
