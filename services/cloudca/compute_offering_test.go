@@ -1,26 +1,29 @@
 package cloudca
 
 import (
+	"strconv"
+	"testing"
+
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"strconv"
-	"testing"
 )
 
 const (
 	TEST_COMPUTE_OFFERING_ID         = "some_id"
 	TEST_COMPUTE_OFFERING_NAME       = "test_compute_offering"
-	TEST_COMPUTE_OFFERING_MEMORY     = 4
+	TEST_COMPUTE_OFFERING_MEMORY     = 4096
 	TEST_COMPUTE_OFFERING_CPU_NUMBER = 2
+	TEST_COMPUTE_OFFERING_CUSTOM     = false
 )
 
 func buildComputeOfferingJsonResponse(computeOffering *ComputeOffering) []byte {
 	return []byte(`{"id": "` + computeOffering.Id +
 		`","name":"` + computeOffering.Name +
-		`","memory":` + strconv.Itoa(computeOffering.Memory) +
-		`,"cpuNumber": ` + strconv.Itoa(computeOffering.CpuNumber) + `}`)
+		`","memoryInMB":` + strconv.Itoa(computeOffering.MemoryInMB) +
+		`,"cpuCount": ` + strconv.Itoa(computeOffering.CpuCount) +
+		`,"custom": ` + strconv.FormatBool(computeOffering.Custom) + `}`)
 }
 
 func buildListComputeOfferingJsonResponse(computeOfferings []ComputeOffering) []byte {
@@ -47,9 +50,10 @@ func TestGetComputeOfferingReturnComputeOfferingIfSuccess(t *testing.T) {
 	}
 
 	expectedComputeOffering := ComputeOffering{Id: TEST_COMPUTE_OFFERING_ID,
-		Name:      TEST_COMPUTE_OFFERING_NAME,
-		Memory:    TEST_COMPUTE_OFFERING_MEMORY,
-		CpuNumber: TEST_COMPUTE_OFFERING_CPU_NUMBER}
+		Name:       TEST_COMPUTE_OFFERING_NAME,
+		MemoryInMB: TEST_COMPUTE_OFFERING_MEMORY,
+		CpuCount:   TEST_COMPUTE_OFFERING_CPU_NUMBER,
+		Custom:     TEST_COMPUTE_OFFERING_CUSTOM}
 
 	mockEntityService.EXPECT().Get(TEST_COMPUTE_OFFERING_ID, gomock.Any()).Return(buildComputeOfferingJsonResponse(&expectedComputeOffering), nil)
 
@@ -99,16 +103,16 @@ func TestListComputeOfferingReturnComputeOfferingsIfSuccess(t *testing.T) {
 
 	expectedComputeOfferings := []ComputeOffering{
 		ComputeOffering{
-			Id:        "list_id_1",
-			Name:      "list_name_1",
-			Memory:    1,
-			CpuNumber: 1,
+			Id:         "list_id_1",
+			Name:       "list_name_1",
+			MemoryInMB: 1024,
+			CpuCount:   1,
 		},
 		ComputeOffering{
-			Id:        "list_id_2",
-			Name:      "list_name_2",
-			Memory:    2,
-			CpuNumber: 2,
+			Id:         "list_id_2",
+			Name:       "list_name_2",
+			MemoryInMB: 2048,
+			CpuCount:   2,
 		},
 	}
 
