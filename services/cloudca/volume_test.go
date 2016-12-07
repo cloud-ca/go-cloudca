@@ -1,12 +1,13 @@
 package cloudca
 
 import (
+	"strconv"
+	"testing"
+
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"strconv"
-	"testing"
 )
 
 const (
@@ -17,7 +18,6 @@ const (
 	TEST_VOLUME_SIZE             = 500
 	TEST_VOLUME_DISK_OFFERING_ID = "test_volume_disk_offering_id"
 	TEST_VOLUME_TEMPLATE_ID      = "test_volume_template_id"
-	TEST_VOLUME_STORAGE_TIER     = "test_volume_storage_tier"
 	TEST_VOLUME_ZONE_NAME        = "test_volume_zone_name"
 	TEST_VOLUME_STATE            = "test_volume_state"
 	TEST_VOLUME_INSTANCE_NAME    = "test_volume_instance_name"
@@ -34,7 +34,6 @@ func buildVolumeJsonResponse(volume *Volume) []byte {
 		` "sizeInGb": ` + strconv.Itoa(volume.GbSize) + `,` +
 		` "diskOfferingId": "` + volume.DiskOfferingId + `",` +
 		` "templateId": "` + volume.TemplateId + `",` +
-		` "storageTier": "` + volume.StorageTier + `",` +
 		` "zoneName": "` + volume.ZoneName + `",` +
 		` "state": "` + volume.State + `",` +
 		` "instanceName": "` + volume.InstanceName + `",` +
@@ -72,7 +71,6 @@ func TestGetVolumeReturnVolumeIfSuccess(t *testing.T) {
 		Size:           TEST_VOLUME_SIZE,
 		DiskOfferingId: TEST_VOLUME_DISK_OFFERING_ID,
 		TemplateId:     TEST_VOLUME_TEMPLATE_ID,
-		StorageTier:    TEST_VOLUME_STORAGE_TIER,
 		ZoneName:       TEST_VOLUME_ZONE_NAME,
 		State:          TEST_VOLUME_STATE,
 		InstanceName:   TEST_VOLUME_INSTANCE_NAME,
@@ -132,7 +130,6 @@ func TestListVolumeReturnVolumesIfSuccess(t *testing.T) {
 		Size:           1215,
 		DiskOfferingId: "list_disk_offering_id_1",
 		TemplateId:     "list_template_id_1",
-		StorageTier:    "list_storage_tier_1",
 		ZoneName:       "list_zone_name_1",
 		State:          "list_state_1",
 		InstanceName:   "list_instance_name_1",
@@ -145,7 +142,6 @@ func TestListVolumeReturnVolumesIfSuccess(t *testing.T) {
 		Size:           54582,
 		DiskOfferingId: "list_disk_offering_id_2",
 		TemplateId:     "list_template_id_2",
-		StorageTier:    "list_storage_tier_2",
 		ZoneName:       "list_zone_name_2",
 		State:          "list_state_2",
 		InstanceName:   "list_instance_name_2",

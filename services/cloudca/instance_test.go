@@ -1,13 +1,14 @@
 package cloudca
 
 import (
+	"strconv"
+	"testing"
+
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"strconv"
-	"testing"
 )
 
 const (
@@ -535,10 +536,15 @@ func TestChangeComputeOfferingReturnTrueIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
+	instanceWithNewComputeOffering := Instance{
+		Id:                TEST_INSTANCE_ID,
+		ComputeOfferingId: "new_compute_offering",
+	}
+
 	mockEntityService.EXPECT().Execute(TEST_INSTANCE_ID, INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION, gomock.Any(), gomock.Any()).Return([]byte(`{}`), nil)
 
 	//when
-	success, _ := instanceService.ChangeComputeOffering(TEST_INSTANCE_ID, "new_compute_offering")
+	success, _ := instanceService.ChangeComputeOffering(instanceWithNewComputeOffering)
 
 	//then
 	assert.True(t, success)
@@ -558,8 +564,13 @@ func TestChangeComputeOfferingReturnFalseIfError(t *testing.T) {
 	mockError := mocks.MockError{"some_change_compute_offering_error"}
 	mockEntityService.EXPECT().Execute(TEST_INSTANCE_ID, INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION, gomock.Any(), gomock.Any()).Return([]byte(`{}`), mockError)
 
+	instanceWithNewComputeOffering := Instance{
+		Id:                TEST_INSTANCE_ID,
+		ComputeOfferingId: "new_compute_offering",
+	}
+
 	//when
-	success, err := instanceService.ChangeComputeOffering(TEST_INSTANCE_ID, "new_compute_offering")
+	success, err := instanceService.ChangeComputeOffering(instanceWithNewComputeOffering)
 
 	//then
 	assert.False(t, success)
