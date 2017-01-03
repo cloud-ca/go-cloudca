@@ -15,6 +15,7 @@ const (
 	NETWORK_ACL_ENTITY_TYPE          = "networkacls"
 	NETWORK_ACL_RULE_ENTITY_TYPE     = "networkaclrules"
 	PORT_FORWARDING_RULE_ENTITY_TYPE = "portforwardingrules"
+	LOAD_BALANCER_RULE_ENTITY_TYPE   = "loadbalancerrules"
 	PUBLIC_IP_ENTITY_TYPE            = "publicipaddresses"
 	ZONE_ENTITY_TYPE                 = "zones"
 )
