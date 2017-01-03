@@ -23,6 +23,8 @@ type LoadBalancerRule struct {
    PrivatePort      string `json:"privatePort,omitempty"`
    Protocol         string `json:"protocol,omitempty"`
    Algorithm        string `json:"algorithm,omitempty"`
+   StickinessMethod string `json:"stickinessMethod,omitempty"`
+   StickinessPolicyParameters map[string]string `json:"stickinessPolicyParameters,omitempty"`
 }
 
 type LoadBalancerRuleService interface {
