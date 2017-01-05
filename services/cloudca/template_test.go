@@ -39,7 +39,6 @@ func buildTemplateJsonResponse(template *Template) []byte {
 		` "osTypeId": "` + template.OSTypeId + `",` +
 		` "hypervisor": "` + template.Hypervisor + `",` +
 		` "format": "` + template.Format + `",` +
-		` "zoneName": "` + template.ZoneName + `",` +
 		` "projectId": "` + template.ProjectId + `"}`)
 }
 
@@ -78,7 +77,6 @@ func TestGetTemplateReturnTemplateIfSuccess(t *testing.T) {
 		OSTypeId:      TEST_TEMPLATE_OS_TYPE_ID,
 		Hypervisor:    TEST_TEMPLATE_HYPERVISOR,
 		Format:        TEST_TEMPLATE_FORMAT,
-		ZoneName:      TEST_TEMPLATE_ZONE_NAME,
 		ProjectId:     TEST_TEMPLATE_PROJECT_ID,
 	}
 
@@ -140,7 +138,6 @@ func TestListTemplateReturnTemplatesIfSuccess(t *testing.T) {
 		OSTypeId:      "list_os_type_id_1",
 		Hypervisor:    "list_hypervisor_1",
 		Format:        "list_format_1",
-		ZoneName:      "list_zone_name_1",
 		ProjectId:     "list_project_id_1",
 	}
 	expectedTemplate2 := Template{Id: "list_id_2",
@@ -155,7 +152,6 @@ func TestListTemplateReturnTemplatesIfSuccess(t *testing.T) {
 		OSTypeId:      "list_os_type_id_2",
 		Hypervisor:    "list_hypervisor_2",
 		Format:        "list_format_2",
-		ZoneName:      "list_zone_name_2",
 		ProjectId:     "list_project_id_2",
 	}
 

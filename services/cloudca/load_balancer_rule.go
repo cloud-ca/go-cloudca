@@ -8,8 +8,8 @@ import (
 )
 
 const (
-   LBR_CREATE = "create"
-   LBR_DELETE = "delete"
+   UPDATE_INSTANCES = "updateInstances"
+   UPDATE_STICKINESS = "updateStickiness"
 )
 
 type LoadBalancerRule struct {
@@ -114,7 +114,7 @@ func (api *LoadBalancerRuleApi) SetLoadBalancerRuleInstances(id string, instance
    if err != nil {
       return nil, err
    }
-   result, err := api.entityService.Execute(id, "updateInstances",msg, map[string]string{})
+   result, err := api.entityService.Execute(id, UPDATE_INSTANCES,msg, map[string]string{})
    if err != nil {
       return nil, err
    }
@@ -131,7 +131,7 @@ func (api *LoadBalancerRuleApi) SetLoadBalancerRuleStickinessPolicy(id string, m
    if err != nil {
       return nil, err
    }
-   result, err := api.entityService.Execute(id, "updateStickiness",msg, map[string]string{})
+   result, err := api.entityService.Execute(id, UPDATE_STICKINESS,msg, map[string]string{})
    if err != nil {
       return nil, err
    }
@@ -148,7 +148,7 @@ func (api *LoadBalancerRuleApi) RemoveLoadBalancerRuleStickinessPolicy(id string
    if err != nil {
       return nil, err
    }
-   result, err := api.entityService.Execute(id, "updateStickiness",msg, map[string]string{})
+   result, err := api.entityService.Execute(id, UPDATE_STICKINESS,msg, map[string]string{})
    if err != nil {
       return nil, err
    }
