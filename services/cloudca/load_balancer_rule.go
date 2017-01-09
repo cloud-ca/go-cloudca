@@ -32,11 +32,11 @@ type LoadBalancerRuleService interface {
    List() ([]LoadBalancerRule, error)
    ListWithOptions(options map[string]string) ([]LoadBalancerRule, error)
    Create(lbr LoadBalancerRule) (*LoadBalancerRule, error)
-   Delete(id string) (bool, error)
+   Delete(id string) (error)
    Update(lbr LoadBalancerRule) (*LoadBalancerRule, error)
-   SetLoadBalancerRuleInstances(id string, instanceIds []string) (*LoadBalancerRule, error)
-   SetLoadBalancerRuleStickinessPolicy(id string, method string, stickinessPolicyParameters map[string]string) (*LoadBalancerRule, error)
-   RemoveLoadBalancerRuleStickinessPolicy(id string) (*LoadBalancerRule, error)
+   SetLoadBalancerRuleInstances(id string, instanceIds []string) (error)
+   SetLoadBalancerRuleStickinessPolicy(id string, method string, stickinessPolicyParameters map[string]string) (error)
+   RemoveLoadBalancerRuleStickinessPolicy(id string) (error)
 }
 
 type LoadBalancerRuleApi struct {
@@ -105,23 +105,20 @@ func (api *LoadBalancerRuleApi) Update(lbr LoadBalancerRule) (*LoadBalancerRule,
    return parseLoadBalancerRule(result), nil
 }
 
-func (api *LoadBalancerRuleApi) SetLoadBalancerRuleInstances(id string, instanceIds []string) (*LoadBalancerRule, error) {
+func (api *LoadBalancerRuleApi) SetLoadBalancerRuleInstances(id string, instanceIds []string) error {
    lbr := LoadBalancerRule{
       Id:id,
       InstanceIds : instanceIds,
    }
    msg, err := json.Marshal(lbr)
    if err != nil {
-      return nil, err
+      return err
    }
-   result, err := api.entityService.Execute(id, UPDATE_INSTANCES,msg, map[string]string{})
-   if err != nil {
-      return nil, err
-   }
-   return parseLoadBalancerRule(result), nil
+   _, updateErr := api.entityService.Execute(id, UPDATE_INSTANCES,msg, map[string]string{})
+   return updateErr
 }
 
-func (api *LoadBalancerRuleApi) SetLoadBalancerRuleStickinessPolicy(id string, method string, stickinessPolicyParameters map[string]string) (*LoadBalancerRule, error) {
+func (api *LoadBalancerRuleApi) SetLoadBalancerRuleStickinessPolicy(id string, method string, stickinessPolicyParameters map[string]string) error {
    lbr := LoadBalancerRule{
       Id:id,
       StickinessMethod : method,
@@ -129,33 +126,27 @@ func (api *LoadBalancerRuleApi) SetLoadBalancerRuleStickinessPolicy(id string, m
    }
    msg, err := json.Marshal(lbr)
    if err != nil {
-      return nil, err
+      return err
    }
-   result, err := api.entityService.Execute(id, UPDATE_STICKINESS,msg, map[string]string{})
-   if err != nil {
-      return nil, err
-   }
-   return parseLoadBalancerRule(result), nil
+   _, updateErr := api.entityService.Execute(id, UPDATE_STICKINESS,msg, map[string]string{})
+   return updateErr
 }
 
 
-func (api *LoadBalancerRuleApi) RemoveLoadBalancerRuleStickinessPolicy(id string) (*LoadBalancerRule, error) {
+func (api *LoadBalancerRuleApi) RemoveLoadBalancerRuleStickinessPolicy(id string) error {
    lbr := LoadBalancerRule{
       Id:id,
       StickinessMethod : "none",
    }
    msg, err := json.Marshal(lbr)
    if err != nil {
-      return nil, err
+      return err
    }
-   result, err := api.entityService.Execute(id, UPDATE_STICKINESS,msg, map[string]string{})
-   if err != nil {
-      return nil, err
-   }
-   return parseLoadBalancerRule(result), nil
+   _, updateErr := api.entityService.Execute(id, UPDATE_STICKINESS,msg, map[string]string{})
+   return updateErr
 }
 
-func (api *LoadBalancerRuleApi) Delete(id string) (bool, error) {
+func (api *LoadBalancerRuleApi) Delete(id string) (error) {
    _, err := api.entityService.Delete(id, []byte{}, map[string]string{})
-   return err == nil, err
+   return err
 }
