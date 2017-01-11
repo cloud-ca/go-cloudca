@@ -20,7 +20,7 @@ type Template struct {
 	Hypervisor       string   `json:"hypervisor,omitempty"`
 	Format           string   `json:"format,omitempty"`
 	ProjectId        string   `json:"projectId,omitempty"`
-   AvailableInZones []string `json:"availableInZones,omitempty"`
+	AvailableInZones []string `json:"availableInZones,omitempty"`
 }
 
 type TemplateService interface {

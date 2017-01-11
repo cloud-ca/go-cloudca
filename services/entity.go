@@ -81,10 +81,10 @@ func (entityApi *EntityApi) Execute(id string, operation string, body []byte, op
 		endpoint = endpoint + "/" + id
 	}
 	request := api.CcaRequest{
-		Method: api.POST,
-		Body: body,
+		Method:   api.POST,
+		Body:     body,
 		Endpoint: endpoint,
-		Options: optionsCopy,
+		Options:  optionsCopy,
 	}
 	response, err := entityApi.apiClient.Do(request)
 	if err != nil {
