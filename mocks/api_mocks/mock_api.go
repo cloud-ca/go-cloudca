@@ -4,8 +4,8 @@
 package api_mocks
 
 import (
-	gomock "github.com/golang/mock/gomock"
 	"github.com/cloud-ca/go-cloudca/api"
+	gomock "github.com/golang/mock/gomock"
 )
 
 // Mock of ApiClient interface
