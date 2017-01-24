@@ -46,6 +46,8 @@ type Instance struct {
 	ProjectId            string        `json:"projectId,omitempty"`
 	NetworkId            string        `json:"networkId,omitempty"`
 	NetworkName          string        `json:"networkName,omitempty"`
+	VpcId                string        `json:"vpcIdd,omitempty"`
+	VpcName              string        `json:"vpcName,omitempty"`
 	MacAddress           string        `json:"macAddress,omitempty"`
 	UserData             string        `json:"userData,omitempty"`
 	RecoveryPoint        RecoveryPoint `json:"recoveryPoint,omitempty"`
