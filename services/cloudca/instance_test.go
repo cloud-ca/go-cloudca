@@ -29,6 +29,8 @@ const (
 	TEST_INSTANCE_PROJECT_ID            = "test_instance_project_id"
 	TEST_INSTANCE_NETWORK_ID            = "test_instance_network_id"
 	TEST_INSTANCE_NETWORK_NAME          = "test_instance_network_name"
+	TEST_INSTANCE_VPC_ID                = "test_instance_vpc_id"
+	TEST_INSTANCE_VPC_NAME              = "test_instance_vpc_name"
 	TEST_INSTANCE_MAC_ADDRESS           = "test_instance_mac_address"
 	TEST_INSTANCE_IP_ADDRESS            = "test_instance_ip_address"
 	TEST_INSTANCE_VOLUME_ID_TO_ATTACH   = "test_volume_id_to_attach"
@@ -54,6 +56,8 @@ func buildTestInstanceJsonResponse(instance *Instance) []byte {
 		`"projectId":"` + instance.ProjectId + `", ` +
 		`"networkId":"` + instance.NetworkId + `", ` +
 		`"networkName":"` + instance.NetworkName + `", ` +
+		`"vpcId":"` + instance.VpcId + `", ` +
+		`"vpcName":"` + instance.VpcName + `", ` +
 		`"macAddress":"` + instance.MacAddress + `", ` +
 		`"ipAddress":"` + instance.IpAddress + `", ` +
 		`"volumeIdToAttach":"` + instance.VolumeIdToAttach + `", ` +
@@ -101,6 +105,8 @@ func TestGetInstanceReturnInstanceIfSuccess(t *testing.T) {
 		ProjectId:           TEST_INSTANCE_PROJECT_ID,
 		NetworkId:           TEST_INSTANCE_NETWORK_ID,
 		NetworkName:         TEST_INSTANCE_NETWORK_NAME,
+		VpcId:               TEST_INSTANCE_VPC_ID,
+		VpcName:             TEST_INSTANCE_VPC_NAME,
 		MacAddress:          TEST_INSTANCE_MAC_ADDRESS,
 		IpAddress:           TEST_INSTANCE_IP_ADDRESS,
 		VolumeIdToAttach:    TEST_INSTANCE_VOLUME_ID_TO_ATTACH,
@@ -170,6 +176,8 @@ func TestListInstanceReturnInstancesIfSuccess(t *testing.T) {
 		ProjectId:           "list_project_id_1",
 		NetworkId:           "list_network_id_1",
 		NetworkName:         "list_network_name_1",
+		VpcId:               "list_vpc_id_1",
+		VpcName:             "list_vpc_name_1",
 		MacAddress:          "list_mac_address_1",
 		VolumeIdToAttach:    "list_volume_id_to_attach_1",
 		IpAddress:           "list_ip_address_1",
