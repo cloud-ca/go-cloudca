@@ -407,6 +407,89 @@ func TestStopInstanceReturnFalseIfError(t *testing.T) {
 
 }
 
+func TestDestroyInstanceReturnTrueIfSuccess(t *testing.T) {
+	//given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	instanceService := InstanceApi{
+		entityService: mockEntityService,
+	}
+
+	mockEntityService.EXPECT().Delete(TEST_INSTANCE_ID, gomock.Any(), gomock.Any()).Return([]byte(`{}`), nil)
+
+	//when
+	success, _ := instanceService.Destroy(TEST_INSTANCE_ID, false)
+
+	//then
+	assert.True(t, success)
+}
+
+func TestDestroyInstanceReturnFalseIfError(t *testing.T) {
+	//given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+
+	instanceService := InstanceApi{
+		entityService: mockEntityService,
+	}
+
+	mockError := mocks.MockError{"some_destroy_instance_error"}
+	mockEntityService.EXPECT().Delete(TEST_INSTANCE_ID, gomock.Any(), gomock.Any()).Return([]byte(`{}`), mockError)
+
+	//when
+	success, err := instanceService.Destroy(TEST_INSTANCE_ID, true)
+
+	//then
+	assert.False(t, success)
+	assert.Equal(t, mockError, err)
+}
+
+func TestDestroyWithOptionsInstanceReturnTrueIfSuccess(t *testing.T) {
+	//given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+	instanceService := InstanceApi{
+		entityService: mockEntityService,
+	}
+
+	mockEntityService.EXPECT().Delete(TEST_INSTANCE_ID, gomock.Any(), gomock.Any()).Return([]byte(`{}`), nil)
+
+	//when
+	success, _ := instanceService.DestroyWithOptions(TEST_INSTANCE_ID, DestroyOptions{DeleteSnapshots: true})
+
+	//then
+	assert.True(t, success)
+}
+
+func TestDestroyWithOptionsInstanceReturnFalseIfError(t *testing.T) {
+	//given
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockEntityService := services_mocks.NewMockEntityService(ctrl)
+
+	instanceService := InstanceApi{
+		entityService: mockEntityService,
+	}
+
+	mockError := mocks.MockError{"some_destroy_instance_error"}
+	mockEntityService.EXPECT().Delete(TEST_INSTANCE_ID, gomock.Any(), gomock.Any()).Return([]byte(`{}`), mockError)
+
+	//when
+	success, err := instanceService.DestroyWithOptions(TEST_INSTANCE_ID, DestroyOptions{PurgeImmediately: true})
+
+	//then
+	assert.False(t, success)
+	assert.Equal(t, mockError, err)
+
+}
+
 func TestRecoverInstanceReturnTrueIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)

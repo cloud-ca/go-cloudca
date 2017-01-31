@@ -26,38 +26,47 @@ const (
 )
 
 type Instance struct {
-	Id                   string        `json:"id,omitempty"`
-	Name                 string        `json:"name,omitempty"`
-	State                string        `json:"state,omitempty"`
-	TemplateId           string        `json:"templateId,omitempty"`
-	TemplateName         string        `json:"templateName,omitempty"`
-	IsPasswordEnabled    bool          `json:"isPasswordEnabled,omitempty"`
-	IsSSHKeyEnabled      bool          `json:"isSshKeyEnabled,omitempty"`
-	Username             string        `json:"username,omitempty"`
-	Password             string        `json:"password,omitempty"`
-	SSHKeyName           string        `json:"sshKeyName,omitempty"`
-	ComputeOfferingId    string        `json:"computeOfferingId,omitempty"`
-	ComputeOfferingName  string        `json:"computeOfferingName,omitempty"`
-	NewComputeOfferingId string        `json:"newComputeOfferingId,omitempty"`
-	CpuCount             int           `json:"cpuCount,omitempty"`
-	MemoryInMB           int           `json:"memoryInMB,omitempty"`
-	ZoneId               string        `json:"zoneId,omitempty"`
-	ZoneName             string        `json:"zoneName,omitempty"`
-	ProjectId            string        `json:"projectId,omitempty"`
-	NetworkId            string        `json:"networkId,omitempty"`
-	NetworkName          string        `json:"networkName,omitempty"`
-	VpcId                string        `json:"vpcId,omitempty"`
-	VpcName              string        `json:"vpcName,omitempty"`
-	MacAddress           string        `json:"macAddress,omitempty"`
-	UserData             string        `json:"userData,omitempty"`
-	RecoveryPoint        RecoveryPoint `json:"recoveryPoint,omitempty"`
-	IpAddress            string        `json:"ipAddress,omitempty"`
-	IpAddressId          string        `json:"ipAddressId,omitempty"`
-	PublicIps            []PublicIp    `json:"publicIPs,omitempty"`
-	PublicKey            string        `json:"publicKey,omitempty"`
-	VolumeIdToAttach     string        `json:"volumeIdToAttach,omitempty"`
-	PortsToForward       []string      `json:"portsToForward,omitempty"`
-	PurgeImmediately     bool          `json:"purgeImmediately,omitempty"`
+	Id                       string        `json:"id,omitempty"`
+	Name                     string        `json:"name,omitempty"`
+	State                    string        `json:"state,omitempty"`
+	TemplateId               string        `json:"templateId,omitempty"`
+	TemplateName             string        `json:"templateName,omitempty"`
+	IsPasswordEnabled        bool          `json:"isPasswordEnabled,omitempty"`
+	IsSSHKeyEnabled          bool          `json:"isSshKeyEnabled,omitempty"`
+	Username                 string        `json:"username,omitempty"`
+	Password                 string        `json:"password,omitempty"`
+	SSHKeyName               string        `json:"sshKeyName,omitempty"`
+	ComputeOfferingId        string        `json:"computeOfferingId,omitempty"`
+	ComputeOfferingName      string        `json:"computeOfferingName,omitempty"`
+	NewComputeOfferingId     string        `json:"newComputeOfferingId,omitempty"`
+	CpuCount                 int           `json:"cpuCount,omitempty"`
+	MemoryInMB               int           `json:"memoryInMB,omitempty"`
+	ZoneId                   string        `json:"zoneId,omitempty"`
+	ZoneName                 string        `json:"zoneName,omitempty"`
+	ProjectId                string        `json:"projectId,omitempty"`
+	NetworkId                string        `json:"networkId,omitempty"`
+	NetworkName              string        `json:"networkName,omitempty"`
+	VpcId                    string        `json:"vpcId,omitempty"`
+	VpcName                  string        `json:"vpcName,omitempty"`
+	MacAddress               string        `json:"macAddress,omitempty"`
+	UserData                 string        `json:"userData,omitempty"`
+	RecoveryPoint            RecoveryPoint `json:"recoveryPoint,omitempty"`
+	IpAddress                string        `json:"ipAddress,omitempty"`
+	IpAddressId              string        `json:"ipAddressId,omitempty"`
+	PublicIps                []PublicIp    `json:"publicIPs,omitempty"`
+	PublicKey                string        `json:"publicKey,omitempty"`
+	AdditionalDiskOfferingId string        `json:"diskOfferingId,omitempty"`
+	AdditionalDiskSizeInGb   string        `json:"additionalDiskSizeInGb,omitempty"`
+	AdditionalDiskIops       string        `json:"additionalDiskIops,omitempty"`
+	VolumeIdToAttach         string        `json:"volumeIdToAttach,omitempty"`
+	PortsToForward           []string      `json:"portsToForward,omitempty"`
+}
+
+type DestroyOptions struct {
+	PurgeImmediately     bool     `json:"purgeImmediately,omitempty"`
+	DeleteSnapshots      bool     `json:"deleteSnapshots,omitempty"`
+	PublicIpIdsToRelease []string `json:"publicIpIdsToRelease,omitempty"`
+	VolumeIdsToDelete    []string `json:"volumeIdsToDelete,omitempty"`
 }
 
 func (instance *Instance) IsRunning() bool {
@@ -74,6 +83,7 @@ type InstanceService interface {
 	ListWithOptions(options map[string]string) ([]Instance, error)
 	Create(Instance) (*Instance, error)
 	Destroy(id string, purge bool) (bool, error)
+	DestroyWithOptions(id string, options DestroyOptions) (bool, error)
 	Purge(id string) (bool, error)
 	Recover(id string) (bool, error)
 	Exists(id string) (bool, error)
@@ -147,9 +157,20 @@ func (instanceApi *InstanceApi) Create(instance Instance) (*Instance, error) {
 //Destroy an instance with specified id in the current environment
 //Set the purge flag to true if you want to purge immediately
 func (instanceApi *InstanceApi) Destroy(id string, purge bool) (bool, error) {
-	send, merr := json.Marshal(Instance{
+	send, merr := json.Marshal(DestroyOptions{
 		PurgeImmediately: purge,
 	})
+	if merr != nil {
+		return false, merr
+	}
+	_, err := instanceApi.entityService.Delete(id, send, map[string]string{})
+	return err == nil, err
+}
+
+//Destroy an instance with specified id in the current environment
+//Set the purge flag to true if you want to purge immediately
+func (instanceApi *InstanceApi) DestroyWithOptions(id string, options DestroyOptions) (bool, error) {
+	send, merr := json.Marshal(options)
 	if merr != nil {
 		return false, merr
 	}
