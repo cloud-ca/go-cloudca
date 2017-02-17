@@ -102,13 +102,13 @@ func TestListComputeOfferingReturnComputeOfferingsIfSuccess(t *testing.T) {
 	}
 
 	expectedComputeOfferings := []ComputeOffering{
-		ComputeOffering{
+		{
 			Id:         "list_id_1",
 			Name:       "list_name_1",
 			MemoryInMB: 1024,
 			CpuCount:   1,
 		},
-		ComputeOffering{
+		{
 			Id:         "list_id_2",
 			Name:       "list_name_2",
 			MemoryInMB: 2048,

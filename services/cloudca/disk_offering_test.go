@@ -96,12 +96,12 @@ func TestListDiskOfferingReturnDiskOfferingsIfSuccess(t *testing.T) {
 	}
 
 	expectedDiskOfferings := []DiskOffering{
-		DiskOffering{
+		{
 			Id:     "list_id_1",
 			Name:   "list_name_1",
 			GbSize: 51,
 		},
-		DiskOffering{
+		{
 			Id:     "list_id_2",
 			Name:   "list_name_2",
 			GbSize: 52,

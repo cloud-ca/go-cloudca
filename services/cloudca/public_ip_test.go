@@ -80,7 +80,7 @@ func TestGetPublicIpReturnNilWithErrorIfError(t *testing.T) {
 
 }
 
-func TestListPublicIpReturnTiersIfSuccess(t *testing.T) {
+func TestListPublicIpReturnNetworksIfSuccess(t *testing.T) {
 	//given
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()

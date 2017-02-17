@@ -91,11 +91,11 @@ func TestListSSHKeyReturnSSHKeysIfSuccess(t *testing.T) {
 	}
 
 	expectedSSHKeys := []SSHKey{
-		SSHKey{
+		{
 			Name:        "list_name_1",
 			Fingerprint: "list_fingerprint_1",
 		},
-		SSHKey{
+		{
 			Name:        "list_name_2",
 			Fingerprint: "list_fingerprint_2",
 		},

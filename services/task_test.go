@@ -59,7 +59,7 @@ func TestGetTaskReturnErrorIfHasCcaErrors(t *testing.T) {
 
 	ccaResponse := api.CcaResponse{
 		StatusCode: 400,
-		Errors:     []api.CcaError{api.CcaError{}},
+		Errors:     []api.CcaError{{}},
 	}
 	mockCcaClient.EXPECT().Do(api.CcaRequest{
 		Method:   api.GET,
