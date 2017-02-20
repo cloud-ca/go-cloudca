@@ -18,7 +18,7 @@ type Resources struct {
 	ComputeOfferings    ComputeOfferingService
 	DiskOfferings       DiskOfferingService
 	SSHKeys             SSHKeyService
-	Tiers               TierService
+	Networks            NetworkService
 	Vpcs                VpcService
 	VpcOfferings        VpcOfferingService
 	NetworkOfferings    NetworkOfferingService
@@ -40,7 +40,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		Templates:           NewTemplateService(apiClient, serviceCode, environmentName),
 		ComputeOfferings:    NewComputeOfferingService(apiClient, serviceCode, environmentName),
 		DiskOfferings:       NewDiskOfferingService(apiClient, serviceCode, environmentName),
-		Tiers:               NewTierService(apiClient, serviceCode, environmentName),
+		Networks:            NewNetworkService(apiClient, serviceCode, environmentName),
 		Vpcs:                NewVpcService(apiClient, serviceCode, environmentName),
 		VpcOfferings:        NewVpcOfferingService(apiClient, serviceCode, environmentName),
 		NetworkOfferings:    NewNetworkOfferingService(apiClient, serviceCode, environmentName),

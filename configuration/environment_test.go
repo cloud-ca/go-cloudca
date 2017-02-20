@@ -55,22 +55,22 @@ func TestGetEnvironmentReturnEnvironmentIfSuccess(t *testing.T) {
 			EntryPoint: "pat",
 		},
 		Users: []User{
-			User{
+			{
 				Id:       "062445f9-11d3-4e7b-9a84-908272a72250",
 				Username: "pdube",
 			},
 		},
 		Roles: []Role{
-			Role{
+			{
 				Id:    "32a25a1e-0506-429f-a731-e8fcaaa01c4d",
 				Name:  "Read-only",
 				Users: []User{},
 			},
-			Role{
+			{
 				Id:   "517b40e5-20a8-44f0-a5d0-06ed20ee4d43",
 				Name: "Environment Admin",
 				Users: []User{
-					User{
+					{
 						Id:       "062445f9-11d3-4e7b-9a84-908272a72250",
 						Username: "pdube",
 					},
@@ -114,7 +114,7 @@ func TestListEnvironmentReturnEnvironmentIfSuccess(t *testing.T) {
                  "version":5}]`
 
 	expectedEnvironments := []Environment{
-		Environment{
+		{
 			Id:          "13ca7410-9b4a-4fd7-ae2e-e5455b664faf",
 			Name:        "patdev1",
 			Description: "pat dev 1",
@@ -129,22 +129,22 @@ func TestListEnvironmentReturnEnvironmentIfSuccess(t *testing.T) {
 				EntryPoint: "pat",
 			},
 			Users: []User{
-				User{
+				{
 					Id:       "062445f9-11d3-4e7b-9a84-908272a72250",
 					Username: "pdube",
 				},
 			},
 			Roles: []Role{
-				Role{
+				{
 					Id:    "32a25a1e-0506-429f-a731-e8fcaaa01c4d",
 					Name:  "Read-only",
 					Users: []User{},
 				},
-				Role{
+				{
 					Id:   "517b40e5-20a8-44f0-a5d0-06ed20ee4d43",
 					Name: "Environment Admin",
 					Users: []User{
-						User{
+						{
 							Id:       "062445f9-11d3-4e7b-9a84-908272a72250",
 							Username: "pdube",
 						},

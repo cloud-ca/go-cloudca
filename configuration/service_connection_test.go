@@ -88,12 +88,12 @@ func TestListServiceConnectionReturnDiskOfferingsIfSuccess(t *testing.T) {
 	}
 
 	expectedServiceConnections := []ServiceConnection{
-		ServiceConnection{
+		{
 			Id:          "connection_1",
 			Name:        "connection_name_1",
 			ServiceCode: "connection_code_1",
 		},
-		ServiceConnection{
+		{
 			Id:          "connection_2",
 			Name:        "connection_name_2",
 			ServiceCode: "connection_code_2",

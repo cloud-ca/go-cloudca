@@ -14,9 +14,9 @@ var (
 	TEST_ORGANIZATION_ID           = "org_id"
 	TEST_ORGANIZATION_NAME         = "test_org_name"
 	TEST_ORGANIZATION_ENTRYPOINT   = "test_entrypoint"
-	TEST_ORGANIZATION_USERS        = []User{User{Id: "test_user1"}, User{Id: "test_user2"}}
-	TEST_ORGANIZATION_ENVIRONMENTS = []Environment{Environment{Id: "test_env1"}, Environment{Id: "test_env2"}}
-	TEST_ORGANIZATION_ROLES        = []Role{Role{Id: "test_role"}}
+	TEST_ORGANIZATION_USERS        = []User{{Id: "test_user1"}, {Id: "test_user2"}}
+	TEST_ORGANIZATION_ENVIRONMENTS = []Environment{{Id: "test_env1"}, {Id: "test_env2"}}
+	TEST_ORGANIZATION_ROLES        = []Role{{Id: "test_role"}}
 )
 
 func buildOrganizationJsonResponse(organization *Organization) []byte {
@@ -94,21 +94,21 @@ func TestListOrganizationReturnDiskOfferingsIfSuccess(t *testing.T) {
 	}
 
 	expectedOrganizations := []Organization{
-		Organization{
+		{
 			Id:           "org_id_1",
 			Name:         "org_name_1",
 			EntryPoint:   "org_entrypoint_1",
-			Users:        []User{User{Id: "user1"}},
+			Users:        []User{{Id: "user1"}},
 			Environments: []Environment{},
-			Roles:        []Role{Role{Id: "test_role_1"}},
+			Roles:        []Role{{Id: "test_role_1"}},
 		},
-		Organization{
+		{
 			Id:           "org_id_2",
 			Name:         "org_name_2",
 			EntryPoint:   "org_entrypoint_2",
-			Users:        []User{User{Id: "user2"}},
-			Environments: []Environment{Environment{Id: "env1"}},
-			Roles:        []Role{Role{Id: "test_role_2"}},
+			Users:        []User{{Id: "user2"}},
+			Environments: []Environment{{Id: "env1"}},
+			Roles:        []Role{{Id: "test_role_2"}},
 		},
 	}
 

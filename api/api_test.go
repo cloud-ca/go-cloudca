@@ -64,7 +64,7 @@ func TestGetTaskReturnErrorsIfErrorOccured(t *testing.T) {
 	ccaClient := CcaApiClient{server.URL, "api-key", httpClient}
 
 	expectedResp := CcaResponse{
-		Errors:     []CcaError{CcaError{Code: 111, Message: "message1"}, CcaError{Code: 222, Message: "message2"}},
+		Errors:     []CcaError{{Code: 111, Message: "message1"}, {Code: 222, Message: "message2"}},
 		StatusCode: 400,
 	}
 
