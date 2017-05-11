@@ -60,6 +60,7 @@ type Instance struct {
 	AdditionalDiskIops       string        `json:"additionalDiskIops,omitempty"`
 	VolumeIdToAttach         string        `json:"volumeIdToAttach,omitempty"`
 	PortsToForward           []string      `json:"portsToForward,omitempty"`
+	RootVolumeSizeInGb       int           `json:"rootVolumeSizeInGb,omitempty"`
 }
 
 type DestroyOptions struct {
