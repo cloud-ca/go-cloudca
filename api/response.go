@@ -18,9 +18,9 @@ const (
 
 //An API error
 type CcaError struct {
-	Code    int                    `json:"code"`
-	Message string                 `json:"message"`
-	Context map[string]interface{} `json:"context"`
+	ErrorCode string                 `json:"errorCode"`
+	Message   string                 `json:"message"`
+	Context   map[string]interface{} `json:"context"`
 }
 
 //An Api Response
@@ -45,7 +45,7 @@ func (errorResponse CcaErrorResponse) Error() string {
 	var errorStr string = "[ERROR] Received HTTP status code " + strconv.Itoa(errorResponse.StatusCode) + "\n"
 	for _, e := range errorResponse.Errors {
 		context, _ := json.Marshal(e.Context)
-		errorStr += "[ERROR] Error Code: " + strconv.Itoa(e.Code) + ", Message: " + e.Message + ", Context: " + string(context) + "\n"
+		errorStr += "[ERROR] Error Code: " + e.ErrorCode + ", Message: " + e.Message + ", Context: " + string(context) + "\n"
 	}
 	return errorStr
 }

@@ -2,11 +2,12 @@ package api
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetTaskReturnTaskIfSuccess(t *testing.T) {
@@ -50,7 +51,7 @@ func TestGetTaskReturnErrorsIfErrorOccured(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintln(w, `{"errors": [{"code": 111, "message": "message1"}, {"code": 222, "message":"message2"}]}`)
+		fmt.Fprintln(w, `{"errors": [{"errorCode": "FOO_ERROR", "message": "message1"}, {"errorCode": "BAR_ERROR", "message":"message2"}]}`)
 	}))
 	defer server.Close()
 
@@ -64,7 +65,7 @@ func TestGetTaskReturnErrorsIfErrorOccured(t *testing.T) {
 	ccaClient := CcaApiClient{server.URL, "api-key", httpClient}
 
 	expectedResp := CcaResponse{
-		Errors:     []CcaError{{Code: 111, Message: "message1"}, {Code: 222, Message: "message2"}},
+		Errors:     []CcaError{{ErrorCode: "FOO_ERROR", Message: "message1"}, {ErrorCode: "BAR_ERROR", Message: "message2"}},
 		StatusCode: 400,
 	}
 
