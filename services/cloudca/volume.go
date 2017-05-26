@@ -111,6 +111,15 @@ func (api *VolumeApi) Delete(volumeId string) error {
 	return err
 }
 
+func (api *VolumeApi) Resize(volume *Volume) error {
+	msg, err := json.Marshal(volume)
+	if err != nil {
+		return err
+	}
+	_, err = api.entityService.Execute(volume.Id, "resize", msg, map[string]string{})
+	return err
+}
+
 func (api *VolumeApi) AttachToInstance(volume *Volume, instanceId string) error {
 	msg, err := json.Marshal(Volume{
 		InstanceId: instanceId,
