@@ -95,11 +95,11 @@ func (volumeApi *VolumeApi) ListWithOptions(options map[string]string) ([]Volume
 }
 
 func (api *VolumeApi) Create(volume Volume) (*Volume, error) {
-	msg, err := json.Marshal(volume)
+	body, err := json.Marshal(volume)
 	if err != nil {
 		return nil, err
 	}
-	res, err := api.entityService.Create(msg, map[string]string{})
+	res, err := api.entityService.Create(body, map[string]string{})
 	if err != nil {
 		return nil, err
 	}
@@ -112,22 +112,22 @@ func (api *VolumeApi) Delete(volumeId string) error {
 }
 
 func (api *VolumeApi) Resize(volume *Volume) error {
-	msg, err := json.Marshal(volume)
+	body, err := json.Marshal(volume)
 	if err != nil {
 		return err
 	}
-	_, err = api.entityService.Execute(volume.Id, "resize", msg, map[string]string{})
+	_, err = api.entityService.Execute(volume.Id, "resize", body, map[string]string{})
 	return err
 }
 
 func (api *VolumeApi) AttachToInstance(volume *Volume, instanceId string) error {
-	msg, err := json.Marshal(Volume{
+	body, err := json.Marshal(Volume{
 		InstanceId: instanceId,
 	})
 	if err != nil {
 		return err
 	}
-	_, err = api.entityService.Execute(volume.Id, "attachToInstance", msg, map[string]string{})
+	_, err = api.entityService.Execute(volume.Id, "attachToInstance", body, map[string]string{})
 	return err
 }
 
