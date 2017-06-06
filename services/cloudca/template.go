@@ -2,6 +2,7 @@ package cloudca
 
 import (
 	"encoding/json"
+
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/services"
 )
@@ -15,6 +16,7 @@ type Template struct {
 	IsReady          bool     `json:"isReady,omitempty"`
 	SSHKeyEnabled    bool     `json:"sshKeyEnabled,omitempty"`
 	Extractable      bool     `json:"extractable,omitempty"`
+	Resizable        bool     `json:"resizable,omitempty"`
 	OSType           string   `json:"osType,omitempty"`
 	OSTypeId         string   `json:"osTypeId,omitempty"`
 	Hypervisor       string   `json:"hypervisor,omitempty"`
