@@ -93,6 +93,7 @@ type InstanceService interface {
 	AssociateSSHKey(id string, sshKeyName string) (bool, error)
 	Reboot(id string) (bool, error)
 	ChangeComputeOffering(Instance) (bool, error)
+	ChangeNetwork(id string, newNetworkId string) (bool, error)
 	ResetPassword(id string) (string, error)
 	CreateRecoveryPoint(id string, recoveryPoint RecoveryPoint) (bool, error)
 }
@@ -255,6 +256,17 @@ func (instanceApi *InstanceApi) ResetPassword(id string) (string, error) {
 	}
 	instance := parseInstance(body)
 	return instance.Password, nil
+}
+
+//Change the network of the instance with the specified id
+//Note: This will reboot your instance, remove all pfrs of this instance and remove the instance from all lbrs.
+func (instanceApi *InstanceApi) ChangeNetwork(id string, networkId string) (bool, error) {
+	send, merr := json.Marshal(Instance{NetworkId: networkId})
+	if merr != nil {
+		return false, merr
+	}
+	_, err := instanceApi.entityService.Execute(id, INSTANCE_CHANGE_COMPUTE_OFFERING_OPERATION, send, map[string]string{})
+	return err == nil, err
 }
 
 //Create a recovery point of the instance with the specified id exists in the current environment
