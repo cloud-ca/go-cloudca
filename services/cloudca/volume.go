@@ -37,6 +37,7 @@ type VolumeService interface {
 	ListOfType(volumeType string) ([]Volume, error)
 	ListWithOptions(options map[string]string) ([]Volume, error)
 	Create(Volume) (*Volume, error)
+	Resize(*Volume) error
 	Delete(string) error
 	AttachToInstance(*Volume, string) error
 	DetachFromInstance(*Volume) error
