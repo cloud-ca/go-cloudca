@@ -8,6 +8,7 @@ import (
 
 type SSHKey struct {
   Name        string `json:"name,omitempty"`
+  PublicKey   string `json:"publickey,omitempty"`
   Fingerprint string `json:"fingerprint,omitempty"`
 }
 
