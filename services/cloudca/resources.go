@@ -40,6 +40,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		Templates:           NewTemplateService(apiClient, serviceCode, environmentName),
 		ComputeOfferings:    NewComputeOfferingService(apiClient, serviceCode, environmentName),
 		DiskOfferings:       NewDiskOfferingService(apiClient, serviceCode, environmentName),
+    SSHKeys:             NewSSHKeyService(apiClient, serviceCode, environmentName),
 		Networks:            NewNetworkService(apiClient, serviceCode, environmentName),
 		Vpcs:                NewVpcService(apiClient, serviceCode, environmentName),
 		VpcOfferings:        NewVpcOfferingService(apiClient, serviceCode, environmentName),
