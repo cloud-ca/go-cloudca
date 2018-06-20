@@ -50,6 +50,7 @@ func NewResources(apiClient api.ApiClient, serviceCode string, environmentName s
 		PortForwardingRules: NewPortForwardingRuleService(apiClient, serviceCode, environmentName),
 		LoadBalancerRules:   NewLoadBalancerRuleService(apiClient, serviceCode, environmentName),
 		Zones:               NewZoneService(apiClient, serviceCode, environmentName),
+		SSHKeys:             NewSSHKeyService(apiClient, serviceCode, environmentName),
 	}
 }
 
