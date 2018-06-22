@@ -2,6 +2,7 @@ package cloudca
 
 import (
 	"encoding/json"
+
 	"github.com/cloud-ca/go-cloudca/api"
 	"github.com/cloud-ca/go-cloudca/services"
 )
@@ -18,6 +19,7 @@ type Network struct {
 	VpcId             string    `json:"vpcId,omitempty"`
 	NetworkOfferingId string    `json:"networkOfferingId,omitempty"`
 	NetworkAclId      string    `json:"networkAclId,omitempty"`
+	NetworkAclName    string    `json:"networkAclName,omitempty"`
 	ZoneId            string    `json:"zoneid,omitempty"`
 	ZoneName          string    `json:"zonename,omitempty"`
 	Cidr              string    `json:"cidr,omitempty"`
