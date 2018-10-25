@@ -8,7 +8,7 @@ import (
 )
 
 type Template struct {
-	Id                string   `json:"id,omitempty"`
+	ID                string   `json:"id,omitempty"`
 	Name              string   `json:"name,omitempty"`
 	Description       string   `json:"description,omitempty"`
 	Size              int      `json:"size,omitempty"`
@@ -19,10 +19,10 @@ type Template struct {
 	Extractable       bool     `json:"extractable,omitempty"`
 	Resizable         bool     `json:"resizable,omitempty"`
 	OSType            string   `json:"osType,omitempty"`
-	OSTypeId          string   `json:"osTypeId,omitempty"`
+	OSTypeID          string   `json:"osTypeId,omitempty"`
 	Hypervisor        string   `json:"hypervisor,omitempty"`
 	Format            string   `json:"format,omitempty"`
-	ProjectId         string   `json:"projectId,omitempty"`
+	ProjectID         string   `json:"projectId,omitempty"`
 	URL               string   `json:"url,omitempty"`
 	ZoneID            string   `json:"zoneId,omitempty"`
 	AvailableInZones  []string `json:"availableInZones,omitempty"`
