@@ -26,7 +26,7 @@ type AffinityGroupApi struct {
 	entityService services.EntityService
 }
 
-func NewAffinityGroupService(apiClient api.ApiClient, serviceCode string, environmentName string) AffinityGroupService {
+func NewAffinityGroupsService(apiClient api.ApiClient, serviceCode string, environmentName string) AffinityGroupService {
 	return &AffinityGroupApi{
 		entityService: services.NewEntityService(apiClient, serviceCode, environmentName, AFFINITY_GROUP_ENTITY_TYPE),
 	}
