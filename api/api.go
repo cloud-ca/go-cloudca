@@ -54,7 +54,7 @@ func (ccaClient CcaApiClient) buildUrl(endpoint string, options map[string]strin
 	return u.String()
 }
 
-//Does the API call to server and returns a CCAResponse. Cloud.ca errors will be returned in the
+//Do Does the API call to server and returns a CCAResponse. Cloud.ca errors will be returned in the
 //CCAResponse body, not in the error return value. The error return value is reserved for unexpected errors.
 func (ccaClient CcaApiClient) Do(request CcaRequest) (*CcaResponse, error) {
 	var bodyBuffer io.Reader

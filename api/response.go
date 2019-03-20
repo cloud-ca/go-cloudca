@@ -33,7 +33,7 @@ type CcaResponse struct {
 	MetaData   map[string]interface{}
 }
 
-//Returns true if API response has errors
+//IsError returns true if API response has errors
 func (ccaResponse CcaResponse) IsError() bool {
 	return !isInOKRange(ccaResponse.StatusCode)
 }

@@ -196,7 +196,7 @@ func (instanceApi *InstanceApi) Recover(id string) (bool, error) {
 	return err == nil, err
 }
 
-//Check if instance with specified id exists in the current environment
+//Exists checks if instance with specified id exists in the current environment
 func (instanceApi *InstanceApi) Exists(id string) (bool, error) {
 	_, err := instanceApi.Get(id)
 	if err != nil {

@@ -53,7 +53,7 @@ func (entityApi *EntityApi) Get(id string, options map[string]string) ([]byte, e
 	return response.Data, nil
 }
 
-//Get an entity list. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
+//List gets an entity list. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (entityApi *EntityApi) List(options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method:   api.GET,

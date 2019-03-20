@@ -45,7 +45,7 @@ func (configurationApi *ConfigurationApi) Get(id string, options map[string]stri
 	return response.Data, nil
 }
 
-//Get list. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
+//List gets list. Returns a []byte (of a json object) that should be unmarshalled to a specific entity
 func (configurationApi *ConfigurationApi) List(options map[string]string) ([]byte, error) {
 	request := api.CcaRequest{
 		Method:   api.GET,

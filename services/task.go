@@ -47,7 +47,7 @@ func NewTaskService(apiClient api.ApiClient) TaskService {
 	}
 }
 
-//Retrieve a Task with sepecified id
+//Get retrieves a Task with sepecified id
 func (taskApi *TaskApi) Get(id string) (*Task, error) {
 	request := api.CcaRequest{
 		Method:   api.GET,
@@ -106,22 +106,22 @@ func (taskApi *TaskApi) PollResponse(response *api.CcaResponse, milliseconds tim
 	return taskApi.Poll(response.TaskId, milliseconds)
 }
 
-//Returns true if task has failed
+//Failed returns true if task has failed
 func (task Task) Failed() bool {
 	return strings.EqualFold(task.Status, FAILED)
 }
 
-//Returns true if task was successful
+//Success returns true if task was successful
 func (task Task) Success() bool {
 	return strings.EqualFold(task.Status, SUCCESS)
 }
 
-//Returns true if task is still executing
+//Pending returns true if task is still executing
 func (task Task) Pending() bool {
 	return strings.EqualFold(task.Status, PENDING)
 }
 
-//Returns true if task has completed its execution
+//Completed returns true if task has completed its execution
 func (task Task) Completed() bool {
 	return !task.Pending()
 }

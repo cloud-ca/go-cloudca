@@ -49,24 +49,24 @@ func NewCcaClientWithApiClient(apiClient api.ApiClient) *CcaClient {
 	return &ccaClient
 }
 
-//Get the Resources for a specific serviceCode and environmentName
+//GetResources gets the Resources for a specific serviceCode and environmentName
 //For now it assumes that the serviceCode belongs to a cloud.ca service type
 func (c CcaClient) GetResources(serviceCode string, environmentName string) (services.ServiceResources, error) {
 	//TODO: change to check service type of service code
 	return cloudca.NewResources(c.apiClient, serviceCode, environmentName), nil
 }
 
-//Get the API url used to do he calls
+//GetApiURL gets the API url used to do he calls
 func (c CcaClient) GetApiURL() string {
 	return c.apiClient.GetApiURL()
 }
 
-//Get the API key used in the calls
+//GetApiKey gets the API key used in the calls
 func (c CcaClient) GetApiKey() string {
 	return c.apiClient.GetApiKey()
 }
 
-//Get the API Client used by all the services
+//GetApiClient gets the API Client used by all the services
 func (c CcaClient) GetApiClient() api.ApiClient {
 	return c.apiClient
 }
