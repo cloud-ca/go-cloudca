@@ -64,7 +64,7 @@ createdInstance, _ := ccaResources.Instances.Create(cloudca.Instance{
 When trying to get a volume with a bogus id, an error will be returned.
 
 ```go
-//Get a volume with a bogus id
+// Get a volume with a bogus id
 _, err := ccaResources.Volumes.Get("[some-volume-id]")
 ```
 
@@ -77,11 +77,11 @@ if err != nil {
         if errorResponse.StatusCode == api.NOT_FOUND {
             fmt.Println("Volume was not found")
         } else {
-            //Can get more details from the CcaErrors
+            // Can get more details from the CcaErrors
             fmt.Println(errorResponse.Errors)
         }
     } else {
-        //handle unexpected error
+        // handle unexpected error
         panic("Unexpected error")
     }
 }
