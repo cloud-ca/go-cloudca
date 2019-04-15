@@ -11,20 +11,20 @@ import (
 )
 
 const (
-	TEST_TEMPLATE_ID              = "test_template_id"
-	TEST_TEMPLATE_NAME            = "test_template"
-	TEST_TEMPLATE_DESCRIPTION     = "test_template_description"
-	TEST_TEMPLATE_SIZE            = 60
-	TEST_TEMPLATE_IS_PUBLIC       = true
-	TEST_TEMPLATE_IS_READY        = true
-	TEST_TEMPLATE_SSH_KEY_ENABLED = false
-	TEST_TEMPLATE_EXTRACTABLE     = true
-	TEST_TEMPLATE_OS_TYPE         = "test_template_os_type"
-	TEST_TEMPLATE_OS_TYPE_ID      = "test_template_os_type_id"
-	TEST_TEMPLATE_HYPERVISOR      = "test_template_hypervisor"
-	TEST_TEMPLATE_FORMAT          = "test_template_format"
-	TEST_TEMPLATE_ZONE_NAME       = "test_template_zone_name"
-	TEST_TEMPLATE_PROJECT_ID      = "test_template_project_id"
+	TEST_TEMPLATE_ID                 = "test_template_id"
+	TEST_TEMPLATE_NAME               = "test_template"
+	TEST_TEMPLATE_DESCRIPTION        = "test_template_description"
+	TEST_TEMPLATE_SIZE               = 60
+	TEST_TEMPLATE_AVAILABLE_PUBLICLY = true
+	TEST_TEMPLATE_IS_READY           = true
+	TEST_TEMPLATE_SSH_KEY_ENABLED    = false
+	TEST_TEMPLATE_EXTRACTABLE        = true
+	TEST_TEMPLATE_OS_TYPE            = "test_template_os_type"
+	TEST_TEMPLATE_OS_TYPE_ID         = "test_template_os_type_id"
+	TEST_TEMPLATE_HYPERVISOR         = "test_template_hypervisor"
+	TEST_TEMPLATE_FORMAT             = "test_template_format"
+	TEST_TEMPLATE_ZONE_NAME          = "test_template_zone_name"
+	TEST_TEMPLATE_PROJECT_ID         = "test_template_project_id"
 )
 
 func buildTemplateJsonResponse(template *Template) []byte {
@@ -70,7 +70,7 @@ func TestGetTemplateReturnTemplateIfSuccess(t *testing.T) {
 		Name:              TEST_TEMPLATE_NAME,
 		Description:       TEST_TEMPLATE_DESCRIPTION,
 		Size:              TEST_TEMPLATE_SIZE,
-		AvailablePublicly: TEST_TEMPLATE_IS_PUBLIC,
+		AvailablePublicly: TEST_TEMPLATE_AVAILABLE_PUBLICLY,
 		Ready:             TEST_TEMPLATE_IS_READY,
 		SSHKeyEnabled:     TEST_TEMPLATE_SSH_KEY_ENABLED,
 		Extractable:       TEST_TEMPLATE_EXTRACTABLE,
