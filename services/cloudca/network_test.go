@@ -1,12 +1,13 @@
 package cloudca
 
 import (
+	"strconv"
+	"testing"
+
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"strconv"
-	"testing"
 )
 
 const (
@@ -25,7 +26,7 @@ const (
 	TEST_NETWORK_DOMAIN_ID           = "test_network_domain_id"
 	TEST_NETWORK_PROJECT             = "test_network_project"
 	TEST_NETWORK_PROJECT_ID          = "test_network_project_id"
-	TEST_NETWORK_ACL_ID              = "test_network_acl_id"
+	TEST_NETWORK_ACL_ID_REF          = "test_network_acl_id"
 )
 
 func buildTestNetworkJsonResponse(network *Network) []byte {
@@ -84,7 +85,7 @@ func TestGetNetworkReturnNetworkIfSuccess(t *testing.T) {
 		DomainId:          TEST_NETWORK_DOMAIN_ID,
 		Project:           TEST_NETWORK_PROJECT,
 		ProjectId:         TEST_NETWORK_PROJECT_ID,
-		NetworkAclId:      TEST_NETWORK_ACL_ID}
+		NetworkAclId:      TEST_NETWORK_ACL_ID_REF}
 
 	mockEntityService.EXPECT().Get(TEST_NETWORK_ID, gomock.Any()).Return(buildTestNetworkJsonResponse(&expectedNetwork), nil)
 
