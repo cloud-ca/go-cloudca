@@ -1,12 +1,13 @@
 package cloudca
 
 import (
+	"strconv"
+	"testing"
+
 	"github.com/cloud-ca/go-cloudca/mocks"
 	"github.com/cloud-ca/go-cloudca/mocks/services_mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"strconv"
-	"testing"
 )
 
 const (
@@ -27,19 +28,19 @@ const (
 )
 
 func buildTemplateJsonResponse(template *Template) []byte {
-	return []byte(`{"id":"` + template.Id + `",` +
+	return []byte(`{"id":"` + template.ID + `",` +
 		` "name": "` + template.Name + `",` +
 		` "description": "` + template.Description + `",` +
 		` "size": ` + strconv.Itoa(template.Size) + `,` +
-		` "isPublic": ` + strconv.FormatBool(template.IsPublic) + `,` +
-		` "isReady": ` + strconv.FormatBool(template.IsReady) + `,` +
+		` "availablePublicly": ` + strconv.FormatBool(template.AvailablePublicly) + `,` +
+		` "ready": ` + strconv.FormatBool(template.Ready) + `,` +
 		` "sshKeyEnabled": ` + strconv.FormatBool(template.SSHKeyEnabled) + `,` +
 		` "extractable": ` + strconv.FormatBool(template.Extractable) + `,` +
 		` "osType": "` + template.OSType + `",` +
-		` "osTypeId": "` + template.OSTypeId + `",` +
+		` "osTypeId": "` + template.OSTypeID + `",` +
 		` "hypervisor": "` + template.Hypervisor + `",` +
 		` "format": "` + template.Format + `",` +
-		` "projectId": "` + template.ProjectId + `"}`)
+		` "projectId": "` + template.ProjectID + `"}`)
 }
 
 func buildListTemplateJsonResponse(templates []Template) []byte {
@@ -65,19 +66,19 @@ func TestGetTemplateReturnTemplateIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedTemplate := Template{Id: TEST_TEMPLATE_ID,
-		Name:          TEST_TEMPLATE_NAME,
-		Description:   TEST_TEMPLATE_DESCRIPTION,
-		Size:          TEST_TEMPLATE_SIZE,
-		IsPublic:      TEST_TEMPLATE_IS_PUBLIC,
-		IsReady:       TEST_TEMPLATE_IS_READY,
-		SSHKeyEnabled: TEST_TEMPLATE_SSH_KEY_ENABLED,
-		Extractable:   TEST_TEMPLATE_EXTRACTABLE,
-		OSType:        TEST_TEMPLATE_OS_TYPE,
-		OSTypeId:      TEST_TEMPLATE_OS_TYPE_ID,
-		Hypervisor:    TEST_TEMPLATE_HYPERVISOR,
-		Format:        TEST_TEMPLATE_FORMAT,
-		ProjectId:     TEST_TEMPLATE_PROJECT_ID,
+	expectedTemplate := Template{ID: TEST_TEMPLATE_ID,
+		Name:              TEST_TEMPLATE_NAME,
+		Description:       TEST_TEMPLATE_DESCRIPTION,
+		Size:              TEST_TEMPLATE_SIZE,
+		AvailablePublicly: TEST_TEMPLATE_IS_PUBLIC,
+		Ready:             TEST_TEMPLATE_IS_READY,
+		SSHKeyEnabled:     TEST_TEMPLATE_SSH_KEY_ENABLED,
+		Extractable:       TEST_TEMPLATE_EXTRACTABLE,
+		OSType:            TEST_TEMPLATE_OS_TYPE,
+		OSTypeID:          TEST_TEMPLATE_OS_TYPE_ID,
+		Hypervisor:        TEST_TEMPLATE_HYPERVISOR,
+		Format:            TEST_TEMPLATE_FORMAT,
+		ProjectID:         TEST_TEMPLATE_PROJECT_ID,
 	}
 
 	mockEntityService.EXPECT().Get(TEST_TEMPLATE_ID, gomock.Any()).Return(buildTemplateJsonResponse(&expectedTemplate), nil)
@@ -126,33 +127,33 @@ func TestListTemplateReturnTemplatesIfSuccess(t *testing.T) {
 		entityService: mockEntityService,
 	}
 
-	expectedTemplate1 := Template{Id: "list_id_1",
-		Name:          "list_name_1",
-		Description:   "list_description_1",
-		Size:          132123,
-		IsPublic:      true,
-		IsReady:       true,
-		SSHKeyEnabled: true,
-		Extractable:   true,
-		OSType:        "list_os_type_1",
-		OSTypeId:      "list_os_type_id_1",
-		Hypervisor:    "list_hypervisor_1",
-		Format:        "list_format_1",
-		ProjectId:     "list_project_id_1",
+	expectedTemplate1 := Template{ID: "list_id_1",
+		Name:              "list_name_1",
+		Description:       "list_description_1",
+		Size:              132123,
+		AvailablePublicly: true,
+		Ready:             true,
+		SSHKeyEnabled:     true,
+		Extractable:       true,
+		OSType:            "list_os_type_1",
+		OSTypeID:          "list_os_type_id_1",
+		Hypervisor:        "list_hypervisor_1",
+		Format:            "list_format_1",
+		ProjectID:         "list_project_id_1",
 	}
-	expectedTemplate2 := Template{Id: "list_id_2",
-		Name:          "list_name_2",
-		Description:   "list_description_2",
-		Size:          4525,
-		IsPublic:      false,
-		IsReady:       false,
-		SSHKeyEnabled: false,
-		Extractable:   false,
-		OSType:        "list_os_type_2",
-		OSTypeId:      "list_os_type_id_2",
-		Hypervisor:    "list_hypervisor_2",
-		Format:        "list_format_2",
-		ProjectId:     "list_project_id_2",
+	expectedTemplate2 := Template{ID: "list_id_2",
+		Name:              "list_name_2",
+		Description:       "list_description_2",
+		Size:              4525,
+		AvailablePublicly: false,
+		Ready:             false,
+		SSHKeyEnabled:     false,
+		Extractable:       false,
+		OSType:            "list_os_type_2",
+		OSTypeID:          "list_os_type_id_2",
+		Hypervisor:        "list_hypervisor_2",
+		Format:            "list_format_2",
+		ProjectID:         "list_project_id_2",
 	}
 
 	expectedTemplates := []Template{expectedTemplate1, expectedTemplate2}
