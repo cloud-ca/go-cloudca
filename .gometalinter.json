@@ -14,7 +14,7 @@
     "unconvert"
   ],
   "Exclude": [
-    "func getResources is unused"
+    "composite literal uses unkeyed fields"
   ],
   "Linters": {
   },
