@@ -1,8 +1,10 @@
 # go-cloudca
 
-A cloud.ca client for the Go programming language
-
 [![GoDoc](https://godoc.org/github.com/cloud-ca/go-cloudca?status.svg)](https://godoc.org/github.com/cloud-ca/go-cloudca)
+[![Build Status](https://circleci.com/gh/cloud-ca/go-cloudca.svg?style=svg)](https://circleci.com/gh/cloud-ca/go-cloudca)
+[![license](https://img.shields.io/github/license/cloud-ca/go-cloudca.svg)](https://github.com/cloud-ca/go-cloudca/blob/master/LICENSE)
+
+A cloud.ca client for the Go programming language
 
 ## How to use
 
